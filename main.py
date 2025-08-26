@@ -52,7 +52,7 @@ frame_items_cadastrados.grid_columnconfigure(0, weight=1)
 frame_items_cadastrados.grid_rowconfigure(1, weight=1)
 
 # Título para o frame de dados
-label_titulo_dados = ctk.CTkLabel(frame_dados_items, text="Dados do Cliente", font=ctk.CTkFont(size=16, weight="bold"))
+label_titulo_dados = ctk.CTkLabel(frame_dados_items, text="Cadastro de itens", font=ctk.CTkFont(size=16, weight="bold"))
 label_titulo_dados.grid(row=0, column=0, columnspan=2, padx=10, pady=(10, 20))
 
 
@@ -97,14 +97,14 @@ botao_limpar.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 
 # --- Widgets no Frame de Clientes Cadastrados ---
 # Título para o frame de clientes
-label_titulo_cadastrados = ctk.CTkLabel(frame_items_cadastrados, text="Clientes Cadastrados", font=ctk.CTkFont(size=16, weight="bold"))
+label_titulo_cadastrados = ctk.CTkLabel(frame_items_cadastrados, text="Itens Cadastrados", font=ctk.CTkFont(size=16, weight="bold"))
 label_titulo_cadastrados.grid(row=0, column=0, padx=10, pady=(10, 5), sticky="w")
 
 # Pesquisar
 frame_pesquisa = ctk.CTkFrame(frame_items_cadastrados, fg_color="transparent")
 frame_pesquisa.grid(row=0, column=0, padx=10, pady=(10, 5), sticky="e")
 
-entry_pesquisar = ctk.CTkEntry(frame_pesquisa, width=200, placeholder_text="Pesquisar cliente...")
+entry_pesquisar = ctk.CTkEntry(frame_pesquisa, width=200, placeholder_text="Pesquisar Item...")
 entry_pesquisar.pack(side='left', padx=(0, 10))
 
 botao_pesquisar = ctk.CTkButton(frame_pesquisa, text="Pesquisar")
