@@ -58,27 +58,33 @@ label_titulo_dados.grid(row=0, column=0, columnspan=2, padx=10, pady=(10, 20))
 
 # --- Widgets no Frame de Dados do Cliente ---
 
-# Nome
-label_nome = ctk.CTkLabel(frame_dados_items, text="Nome:")
-label_nome.grid(row=1, column=0, padx=10, pady=5, sticky='w')
-entry_nome = ctk.CTkEntry(frame_dados_items, width=220)
-entry_nome.grid(row=1, column=1, padx=10, pady=5)
+#Nome
+label_item = ctk.CTkLabel(frame_dados_items, text="Nome do item:")
+label_item.grid(row=1, column=0, padx=10, pady=5, sticky='w')
+entry_item = ctk.CTkEntry(frame_dados_items, width=220)
+entry_item.grid(row=1, column=1, padx=10, pady=5)
 
-# Email
-label_email = ctk.CTkLabel(frame_dados_items, text="Email:")
-label_email.grid(row=2, column=0, padx=10, pady=5, sticky='w')
-entry_email = ctk.CTkEntry(frame_dados_items, width=220)
-entry_email.grid(row=2, column=1, padx=10, pady=5)
+#Tipo
+label_type = ctk.CTkLabel(frame_dados_items, text="Tipo do item:")
+label_type.grid(row=2, column=0, padx=10, pady=5, sticky='w')
+entry_type = ctk.CTkEntry(frame_dados_items, width=220)
+entry_type.grid(row=2, column=1, padx=10, pady=5)
 
-# Telefone (Corrigido o texto da label de "Email:" para "Telefone:")
-label_telefone = ctk.CTkLabel(frame_dados_items, text="Telefone:")
-label_telefone.grid(row=3, column=0, padx=10, pady=5, sticky='w')
-entry_telefone = ctk.CTkEntry(frame_dados_items, width=220)
-entry_telefone.grid(row=3, column=1, padx=10, pady=5)
+#Qualidade
+label_quality = ctk.CTkLabel(frame_dados_items, text="Qualidade do item:")
+label_quality.grid(row=3, column=0, padx=10, pady=5, sticky='w')
+entry_quality = ctk.CTkEntry(frame_dados_items, width=220)
+entry_quality.grid(row=3, column=1, padx=10, pady=5)
+
+#Quantidade
+label_amount = ctk.CTkLabel(frame_dados_items, text="Quantidade do item:")
+label_amount.grid(row=4, column=0, padx=10, pady=5, sticky='w')
+entry_amount = ctk.CTkEntry(frame_dados_items, width=220)
+entry_amount.grid(row=4, column=1, padx=10, pady=5)
 
 # --- Botões ---
 frame_botoes = ctk.CTkFrame(frame_dados_items, fg_color="transparent")
-frame_botoes.grid(row=4, column=0, columnspan=2, padx=10, pady=20, sticky="ew")
+frame_botoes.grid(row=5, column=0, columnspan=2, padx=10, pady=20, sticky="ew")
 frame_botoes.grid_columnconfigure((0, 1), weight=1)
 
 # Cadastrar e Limpar
@@ -106,17 +112,19 @@ botao_pesquisar.pack(side='left')
 
 
 # Treeview (Tabela de Clientes)
-tree = ttk.Treeview(frame_items_cadastrados, columns=('Id', 'Nome', 'Email', 'Telefone'), show="headings")
+tree = ttk.Treeview(frame_items_cadastrados, columns=('Id', 'Nome', 'Tipo', 'Qualidade', 'Quantidade'), show="headings")
 tree.heading('Id', text='Id')
 tree.heading('Nome', text='Nome')
-tree.heading('Email', text='Email')
-tree.heading('Telefone', text='Telefone')
+tree.heading('Tipo', text='Tipo')
+tree.heading('Qualidade', text='Qualidade')
+tree.heading('Quantidade', text='Quantidade')
 
 # Ajuste de largura das colunas
-tree.column('Id', width=50, anchor='center')
-tree.column('Nome', width=150)
-tree.column('Email', width=200)
-tree.column('Telefone', width=120)
+tree.column('Id', width=120, anchor='center')
+tree.column('Nome', width=120)
+tree.column('Tipo', width=120)
+tree.column('Qualidade', width=120)
+tree.column('Quantidade', width=120)
 
 tree.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
 
