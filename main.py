@@ -10,7 +10,6 @@ ctk.set_default_color_theme("blue")
 
 # --- Janela Principal ---
 janela = ctk.CTk()
-janela.geometry("950x500")
 janela.title("Cadastro de Clientes com CustomTkinter")
 
 # --- Estilização do Treeview para combinar com o tema ---
@@ -44,41 +43,41 @@ janela.grid_rowconfigure(0, weight=1)
 
 
 # --- Frames ---
-frame_dados_clientes = ctk.CTkFrame(janela, corner_radius=10)
-frame_dados_clientes.grid(row=0, column=0, padx=20, pady=20, sticky="ns")
+frame_dados_items = ctk.CTkFrame(janela, corner_radius=10)
+frame_dados_items.grid(row=0, column=0, padx=20, pady=20, sticky="ns")
 
-frame_clientes_cadastrados = ctk.CTkFrame(janela, corner_radius=10)
-frame_clientes_cadastrados.grid(row=0, column=1, padx=(0, 20), pady=20, sticky="nsew")
-frame_clientes_cadastrados.grid_columnconfigure(0, weight=1)
-frame_clientes_cadastrados.grid_rowconfigure(1, weight=1)
+frame_items_cadastrados = ctk.CTkFrame(janela, corner_radius=10)
+frame_items_cadastrados.grid(row=0, column=1, padx=(0, 20), pady=20, sticky="nsew")
+frame_items_cadastrados.grid_columnconfigure(0, weight=1)
+frame_items_cadastrados.grid_rowconfigure(1, weight=1)
 
 # Título para o frame de dados
-label_titulo_dados = ctk.CTkLabel(frame_dados_clientes, text="Dados do Cliente", font=ctk.CTkFont(size=16, weight="bold"))
+label_titulo_dados = ctk.CTkLabel(frame_dados_items, text="Dados do Cliente", font=ctk.CTkFont(size=16, weight="bold"))
 label_titulo_dados.grid(row=0, column=0, columnspan=2, padx=10, pady=(10, 20))
 
 
 # --- Widgets no Frame de Dados do Cliente ---
 
 # Nome
-label_nome = ctk.CTkLabel(frame_dados_clientes, text="Nome:")
+label_nome = ctk.CTkLabel(frame_dados_items, text="Nome:")
 label_nome.grid(row=1, column=0, padx=10, pady=5, sticky='w')
-entry_nome = ctk.CTkEntry(frame_dados_clientes, width=220)
+entry_nome = ctk.CTkEntry(frame_dados_items, width=220)
 entry_nome.grid(row=1, column=1, padx=10, pady=5)
 
 # Email
-label_email = ctk.CTkLabel(frame_dados_clientes, text="Email:")
+label_email = ctk.CTkLabel(frame_dados_items, text="Email:")
 label_email.grid(row=2, column=0, padx=10, pady=5, sticky='w')
-entry_email = ctk.CTkEntry(frame_dados_clientes, width=220)
+entry_email = ctk.CTkEntry(frame_dados_items, width=220)
 entry_email.grid(row=2, column=1, padx=10, pady=5)
 
 # Telefone (Corrigido o texto da label de "Email:" para "Telefone:")
-label_telefone = ctk.CTkLabel(frame_dados_clientes, text="Telefone:")
+label_telefone = ctk.CTkLabel(frame_dados_items, text="Telefone:")
 label_telefone.grid(row=3, column=0, padx=10, pady=5, sticky='w')
-entry_telefone = ctk.CTkEntry(frame_dados_clientes, width=220)
+entry_telefone = ctk.CTkEntry(frame_dados_items, width=220)
 entry_telefone.grid(row=3, column=1, padx=10, pady=5)
 
 # --- Botões ---
-frame_botoes = ctk.CTkFrame(frame_dados_clientes, fg_color="transparent")
+frame_botoes = ctk.CTkFrame(frame_dados_items, fg_color="transparent")
 frame_botoes.grid(row=4, column=0, columnspan=2, padx=10, pady=20, sticky="ew")
 frame_botoes.grid_columnconfigure((0, 1), weight=1)
 
@@ -92,11 +91,11 @@ botao_limpar.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 
 # --- Widgets no Frame de Clientes Cadastrados ---
 # Título para o frame de clientes
-label_titulo_cadastrados = ctk.CTkLabel(frame_clientes_cadastrados, text="Clientes Cadastrados", font=ctk.CTkFont(size=16, weight="bold"))
+label_titulo_cadastrados = ctk.CTkLabel(frame_items_cadastrados, text="Clientes Cadastrados", font=ctk.CTkFont(size=16, weight="bold"))
 label_titulo_cadastrados.grid(row=0, column=0, padx=10, pady=(10, 5), sticky="w")
 
 # Pesquisar
-frame_pesquisa = ctk.CTkFrame(frame_clientes_cadastrados, fg_color="transparent")
+frame_pesquisa = ctk.CTkFrame(frame_items_cadastrados, fg_color="transparent")
 frame_pesquisa.grid(row=0, column=0, padx=10, pady=(10, 5), sticky="e")
 
 entry_pesquisar = ctk.CTkEntry(frame_pesquisa, width=200, placeholder_text="Pesquisar cliente...")
@@ -107,7 +106,7 @@ botao_pesquisar.pack(side='left')
 
 
 # Treeview (Tabela de Clientes)
-tree = ttk.Treeview(frame_clientes_cadastrados, columns=('Id', 'Nome', 'Email', 'Telefone'), show="headings")
+tree = ttk.Treeview(frame_items_cadastrados, columns=('Id', 'Nome', 'Email', 'Telefone'), show="headings")
 tree.heading('Id', text='Id')
 tree.heading('Nome', text='Nome')
 tree.heading('Email', text='Email')
@@ -122,7 +121,7 @@ tree.column('Telefone', width=120)
 tree.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
 
 # Botão para remover selecionados
-botao_excluir_varios = ctk.CTkButton(frame_clientes_cadastrados, text="Remover Selecionado", command=lambda: 0, fg_color="#D35B58", hover_color="#C77C78")
+botao_excluir_varios = ctk.CTkButton(frame_items_cadastrados, text="Remover Selecionado", command=lambda: 0, fg_color="#D35B58", hover_color="#C77C78")
 botao_excluir_varios.grid(row=2, column=0, padx=10, pady=10, sticky='e')
 
 
