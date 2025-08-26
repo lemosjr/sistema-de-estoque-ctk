@@ -120,11 +120,11 @@ tree.heading('Qualidade', text='Qualidade')
 tree.heading('Quantidade', text='Quantidade')
 
 # Ajuste de largura das colunas
-tree.column('Id', width=120, anchor='center')
-tree.column('Nome', width=120)
-tree.column('Tipo', width=120)
-tree.column('Qualidade', width=120)
-tree.column('Quantidade', width=120)
+tree.column('Id', width=125, anchor='center')
+tree.column('Nome', width=125)
+tree.column('Tipo', width=125)
+tree.column('Qualidade', width=125)
+tree.column('Quantidade', width=125)
 
 tree.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
 
