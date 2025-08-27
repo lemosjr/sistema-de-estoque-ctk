@@ -2,19 +2,13 @@ import customtkinter as ctk
 from tkinter import ttk
 
 def abrir_cadastro():
-    # --- Configuração da Aparência ---
-    # Define o tema inicial (pode ser "dark", "light" ou "system")
     ctk.set_appearance_mode("dark")  
-    # Define o tema de cores padrão para os widgets
     ctk.set_default_color_theme("blue") 
 
-    # --- Janela Principal ---
     janela = ctk.CTk()
     janela.title("Cadastro de itens")
 
-    # --- Estilização do Treeview para combinar com o tema ---
     style = ttk.Style()
-    # Cores para o tema escuro (ajuste se usar o tema claro)
     bg_color = "#2b2b2b"
     text_color = "#ffffff"
     selected_color = "#1f6aa5"
@@ -36,8 +30,6 @@ def abrir_cadastro():
                     relief="flat")
     style.map("Treeview.Heading", background=[('active', '#3484F0')])
 
-
-    # --- Layout da Janela (Grid) ---
     janela.grid_columnconfigure(1, weight=1)
     janela.grid_rowconfigure(0, weight=1)
 

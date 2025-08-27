@@ -5,36 +5,43 @@ def abrir_login(on_success):
     def bnt_login():
         usuario = entry_usuario.get()
         senha = entry_senha.get()
-        # aqui você pode colocar validação real
         if usuario == "admin" and senha == "123":
-            root.destroy()
-            on_success()
+            root.destroy()  
+            on_success()  
         else:
             messagebox.showerror("Erro", "Usuário ou senha incorretos.")
 
     def bnt_cancelar():
         root.destroy()
 
+    def bnt_cadastro():
+        print("Abrir tela de cadastro...") 
+    
     ctk.set_appearance_mode("dark")
     ctk.set_default_color_theme("blue")
 
+    # Janela de login
     root = ctk.CTk()
-    root.title("Tela de login")
+    root.title("Tela de Login")
     root.geometry("450x350")
 
+    # Rótulo e campo de usuário
     label_usuario = ctk.CTkLabel(root, text="Usuário:")
     label_usuario.pack(pady=(20, 5))
     entry_usuario = ctk.CTkEntry(root, placeholder_text="Digite seu usuário:")
     entry_usuario.pack(pady=5)
 
+    # Rótulo e campo de senha
     label_senha = ctk.CTkLabel(root, text="Senha:")
     label_senha.pack(pady=(20, 5))
     entry_senha = ctk.CTkEntry(root, placeholder_text="Senha:", show="*")
     entry_senha.pack(pady=5)
 
+    # Frame para os botões lado a lado
     frame_botoes = ctk.CTkFrame(root)
     frame_botoes.pack(pady=20)
 
+    # Botões
     bnt_entra = ctk.CTkButton(frame_botoes, text="Entrar", command=bnt_login)
     bnt_entra.grid(row=0, column=0, padx=1)
 
