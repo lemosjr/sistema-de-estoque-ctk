@@ -8,51 +8,55 @@ def abrir_cadastro():
         usuario = entry_usuario.get()
         senha = entry_senha.get()
 
-
         if not nome or not email or not usuario or not senha:
             messagebox.showerror("Erro", "Todos os campos são obrigatórios!")
         else:
             messagebox.showinfo("Sucesso", f"Cadastro de {nome} realizado com sucesso!")
-            root.destroy() 
+            root.destroy()
 
     def bnt_cancelar():
-        root.destroy()  
+        root.destroy() 
 
-    ctk.set_appearance_mode("dark")
-    ctk.set_default_color_theme("blue")
+    ctk.set_appearance_mode("dark")  
+    ctk.set_default_color_theme("blue")  
 
+    # Janela de Cadastro
     root = ctk.CTk()
     root.title("Tela de Cadastro")
-    root.geometry("550x500")
+    root.geometry("550x600") 
+  
+    frame_principal = ctk.CTkFrame(root)
+    frame_principal.pack(padx=30, pady=30, fill="both", expand=True)
 
-    label_nome = ctk.CTkLabel(root, text="Nome:")
-    label_nome.pack(pady=(20, 5))  
-    entry_nome = ctk.CTkEntry(root, placeholder_text="Digite seu nome completo:")
-    entry_nome.pack(pady=5)
+    label_nome = ctk.CTkLabel(frame_principal, text="Nome Completo:", font=("Arial", 12))
+    label_nome.grid(row=0, column=0, pady=10, sticky="w")
+    entry_nome = ctk.CTkEntry(frame_principal, placeholder_text="Digite seu nome completo", font=("Arial", 12))
+    entry_nome.grid(row=0, column=1, pady=10, padx=10, sticky="ew")
 
-    label_email = ctk.CTkLabel(root, text="Email:")
-    label_email.pack(pady=(20, 5))
-    entry_email = ctk.CTkEntry(root, placeholder_text="Digite seu email:")
-    entry_email.pack(pady=5)
+    label_email = ctk.CTkLabel(frame_principal, text="Email:", font=("Arial", 12))
+    label_email.grid(row=1, column=0, pady=10, sticky="w")
+    entry_email = ctk.CTkEntry(frame_principal, placeholder_text="Digite seu email", font=("Arial", 12))
+    entry_email.grid(row=1, column=1, pady=10, padx=10, sticky="ew")
 
-    label_usuario = ctk.CTkLabel(root, text="Usuário:")
-    label_usuario.pack(pady=(20, 5))
-    entry_usuario = ctk.CTkEntry(root, placeholder_text="Digite seu nome de usuário:")
-    entry_usuario.pack(pady=5)
+    label_usuario = ctk.CTkLabel(frame_principal, text="Usuário:", font=("Arial", 12))
+    label_usuario.grid(row=2, column=0, pady=10, sticky="w")
+    entry_usuario = ctk.CTkEntry(frame_principal, placeholder_text="Digite seu nome de usuário", font=("Arial", 12))
+    entry_usuario.grid(row=2, column=1, pady=10, padx=10, sticky="ew")
 
-    label_senha = ctk.CTkLabel(root, text="Senha:")
-    label_senha.pack(pady=(20, 5))
-    entry_senha = ctk.CTkEntry(root, placeholder_text="Digite sua senha:", show="*")
-    entry_senha.pack(pady=5)
+    label_senha = ctk.CTkLabel(frame_principal, text="Senha:", font=("Arial", 12))
+    label_senha.grid(row=3, column=0, pady=10, sticky="w")
+    entry_senha = ctk.CTkEntry(frame_principal, placeholder_text="Digite sua senha", show="*", font=("Arial", 12))
+    entry_senha.grid(row=3, column=1, pady=10, padx=10, sticky="ew")
 
-    frame_botoes = ctk.CTkFrame(root)
-    frame_botoes.pack(pady=20)
+    frame_botoes = ctk.CTkFrame(frame_principal)
+    frame_botoes.grid(row=4, column=0, columnspan=2, pady=20)
 
-    bnt_cadastrar = ctk.CTkButton(frame_botoes, text="Cadastrar", command=bnt_cadastrar)
-    bnt_cadastrar.grid(row=0, column=0, padx=10)
+    bnt_cadastrar = ctk.CTkButton(frame_botoes, text="Cadastrar", font=("Arial", 12), command=bnt_cadastrar, width=20)
+    bnt_cadastrar.grid(row=0, column=0, padx=20)
 
-    bnt_cancelar = ctk.CTkButton(frame_botoes, text="Cancelar", fg_color="#a83232", command=bnt_cancelar, hover_color="#F24B88")
-    bnt_cancelar.grid(row=0, column=1, padx=10)
+    bnt_cancelar = ctk.CTkButton(frame_botoes, text="Cancelar", font=("Arial", 12), fg_color="#a83232", command=bnt_cancelar, hover_color="#F24B88", width=20)
+    bnt_cancelar.grid(row=0, column=1, padx=20)
 
-    root.mainloop()
+    frame_principal.grid_columnconfigure(1, weight=1)
 
+    root.mainloop() 
