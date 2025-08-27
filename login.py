@@ -41,4 +41,7 @@ def abrir_login(on_success):
     bnt_cancelar = ctk.CTkButton(frame_botoes, text="Cancelar", fg_color="#a83232", command=bnt_cancelar, hover_color="#F24B88")
     bnt_cancelar.grid(row=0, column=1, padx=10)
 
+    bnt_cadastro = ctk.CTkButton(root, text="Cadastro", width=10, command=bnt_cadastro, fg_color="#007acc", hover_color="#005a99")
+    bnt_cadastro.place(x=380, y=300)
+
     root.mainloop()
