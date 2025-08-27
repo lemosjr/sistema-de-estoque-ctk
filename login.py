@@ -40,10 +40,10 @@ def abrir_login(on_success):
     frame_botoes = ctk.CTkFrame(root)
     frame_botoes.pack(pady=20)
 
-    bnt_entra = ctk.CTkButton(frame_botoes, text="Entrar", command=bnt_login)
-    bnt_entra.grid(row=0, column=0, padx=1)
+    bnt_entra = ctk.CTkButton(frame_botoes, text="Entrar", command=bnt_login, border_width=0)
+    bnt_entra.grid(row=0, column=0, padx=10)
 
-    bnt_cancelar = ctk.CTkButton(frame_botoes, text="Cancelar", fg_color="#a83232", command=bnt_cancelar, hover_color="#F24B88")
+    bnt_cancelar = ctk.CTkButton(frame_botoes, text="Cancelar", fg_color="#a83232", command=bnt_cancelar, hover_color="#F24B88", border_width=0)
     bnt_cancelar.grid(row=0, column=1, padx=10)
 
     
