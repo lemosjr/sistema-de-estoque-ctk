@@ -1,5 +1,6 @@
 from login import abrir_login
 from sistema import abrir_cadastro
+from cadastro import abrir_cadastro
 
 
 def main():
