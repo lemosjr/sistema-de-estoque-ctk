@@ -1,6 +1,5 @@
 import customtkinter as ctk
 from tkinter import ttk
-import tkinter as tk
 
 # --- Configuração da Aparência ---
 # Define o tema inicial (pode ser "dark", "light" ou "system")
