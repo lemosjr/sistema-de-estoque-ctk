@@ -1,5 +1,5 @@
 from login import abrir_login
-from cadastro import abrir_cadastro
+from sistema import abrir_cadastro
 
 def main():
     abrir_login(on_success=abrir_cadastro)
