@@ -9,10 +9,10 @@ def abrir_cadastro():
     root.title("Cadastro de itens")
 
     style = ttk.Style()
-    bg_color = "#2b2b2b"
+    bg_color = "#242424"
     text_color = "#ffffff"
     selected_color = "#1f6aa5"
-    field_bg_color = "#2b2b2b"
+    field_bg_color = "#242424"
     heading_bg_color = "#565b5e"
 
     style.theme_use("default")
