@@ -1,9 +1,62 @@
 import customtkinter as ctk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 def abrir_cadastro():
-    ctk.set_appearance_mode("dark")  
-    ctk.set_default_color_theme("blue") 
+    global item_id
+    item_id = 0
+
+    def register_item():
+        global item_id
+        name = entry_item.get()
+        item_type = entry_type.get()
+        quality = entry_quality.get()
+        amount = entry_amount.get()
+
+        if name and item_type and quality and amount:
+            item_id += 1
+            tree.insert('', 'end', values=(item_id, name, item_type, quality, amount))
+            clear_fields()
+        else:
+            messagebox.showerror("Erro", "Todos os campos devem ser preenchidos.")
+
+    def clear_fields():
+        entry_item.delete(0, ctk.END)
+        entry_type.delete(0, ctk.END)
+        entry_quality.delete(0, ctk.END)
+        entry_amount.delete(0, ctk.END)
+
+    def remove_selected_item():
+        selected_item = tree.selection()
+        if selected_item:
+            tree.delete(selected_item)
+        else:
+            messagebox.showinfo("Informação", "Nenhum item selecionado para remover.")
+    
+    def search_item():
+        search_term = entry_search.get().lower()
+        
+        # Limpa a Treeview para mostrar os resultados da pesquisa
+        for item in tree.get_children():
+            tree.delete(item)
+
+        items = [
+            (1, "Espada", "Arma", "Épica", "1"),
+            (2, "Escudo", "Defesa", "Comum", "3"),
+            (3, "Poção de Vida", "Consumível", "Rara", "5")
+            
+        ]
+        
+        found_items = [item for item in items if search_term in item[1].lower()]
+        
+        if not found_items:
+            messagebox.showinfo("Pesquisa", "Nenhum item encontrado.")
+        
+        for item in found_items:
+            tree.insert('', 'end', values=item)
+
+
+    ctk.set_appearance_mode("dark")
+    ctk.set_default_color_theme("blue")
 
     root = ctk.CTk()
     root.title("Cadastro de itens")
@@ -80,10 +133,10 @@ def abrir_cadastro():
     frame_button.grid_columnconfigure((0, 1), weight=1)
 
     # Cadastrar e Limpar
-    botao_register = ctk.CTkButton(frame_button, text="Cadastrar")
+    botao_register = ctk.CTkButton(frame_button, text="Cadastrar", command=register_item)
     botao_register.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
 
-    button_clean = ctk.CTkButton(frame_button, text="Limpar", fg_color="#D35B58", hover_color="#C77C78")
+    button_clean = ctk.CTkButton(frame_button, text="Limpar", fg_color="#D35B58", hover_color="#C77C78", command=clear_fields)
     button_clean.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 
 
@@ -99,7 +152,7 @@ def abrir_cadastro():
     entry_search = ctk.CTkEntry(frame_search, width=200, placeholder_text="Pesquisar Item...")
     entry_search.pack(side='left', padx=(0, 10))
 
-    botao_search = ctk.CTkButton(frame_search, text="Pesquisar")
+    botao_search = ctk.CTkButton(frame_search, text="Pesquisar", command=search_item)
     botao_search.pack(side='left')
 
 
@@ -121,7 +174,7 @@ def abrir_cadastro():
     tree.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
 
     # Botão para remover selecionados
-    button_clean_all = ctk.CTkButton(frame_registered_items, text="Remover Selecionado", command=lambda: 0, fg_color="#D35B58", hover_color="#C77C78")
+    button_clean_all = ctk.CTkButton(frame_registered_items, text="Remover Selecionado", command=remove_selected_item, fg_color="#D35B58", hover_color="#C77C78")
     button_clean_all.grid(row=2, column=0, padx=10, pady=10, sticky='e')
 
 
