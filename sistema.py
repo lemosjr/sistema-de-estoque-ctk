@@ -43,7 +43,6 @@ def abrir_cadastro():
             (1, "Espada", "Arma", "Épica", "1"),
             (2, "Escudo", "Defesa", "Comum", "3"),
             (3, "Poção de Vida", "Consumível", "Rara", "5")
-            
         ]
         
         found_items = [item for item in items if search_term in item[1].lower()]
@@ -130,14 +129,19 @@ def abrir_cadastro():
     # --- Botões ---
     frame_button = ctk.CTkFrame(frame_data_items, fg_color="transparent")
     frame_button.grid(row=5, column=0, columnspan=2, padx=10, pady=20, sticky="ew")
-    frame_button.grid_columnconfigure((0, 1), weight=1)
+    frame_button.grid_columnconfigure((0, 1, 2), weight=1)
 
-    # Cadastrar e Limpar
+    # Cadastrar
     botao_register = ctk.CTkButton(frame_button, text="Cadastrar", command=register_item)
     botao_register.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
 
+    # Limpar
     button_clean = ctk.CTkButton(frame_button, text="Limpar", fg_color="#D35B58", hover_color="#C77C78", command=clear_fields)
     button_clean.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
+
+    # Sair
+    button_exit = ctk.CTkButton(frame_button, text="Sair", fg_color="#6C757D", hover_color="#5A6268", command=root.destroy)
+    button_exit.grid(row=0, column=2, padx=5, pady=5, sticky="e")
 
 
     # --- Widgets no Frame de Clientes Cadastrados ---
