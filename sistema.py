@@ -1,6 +1,17 @@
+import os
 import customtkinter as ctk
 from tkinter import ttk, messagebox
+import json
 
+def open_arquivo():
+    if os.path.exists("usuarios.json"):
+        with open("usuarios.json", "r") as file:
+            return json.load(file)
+    else:
+        with open("usuarios.json", "w") as file:
+            json.dump({}, file)
+            return {}
+        
 def abrir_cadastro():
     global item_id, selected_item_id_to_edit
     item_id = 0
