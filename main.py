@@ -1,4 +1,4 @@
-from login import abrir_login
+from login import *
 from sistema import abrir_cadastro
 
 
