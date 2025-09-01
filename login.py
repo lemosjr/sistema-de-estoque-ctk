@@ -47,7 +47,7 @@ def abrir_login(on_success):
     entry_senha = ctk.CTkEntry(root, placeholder_text="Senha:", show="*")
     entry_senha.pack(pady=5)
 
-    frame_botoes = ctk.CTkFrame(root)
+    frame_botoes = ctk.CTkFrame(root, fg_color="transparent")
     frame_botoes.pack(pady=20)
 
     bnt_entra = ctk.CTkButton(frame_botoes, text="Entrar", command=bnt_login, border_width=0)
@@ -121,7 +121,7 @@ def abrir_cadastro():
     entry_senha = ctk.CTkEntry(frame_principal, placeholder_text="Digite sua senha", show="*", font=("Arial", 12))
     entry_senha.grid(row=3, column=1, pady=10, padx=10, sticky="ew")
 
-    frame_botoes = ctk.CTkFrame(frame_principal)
+    frame_botoes = ctk.CTkFrame(frame_principal, fg_color="transparent")
     frame_botoes.grid(row=4, column=0, columnspan=2, pady=20)
     # Botão cadastrar
     bnt_cadastrar = ctk.CTkButton(frame_botoes, text="Cadastrar", font=("Arial", 12), command=bnt_cadastrar, width=20)
