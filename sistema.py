@@ -16,8 +16,10 @@ class ItemManager:
     def __init__(self, root):
         self.root = root
         self.item_id = 0
+        self.itens = []
         self.selected_item_id_to_edit = None
         self.create_widgets()
+        self.carregar_itens()
 
     def create_widgets(self):
         self.root.title("Cadastro de itens")
@@ -130,6 +132,19 @@ class ItemManager:
         button_clean_all = ctk.CTkButton(frame_registered_items, text="Remover Selecionado", command=self.remove_selected_item, fg_color="#D35B58", hover_color="#C77C78")
         button_clean_all.grid(row=2, column=0, padx=10, pady=10, sticky='e')
 
+    def carregar_itens(self):
+        if os.path.exists("itens.json"):
+            with open("itens.json", "r") as file:
+                self.itens = json.load(file)
+                for item in self.itens:
+                    self.tree.insert('', 'end', values=tuple(item.values()))
+                if self.itens:
+                    self.item_id = self.itens[-1]['Id']
+    
+    def salvar_itens(self):
+        with open("itens.json", "w") as file:
+            json.dump(self.itens, file, indent=4)
+
     def register_item(self):
         name = self.entry_item.get()
         item_type = self.entry_type.get()
@@ -138,15 +153,33 @@ class ItemManager:
 
         if name and item_type and quality and amount:
             if self.selected_item_id_to_edit is not None:
-                selected_item = self.tree.selection()[0]
-                self.tree.item(selected_item, values=(self.selected_item_id_to_edit, name, item_type, quality, amount))
+                # Lógica de edição
+                for i in range(len(self.itens)):
+                    if self.itens[i]['Id'] == self.selected_item_id_to_edit:
+                        self.itens[i]['Nome'] = name
+                        self.itens[i]['Tipo'] = item_type
+                        self.itens[i]['Qualidade'] = quality
+                        self.itens[i]['Quantidade'] = amount
+                        break
+
+                selected_item_id_on_treeview = self.tree.selection()[0]
+                self.tree.item(selected_item_id_on_treeview, values=(self.selected_item_id_to_edit, name, item_type, quality, amount))
                 messagebox.showinfo("Sucesso", "Item atualizado com sucesso!")
                 self.selected_item_id_to_edit = None  
             else:
                 self.item_id += 1
+                novo_item = {
+                    "Id": self.item_id,
+                    "Nome": name,
+                    "Tipo": item_type,
+                    "Qualidade": quality,
+                    "Quantidade": amount
+                }
+                self.itens.append(novo_item)
                 self.tree.insert('', 'end', values=(self.item_id, name, item_type, quality, amount))
                 messagebox.showinfo("Sucesso", "Item cadastrado com sucesso!")
             
+            self.salvar_itens()
             self.clear_fields()
         else:
             messagebox.showerror("Erro", "Todos os campos devem ser preenchidos.")
@@ -160,7 +193,12 @@ class ItemManager:
     def remove_selected_item(self):
         selected_item = self.tree.selection()
         if selected_item:
+            item_data = self.tree.item(selected_item, 'values')
+            item_id_to_remove = item_data[0]
+            self.itens = [item for item in self.itens if item['Id'] != item_id_to_remove]
             self.tree.delete(selected_item)
+            self.salvar_itens()
+            messagebox.showinfo("Sucesso", "Item removido com sucesso!")
         else:
             messagebox.showinfo("Informação", "Nenhum item selecionado para remover.")
     
@@ -170,19 +208,13 @@ class ItemManager:
         for item in self.tree.get_children():
             self.tree.delete(item)
 
-        items = [
-            (1, "Espada", "Arma", "Épica", "1"),
-            (2, "Escudo", "Defesa", "Comum", "3"),
-            (3, "Poção de Vida", "Consumível", "Rara", "5")
-        ]
-        
-        found_items = [item for item in items if search_term in item[1].lower()]
+        found_items = [item for item in self.itens if search_term in item['Nome'].lower()]
         
         if not found_items:
             messagebox.showinfo("Pesquisa", "Nenhum item encontrado.")
         
         for item in found_items:
-            self.tree.insert('', 'end', values=item)
+            self.tree.insert('', 'end', values=tuple(item.values()))
 
     def edit_item(self):
         selected_item = self.tree.selection()
@@ -190,8 +222,8 @@ class ItemManager:
             messagebox.showinfo("Informação", "Nenhum item selecionado para editar.")
             return
 
-        self.selected_item_id_to_edit = selected_item[0]
         item_data = self.tree.item(selected_item, 'values')
+        self.selected_item_id_to_edit = item_data[0]
         
         self.clear_fields()
         self.entry_item.insert(0, item_data[1])
