@@ -1,11 +1,23 @@
 import customtkinter as ctk
 from tkinter import messagebox
+import json
+import os  # Importe a biblioteca 'os'
 
+def open_arquivo():
+    if os.path.exists("usuarios.json"):
+        with open("usuarios.json", "r") as file:
+            return json.load(file)
+    else:
+        # Cria o arquivo com um dicionário vazio se ele não existir
+        with open("usuarios.json", "w") as file:
+            json.dump({}, file)
+            return {}
 def abrir_login(on_success):
     def bnt_login():
         usuario = entry_usuario.get()
         senha = entry_senha.get()
-        if usuario == "admin" and senha == "123":
+        usuarios = open_arquivo()
+        if usuario in usuarios and usuarios[usuario] == senha:
             root.destroy()  
             on_success()
         else:
@@ -57,18 +69,26 @@ def abrir_cadastro():
         email = entry_email.get()
         usuario = entry_usuario.get()
         senha = entry_senha.get()
+        usuarios = open_arquivo()
 
         if not nome or not email or not usuario or not senha:
             messagebox.showerror("Erro", "Todos os campos são obrigatórios!")
+        elif usuario in usuarios:
+            messagebox.showerror("Erro", "Usuário já cadastrado!")
         else:
+            usuarios[usuario] = senha
+            with open("usuarios.json", "w") as file:
+                json.dump(usuarios, file)
             messagebox.showinfo("Sucesso", f"Cadastro de {nome} realizado com sucesso!")
             root.destroy()
+            abrir_login(on_success=lambda: None)
 
     def bnt_cancelar():
         root.destroy() 
+        abrir_login(on_success=lambda: None)
 
-    ctk.set_appearance_mode("dark")  
-    ctk.set_default_color_theme("blue")  
+    ctk.set_appearance_mode("dark")
+    ctk.set_default_color_theme("blue")
 
     # Janela de Cadastro
     root = ctk.CTk()
