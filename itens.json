@@ -1,16 +1,72 @@
 [
     {
         "Id": 1,
-        "Nome": "aa",
-        "Tipo": "aaa",
-        "Qualidade": "aa",
-        "Quantidade": "aa"
+        "Nome": "elsword",
+        "Tipo": "Espada",
+        "Qualidade": "lend\u00e1ria",
+        "Quantidade": "1"
     },
     {
         "Id": 2,
-        "Nome": "sas",
-        "Tipo": "asas",
-        "Qualidade": "asas",
-        "Quantidade": "sa"
+        "Nome": "arco recurvo",
+        "Tipo": "arco",
+        "Qualidade": "comum",
+        "Quantidade": "4"
+    },
+    {
+        "Id": 3,
+        "Nome": "espada solar",
+        "Tipo": "espada",
+        "Qualidade": "\u00e9pica",
+        "Quantidade": "1"
+    },
+    {
+        "Id": 4,
+        "Nome": "arco valeriano",
+        "Tipo": "arco",
+        "Qualidade": "raro",
+        "Quantidade": "2"
+    },
+    {
+        "Id": 5,
+        "Nome": "adaga r\u00fanica",
+        "Tipo": "adaga",
+        "Qualidade": "raro",
+        "Quantidade": "3"
+    },
+    {
+        "Id": 6,
+        "Nome": "punhal serrilhado",
+        "Tipo": "adaga",
+        "Qualidade": "\u00e9pica",
+        "Quantidade": "1"
+    },
+    {
+        "Id": 7,
+        "Nome": "l\u00e2mina do crepusculo de drakthar",
+        "Tipo": "adaga",
+        "Qualidade": "lend\u00e1ria",
+        "Quantidade": "1"
+    },
+    {
+        "Id": 8,
+        "Nome": "fulgor",
+        "Tipo": "rapieira",
+        "Qualidade": "raro",
+        "Quantidade": "2"
+    },
+    {
+        "Id": 9,
+        "Nome": "manto de nimbus",
+        "Tipo": "manto",
+        "Qualidade": "\u00e9pico",
+        "Quantidade": "2"
+    },
+    {
+        "Id": 10,
+        "Nome": "l\u00e2mina fantasma yomuu",
+        "Tipo": "espada",
+        "Qualidade": "lend\u00e1ria",
+        "Quantidade": "1"
     }
 ]
