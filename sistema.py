@@ -58,7 +58,7 @@ class ItemManager:
         self.root.title("Cadastro de itens")
         self.root.grid_columnconfigure(1, weight=1)
         self.root.grid_rowconfigure(0, weight=1)
-        self.root.geometry("900x500")
+        self.root.geometry("1280x720")
 
         self.style_treeview()
         self.create_input_frame()
@@ -126,13 +126,13 @@ class ItemManager:
         frame_button.grid(row=5, column=0, columnspan=2, padx=10, pady=20, sticky="ew")
         frame_button.grid_columnconfigure((0, 1, 2), weight=1)
 
-        botao_register = ctk.CTkButton(frame_button, text="Cadastrar", command=self.register_item)
+        botao_register = ctk.CTkButton(frame_button, text="Cadastrar", command=self.register_item, fg_color="#ff7b00", hover_color="#3484F0")
         botao_register.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
 
         button_clean = ctk.CTkButton(frame_button, text="Limpar", fg_color="#D35B58", hover_color="#C77C78", command=self.clear_fields)
         button_clean.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 
-        button_exit = ctk.CTkButton(frame_button, text="Sair", fg_color="#6C757D", hover_color="#5A6268", command=self.root.destroy)
+        button_exit = ctk.CTkButton(frame_button, text="Sair", fg_color="#271F1F", hover_color="#413B3B", command=self.root.destroy)
         button_exit.grid(row=0, column=2, padx=5, pady=5, sticky="e")
 
     def create_list_frame(self):
@@ -324,3 +324,4 @@ def abrir_cadastro():
         root = ctk.CTk()
         app = ItemManager(root)
         root.mainloop()
+#abrir_cadastro()
