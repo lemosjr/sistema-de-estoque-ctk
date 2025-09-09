@@ -1,21 +1,12 @@
-# =============================================================================
-# 1. IMPORTAÇÕES
-# =============================================================================
 import os
 import json
 from tkinter import ttk, messagebox
 import customtkinter as ctk
 
-# =============================================================================
-# 2. FUNÇÕES AUXILIARES
-# =============================================================================
-
 def open_arquivo():
     """
     Verifica se o arquivo 'usuarios.json' existe. Se não existir, cria um
     arquivo vazio. Retorna o conteúdo do arquivo.
-    
-    Nota: Esta função não é utilizada pela classe ItemManager, que usa 'itens.json'.
     """
     if os.path.exists("usuarios.json"):
         with open("usuarios.json", "r") as file:
@@ -25,17 +16,11 @@ def open_arquivo():
             json.dump({}, file)
             return {}
 
-# =============================================================================
-# 3. CLASSE PRINCIPAL DA APLICAÇÃO
-# =============================================================================
-
 class ItemManager:
     """
     Classe principal para gerenciar o cadastro de itens em uma interface gráfica.
     """
-    # -------------------------------------------------------------------------
-    # 3.1. MÉTODO CONSTRUTOR
-    # -------------------------------------------------------------------------
+    # MÉTODO CONSTRUTOR
     def __init__(self, root):
         """
         Inicializa a janela principal e os atributos da classe.
@@ -48,9 +33,8 @@ class ItemManager:
         self.create_widgets()
         self.carregar_itens()
 
-    # -------------------------------------------------------------------------
-    # 3.2. MÉTODOS DE CRIAÇÃO DA INTERFACE GRÁFICA (WIDGETS)
-    # -------------------------------------------------------------------------
+    # MÉTODOS DE CRIAÇÃO DA INTERFACE GRÁFICA (WIDGETS)
+    
     def create_widgets(self):
         """
         Configura a janela principal e chama os métodos para criar os frames.
@@ -180,9 +164,8 @@ class ItemManager:
         button_clean_all = ctk.CTkButton(frame_registered_items, text="Remover Selecionado", command=self.remove_selected_item, fg_color="#D35B58", hover_color="#C77C78")
         button_clean_all.grid(row=2, column=0, padx=10, pady=10, sticky='e')
 
-    # -------------------------------------------------------------------------
-    # 3.3. MÉTODOS DE GERENCIAMENTO DE DADOS (JSON)
-    # -------------------------------------------------------------------------
+    # MÉTODOS DE GERENCIAMENTO DE DADOS (JSON)
+    
     def carregar_itens(self):
         """
         Carrega os itens do arquivo 'itens.json' e os exibe na Treeview.
@@ -202,9 +185,7 @@ class ItemManager:
         with open("itens.json", "w") as file:
             json.dump(self.itens, file, indent=4)
 
-    # -------------------------------------------------------------------------
-    # 3.4. MÉTODOS DE FUNCIONALIDADE E EVENTOS
-    # -------------------------------------------------------------------------
+    # MÉTODOS DE FUNCIONALIDADE E EVENTOS
     def register_item(self):
         """
         Registra um novo item ou atualiza um item existente.
