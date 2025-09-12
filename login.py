@@ -20,7 +20,7 @@ def abrir_login(on_success):
             root.destroy()  
             on_success()
         else:
-            messagebox.showerror("Erro", "Usuário ou senha incorretos.")
+            messagebox.showerror("Erro", "Usuárioa ou senha incorretos.")
 
     def bnt_cancelar():
         root.destroy()  
