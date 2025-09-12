@@ -5,11 +5,11 @@ import os
 
 def open_arquivo():
     if os.path.exists("usuarios.json"):
-        with open("usuarios.json", "r") as file:
+        with open("usuarios.json", "r", encoding="utf-8") as file:
             return json.load(file)
     else:
-        with open("usuarios.json", "w") as file:
-            json.dump({}, file)
+        with open("usuarios.json", "w", encoding="utf-8") as file:
+            json.dump({}, file, ensure_ascii=False, indent=4)
             return {}
 def abrir_login(on_success):
     def bnt_login():

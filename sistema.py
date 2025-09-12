@@ -171,7 +171,7 @@ class ItemManager:
         Carrega os itens do arquivo 'itens.json' e os exibe na Treeview.
         """
         if os.path.exists("itens.json"):
-            with open("itens.json", "r") as file:
+            with open("itens.json", "r", encoding="utf-8") as file:
                 self.itens = json.load(file)
                 for item in self.itens:
                     self.tree.insert('', 'end', values=tuple(item.values()))
