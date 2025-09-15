@@ -3,6 +3,28 @@ import json
 from tkinter import ttk, messagebox
 import customtkinter as ctk
 
+canvas = tk.Canvas(tela_principal, width=450, height=450, highlightthickness=0)
+canvas.place(x=0, y=0, relwidth=1, relheight=1)
+
+def draw_gradient(canvas, color1, color2):
+    width = canvas.winfo_reqwidth()
+    height = canvas.winfo_reqheight()
+    limit = height
+    (r1,g1,b1) = tela_principal.winfo_rgb(color1)
+    (r2,g2,b2) = tela_principal.winfo_rgb(color2)
+    r_ratio = float(r2-r1) / limit
+    g_ratio = float(g2-g1) / limit
+    b_ratio = float(b2-b1) / limit
+
+    for i in range(limit):
+        nr = int(r1 + (r_ratio * i))
+        ng = int(g1 + (g_ratio * i))
+        nb = int(b1 + (b_ratio * i))
+        color = "#%04x%04x%04x" % (nr, ng, nb)
+        canvas.create_line(0, i, width, i, fill=color, tags=("gradient,"))
+
+draw_gradient(canvas, "#3c0a0a", "#1a0000")
+
 def open_arquivo():
     """
     Verifica se o arquivo 'usuarios.json' existe. Se não existir, cria um
