@@ -2,350 +2,350 @@
     {
         "Id": 1,
         "Nome": "Coquetel Cosmopolitan",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Cosmopolitan",
         "Quantidade": "3"
     },
     {
         "Id": 2,
         "Nome": "Água de Coco",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Coco Verde",
         "Quantidade": "4"
     },
     {
         "Id": 3,
         "Nome": "Vinho do Porto",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Taylor's",
         "Quantidade": "1"
     },
     {
         "Id": 4,
         "Nome": "Chá Oolong",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Lipton",
         "Quantidade": "2"
     },
     {
         "Id": 5,
         "Nome": "Gin Artesanal",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Hendrick's",
         "Quantidade": "3"
     },
     {
         "Id": 6,
         "Nome": "Espumante Brut Rosé",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Chandon",
         "Quantidade": "1"
     },
     {
         "Id": 7,
         "Nome": "Conhaque Napoleão",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Courvoisier",
         "Quantidade": "1"
     },
     {
         "Id": 8,
         "Nome": "Cerveja de Trigo",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Eisenbahn",
         "Quantidade": "2"
     },
     {
         "Id": 9,
         "Nome": "Café Gourmet",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Orfeu",
         "Quantidade": "2"
     },
     {
         "Id": 10,
         "Nome": "Saquê Junmai Daiginjo",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Hakutsuru",
         "Quantidade": "1"
     },
     {
         "Id": 11,
         "Nome": "Cidra Seca",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Strongbow",
         "Quantidade": "3"
     },
     {
         "Id": 12,
         "Nome": "Absinto",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "La Fée",
         "Quantidade": "3"
     },
     {
         "Id": 13,
         "Nome": "Champanhe",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Dom Pérignon",
         "Quantidade": "1"
     },
     {
         "Id": 14,
         "Nome": "Leite Integral",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Ninho",
         "Quantidade": "4"
     },
     {
         "Id": 15,
         "Nome": "Chá Verde Matcha",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Tea Forte",
         "Quantidade": "3"
     },
     {
         "Id": 16,
         "Nome": "Suco de Uva Integral",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Aurora",
         "Quantidade": "2"
     },
     {
         "Id": 17,
         "Nome": "Licor de Cereja Kirsch",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Cherry Heering",
         "Quantidade": "1"
     },
     {
         "Id": 18,
         "Nome": "Chá Preto",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Twinings",
         "Quantidade": "5"
     },
     {
         "Id": 19,
         "Nome": "Cerveja IPA",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Colorado",
         "Quantidade": "2"
     },
     {
         "Id": 20,
         "Nome": "Vodka",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Grey Goose",
         "Quantidade": "1"
     },
     {
         "Id": 21,
         "Nome": "Tequila Añejo",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Don Julio",
         "Quantidade": "3"
     },
     {
         "Id": 22,
         "Nome": "Vinho Tinto",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Bordeaux",
         "Quantidade": "1"
     },
     {
         "Id": 23,
         "Nome": "Cachaça Envelhecida",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Velho Barreiro",
         "Quantidade": "2"
     },
     {
         "Id": 24,
         "Nome": "Rum Caribenho",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Bacardi",
         "Quantidade": "3"
     },
     {
         "Id": 25,
         "Nome": "Uísque Japonês",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Hibiki",
         "Quantidade": "1"
     },
     {
         "Id": 26,
         "Nome": "Refrigerante de Cola",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Coca-Cola",
         "Quantidade": "2"
     },
     {
         "Id": 27,
         "Nome": "Tinto de Verano",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "La Casera",
         "Quantidade": "3"
     },
     {
         "Id": 28,
         "Nome": "Refrigerante de Laranja",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Fanta",
         "Quantidade": "5"
     },
     {
         "Id": 29,
         "Nome": "Sake Nigori",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Gekkeikan",
         "Quantidade": "2"
     },
     {
         "Id": 30,
         "Nome": "Absinto",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Absinthe Supérieure",
         "Quantidade": "1"
     },
     {
         "Id": 31,
         "Nome": "Whisky Escocês",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Johnnie Walker",
         "Quantidade": "2"
     },
     {
         "Id": 32,
         "Nome": "Limonada Suíça",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Da Fruta",
         "Quantidade": "3"
     },
     {
         "Id": 33,
         "Nome": "Vinho Chianti Clássico",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Castello di Fonterutoli",
         "Quantidade": "1"
     },
     {
         "Id": 34,
         "Nome": "Coquetel Molotov",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Smirnoff Ice",
         "Quantidade": "2"
     },
     {
         "Id": 35,
         "Nome": "Coquetel Bloody Mary",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Absolut",
         "Quantidade": "3"
     },
     {
         "Id": 36,
         "Nome": "Água Mineral",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Evian",
         "Quantidade": "1"
     },
     {
         "Id": 37,
         "Nome": "Cerveja Pilsen",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Brahma",
         "Quantidade": "3"
     },
     {
         "Id": 38,
         "Nome": "Café Torrado e Moído",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Melitta",
         "Quantidade": "2"
     },
     {
         "Id": 39,
         "Nome": "Vinho do Porto Tawny",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Graham's",
         "Quantidade": "1"
     },
     {
         "Id": 40,
         "Nome": "Chá de Gengibre",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Dr. Oetker",
         "Quantidade": "3"
     },
     {
         "Id": 41,
         "Nome": "Licor de Hortelã",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Stock",
         "Quantidade": "2"
     },
     {
         "Id": 42,
         "Nome": "Refrigerante Diet",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Coca-Cola Zero",
         "Quantidade": "1"
     },
     {
         "Id": 43,
         "Nome": "Cerveja Stout",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Guinness",
         "Quantidade": "4"
     },
     {
         "Id": 44,
         "Nome": "Tônico de Limão",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Schweppes",
         "Quantidade": "2"
     },
     {
         "Id": 45,
         "Nome": "Coquetel Cosmopolitan",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Absolut Citron",
         "Quantidade": "1"
     },
     {
         "Id": 46,
         "Nome": "Café Expresso",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Três Corações",
         "Quantidade": "5"
     },
     {
         "Id": 47,
         "Nome": "Vinho Branco",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Chardonnay",
         "Quantidade": "2"
     },
     {
         "Id": 48,
         "Nome": "Tequila",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Patrón",
         "Quantidade": "1"
     },
     {
         "Id": 49,
         "Nome": "Café Mocha",
-        "Alcoolico": "nao",
+        "Alcoólico": "nao",
         "Marca": "Starbucks",
         "Quantidade": "2"
     },
     {
         "Id": 50,
         "Nome": "Vinho Malbec",
-        "Alcoolico": "sim",
+        "Alcoólico": "sim",
         "Marca": "Catena Zapata",
         "Quantidade": "3"
     }
