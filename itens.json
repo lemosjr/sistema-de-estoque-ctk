@@ -1,702 +1,352 @@
 [
     {
         "Id": 1,
-        "Nome": "elsword",
-        "Tipo": "Espada",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Coquetel Cosmopolitan",
+        "Alcoolico": "sim",
+        "Marca": "Cosmopolitan",
         "Quantidade": "3"
     },
     {
         "Id": 2,
-        "Nome": "arco recurvo",
-        "Tipo": "arco",
-        "Qualidade": "comum",
+        "Nome": "Água de Coco",
+        "Alcoolico": "nao",
+        "Marca": "Coco Verde",
         "Quantidade": "4"
     },
     {
         "Id": 3,
-        "Nome": "espada solar",
-        "Tipo": "espada",
-        "Qualidade": "\u00e9pica",
+        "Nome": "Vinho do Porto",
+        "Alcoolico": "sim",
+        "Marca": "Taylor's",
         "Quantidade": "1"
     },
     {
         "Id": 4,
-        "Nome": "arco valeriano",
-        "Tipo": "arco",
-        "Qualidade": "raro",
+        "Nome": "Chá Oolong",
+        "Alcoolico": "nao",
+        "Marca": "Lipton",
         "Quantidade": "2"
     },
     {
         "Id": 5,
-        "Nome": "adaga r\u00fanica",
-        "Tipo": "adaga",
-        "Qualidade": "raro",
+        "Nome": "Gin Artesanal",
+        "Alcoolico": "sim",
+        "Marca": "Hendrick's",
         "Quantidade": "3"
     },
     {
         "Id": 6,
-        "Nome": "punhal serrilhado",
-        "Tipo": "adaga",
-        "Qualidade": "\u00e9pica",
+        "Nome": "Espumante Brut Rosé",
+        "Alcoolico": "sim",
+        "Marca": "Chandon",
         "Quantidade": "1"
     },
     {
         "Id": 7,
-        "Nome": "l\u00e2mina do crepusculo de drakthar",
-        "Tipo": "adaga",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Conhaque Napoleão",
+        "Alcoolico": "sim",
+        "Marca": "Courvoisier",
         "Quantidade": "1"
     },
     {
         "Id": 8,
-        "Nome": "fulgor",
-        "Tipo": "rapieira",
-        "Qualidade": "raro",
+        "Nome": "Cerveja de Trigo",
+        "Alcoolico": "sim",
+        "Marca": "Eisenbahn",
         "Quantidade": "2"
     },
     {
         "Id": 9,
-        "Nome": "manto de nimbus",
-        "Tipo": "manto",
-        "Qualidade": "\u00e9pico",
+        "Nome": "Café Gourmet",
+        "Alcoolico": "nao",
+        "Marca": "Orfeu",
         "Quantidade": "2"
     },
     {
         "Id": 10,
-        "Nome": "l\u00e2mina fantasma yomuu",
-        "Tipo": "espada",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Saquê Junmai Daiginjo",
+        "Alcoolico": "sim",
+        "Marca": "Hakutsuru",
         "Quantidade": "1"
     },
     {
         "Id": 11,
-        "Nome": "machado dos ventos",
-        "Tipo": "machado",
-        "Qualidade": "raro",
+        "Nome": "Cidra Seca",
+        "Alcoolico": "sim",
+        "Marca": "Strongbow",
         "Quantidade": "3"
     },
     {
         "Id": 12,
-        "Nome": "bast\u00e3o arcanista",
-        "Tipo": "bast\u00e3o",
-        "Qualidade": "\u00e9pico",
+        "Nome": "Absinto",
+        "Alcoolico": "sim",
+        "Marca": "La Fée",
         "Quantidade": "3"
     },
     {
         "Id": 13,
-        "Nome": "espada drac\u00f4nica",
-        "Tipo": "espada",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Champanhe",
+        "Alcoolico": "sim",
+        "Marca": "Dom Pérignon",
         "Quantidade": "1"
     },
     {
         "Id": 14,
-        "Nome": "clava de anubis",
-        "Tipo": "clava",
-        "Qualidade": "comum",
+        "Nome": "Leite Integral",
+        "Alcoolico": "nao",
+        "Marca": "Ninho",
         "Quantidade": "4"
     },
     {
         "Id": 15,
-        "Nome": "lan\u00e7a do guardi\u00e3o",
-        "Tipo": "lan\u00e7a",
-        "Qualidade": "raro",
+        "Nome": "Chá Verde Matcha",
+        "Alcoolico": "nao",
+        "Marca": "Tea Forte",
         "Quantidade": "3"
     },
     {
         "Id": 16,
-        "Nome": "espada da lua crescente",
-        "Tipo": "espada",
-        "Qualidade": "\u00e9pica",
+        "Nome": "Suco de Uva Integral",
+        "Alcoolico": "nao",
+        "Marca": "Aurora",
         "Quantidade": "2"
     },
     {
         "Id": 17,
-        "Nome": "flecha de luz celestial",
-        "Tipo": "flecha",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Licor de Cereja Kirsch",
+        "Alcoolico": "sim",
+        "Marca": "Cherry Heering",
         "Quantidade": "1"
     },
     {
         "Id": 18,
-        "Nome": "cajado do eremita",
-        "Tipo": "cajado",
-        "Qualidade": "comum",
+        "Nome": "Chá Preto",
+        "Alcoolico": "nao",
+        "Marca": "Twinings",
         "Quantidade": "5"
     },
     {
         "Id": 19,
-        "Nome": "escudo do tit\u00e3",
-        "Tipo": "escudo",
-        "Qualidade": "raro",
+        "Nome": "Cerveja IPA",
+        "Alcoolico": "sim",
+        "Marca": "Colorado",
         "Quantidade": "2"
     },
     {
         "Id": 20,
-        "Nome": "glaive do destemido",
-        "Tipo": "glaive",
-        "Qualidade": "\u00e9pica",
+        "Nome": "Vodka",
+        "Alcoolico": "sim",
+        "Marca": "Grey Goose",
         "Quantidade": "1"
     },
     {
         "Id": 21,
-        "Nome": "armadura de tit\u00e2nio",
-        "Tipo": "armadura",
-        "Qualidade": "raro",
+        "Nome": "Tequila Añejo",
+        "Alcoolico": "sim",
+        "Marca": "Don Julio",
         "Quantidade": "3"
     },
     {
         "Id": 22,
-        "Nome": "manto de invisibilidade",
-        "Tipo": "manto",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Vinho Tinto",
+        "Alcoolico": "sim",
+        "Marca": "Bordeaux",
         "Quantidade": "1"
     },
     {
         "Id": 23,
-        "Nome": "espada do drag\u00e3o dourado",
-        "Tipo": "espada",
-        "Qualidade": "\u00e9pica",
+        "Nome": "Cachaça Envelhecida",
+        "Alcoolico": "sim",
+        "Marca": "Velho Barreiro",
         "Quantidade": "2"
     },
     {
         "Id": 24,
-        "Nome": "machado do rei b\u00e1rbaro",
-        "Tipo": "machado",
-        "Qualidade": "raro",
+        "Nome": "Rum Caribenho",
+        "Alcoolico": "sim",
+        "Marca": "Bacardi",
         "Quantidade": "3"
     },
     {
         "Id": 25,
-        "Nome": "espada do cavaleiro negro",
-        "Tipo": "espada",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Uísque Japonês",
+        "Alcoolico": "sim",
+        "Marca": "Hibiki",
         "Quantidade": "1"
     },
     {
         "Id": 26,
-        "Nome": "bast\u00e3o do arcano",
-        "Tipo": "bast\u00e3o",
-        "Qualidade": "\u00e9pica",
+        "Nome": "Refrigerante de Cola",
+        "Alcoolico": "nao",
+        "Marca": "Coca-Cola",
         "Quantidade": "2"
     },
     {
         "Id": 27,
-        "Nome": "sword of the phoenix",
-        "Tipo": "espada",
-        "Qualidade": "raro",
+        "Nome": "Tinto de Verano",
+        "Alcoolico": "sim",
+        "Marca": "La Casera",
         "Quantidade": "3"
     },
     {
         "Id": 28,
-        "Nome": "chap\u00e9u de feiticeiro",
-        "Tipo": "chap\u00e9u",
-        "Qualidade": "comum",
+        "Nome": "Refrigerante de Laranja",
+        "Alcoolico": "nao",
+        "Marca": "Fanta",
         "Quantidade": "5"
     },
     {
         "Id": 29,
-        "Nome": "escudo de obsidian",
-        "Tipo": "escudo",
-        "Qualidade": "raro",
+        "Nome": "Sake Nigori",
+        "Alcoolico": "sim",
+        "Marca": "Gekkeikan",
         "Quantidade": "2"
     },
     {
         "Id": 30,
-        "Nome": "adaga do assassino sombrio",
-        "Tipo": "adaga",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Absinto",
+        "Alcoolico": "sim",
+        "Marca": "Absinthe Supérieure",
         "Quantidade": "1"
     },
     {
         "Id": 31,
-        "Nome": "lan\u00e7a do ca\u00e7ador",
-        "Tipo": "lan\u00e7a",
-        "Qualidade": "\u00e9pica",
+        "Nome": "Whisky Escocês",
+        "Alcoolico": "sim",
+        "Marca": "Johnnie Walker",
         "Quantidade": "2"
     },
     {
         "Id": 32,
-        "Nome": "elmo do guerreiro de ferro",
-        "Tipo": "elmo",
-        "Qualidade": "raro",
+        "Nome": "Limonada Suíça",
+        "Alcoolico": "nao",
+        "Marca": "Da Fruta",
         "Quantidade": "3"
     },
     {
         "Id": 33,
-        "Nome": "b\u00e1culo da tempestade",
-        "Tipo": "b\u00e1culo",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Vinho Chianti Clássico",
+        "Alcoolico": "sim",
+        "Marca": "Castello di Fonterutoli",
         "Quantidade": "1"
     },
     {
         "Id": 34,
-        "Nome": "espada do sil\u00eancio",
-        "Tipo": "espada",
-        "Qualidade": "\u00e9pica",
+        "Nome": "Coquetel Molotov",
+        "Alcoolico": "sim",
+        "Marca": "Smirnoff Ice",
         "Quantidade": "2"
     },
     {
         "Id": 35,
-        "Nome": "serpente da morte",
-        "Tipo": "adaga",
-        "Qualidade": "raro",
+        "Nome": "Coquetel Bloody Mary",
+        "Alcoolico": "sim",
+        "Marca": "Absolut",
         "Quantidade": "3"
     },
     {
         "Id": 36,
-        "Nome": "manto do guardi\u00e3o celestial",
-        "Tipo": "manto",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Água Mineral",
+        "Alcoolico": "nao",
+        "Marca": "Evian",
         "Quantidade": "1"
     },
     {
         "Id": 37,
-        "Nome": "arma do guardi\u00e3o da luz",
-        "Tipo": "arma",
-        "Qualidade": "raro",
+        "Nome": "Cerveja Pilsen",
+        "Alcoolico": "sim",
+        "Marca": "Brahma",
         "Quantidade": "3"
     },
     {
         "Id": 38,
-        "Nome": "espada do vulc\u00e3o",
-        "Tipo": "espada",
-        "Qualidade": "\u00e9pica",
+        "Nome": "Café Torrado e Moído",
+        "Alcoolico": "nao",
+        "Marca": "Melitta",
         "Quantidade": "2"
     },
     {
         "Id": 39,
-        "Nome": "cajado do fogo eterno",
-        "Tipo": "cajado",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Vinho do Porto Tawny",
+        "Alcoolico": "sim",
+        "Marca": "Graham's",
         "Quantidade": "1"
     },
     {
         "Id": 40,
-        "Nome": "adaga de jade",
-        "Tipo": "adaga",
-        "Qualidade": "raro",
+        "Nome": "Chá de Gengibre",
+        "Alcoolico": "nao",
+        "Marca": "Dr. Oetker",
         "Quantidade": "3"
     },
     {
         "Id": 41,
-        "Nome": "bast\u00e3o de gelo",
-        "Tipo": "bast\u00e3o",
-        "Qualidade": "raro",
+        "Nome": "Licor de Hortelã",
+        "Alcoolico": "sim",
+        "Marca": "Stock",
         "Quantidade": "2"
     },
     {
         "Id": 42,
-        "Nome": "escudo da resist\u00eancia",
-        "Tipo": "escudo",
-        "Qualidade": "\u00e9pico",
+        "Nome": "Refrigerante Diet",
+        "Alcoolico": "nao",
+        "Marca": "Coca-Cola Zero",
         "Quantidade": "1"
     },
     {
         "Id": 43,
-        "Nome": "machado de batalha",
-        "Tipo": "machado",
-        "Qualidade": "raro",
+        "Nome": "Cerveja Stout",
+        "Alcoolico": "sim",
+        "Marca": "Guinness",
         "Quantidade": "4"
     },
     {
         "Id": 44,
-        "Nome": "elmo do destruidor",
-        "Tipo": "elmo",
-        "Qualidade": "raro",
+        "Nome": "Tônico de Limão",
+        "Alcoolico": "nao",
+        "Marca": "Schweppes",
         "Quantidade": "2"
     },
     {
         "Id": 45,
-        "Nome": "armas duplas de prata",
-        "Tipo": "armas duplas",
-        "Qualidade": "\u00e9pica",
+        "Nome": "Coquetel Cosmopolitan",
+        "Alcoolico": "sim",
+        "Marca": "Absolut Citron",
         "Quantidade": "1"
     },
     {
         "Id": 46,
-        "Nome": "cajado de ouro",
-        "Tipo": "cajado",
-        "Qualidade": "comum",
+        "Nome": "Café Expresso",
+        "Alcoolico": "nao",
+        "Marca": "Três Corações",
         "Quantidade": "5"
     },
     {
         "Id": 47,
-        "Nome": "espada do corvo",
-        "Tipo": "espada",
-        "Qualidade": "raro",
+        "Nome": "Vinho Branco",
+        "Alcoolico": "sim",
+        "Marca": "Chardonnay",
         "Quantidade": "2"
     },
     {
         "Id": 48,
-        "Nome": "lanterna do caos",
-        "Tipo": "lanterna",
-        "Qualidade": "lend\u00e1ria",
+        "Nome": "Tequila",
+        "Alcoolico": "sim",
+        "Marca": "Patrón",
         "Quantidade": "1"
     },
     {
         "Id": 49,
-        "Nome": "cajado do mago negro",
-        "Tipo": "cajado",
-        "Qualidade": "\u00e9pica",
+        "Nome": "Café Mocha",
+        "Alcoolico": "nao",
+        "Marca": "Starbucks",
         "Quantidade": "2"
     },
     {
         "Id": 50,
-        "Nome": "espada do guerreiro imortal",
-        "Tipo": "espada",
-        "Qualidade": "raro",
+        "Nome": "Vinho Malbec",
+        "Alcoolico": "sim",
+        "Marca": "Catena Zapata",
         "Quantidade": "3"
-    },
-    {
-        "Id": 51,
-        "Nome": "bast\u00e3o do druida",
-        "Tipo": "bast\u00e3o",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 52,
-        "Nome": "escudo da gal\u00e1xia",
-        "Tipo": "escudo",
-        "Qualidade": "\u00e9pica",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 53,
-        "Nome": "adaga da noite eterna",
-        "Tipo": "adaga",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 54,
-        "Nome": "lan\u00e7a do vento cortante",
-        "Tipo": "lan\u00e7a",
-        "Qualidade": "\u00e9pica",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 55,
-        "Nome": "elmo do drag\u00e3o negro",
-        "Tipo": "elmo",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 56,
-        "Nome": "manto da f\u00eanix",
-        "Tipo": "manto",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 57,
-        "Nome": "espada da justi\u00e7a divina",
-        "Tipo": "espada",
-        "Qualidade": "raro",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 58,
-        "Nome": "machado da destrui\u00e7\u00e3o",
-        "Tipo": "machado",
-        "Qualidade": "\u00e9pica",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 59,
-        "Nome": "cajado do senhor do fogo",
-        "Tipo": "cajado",
-        "Qualidade": "raro",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 60,
-        "Nome": "espada do ca\u00e7ador de sombras",
-        "Tipo": "espada",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 61,
-        "Nome": "escudo do guardi\u00e3o da eternidade",
-        "Tipo": "escudo",
-        "Qualidade": "\u00e9pica",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 62,
-        "Nome": "lanterna da verdade",
-        "Tipo": "lanterna",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 63,
-        "Nome": "bast\u00e3o da cria\u00e7\u00e3o",
-        "Tipo": "bast\u00e3o",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 64,
-        "Nome": "adaga da serpente venenosa",
-        "Tipo": "adaga",
-        "Qualidade": "raro",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 65,
-        "Nome": "espada do guardi\u00e3o celestial",
-        "Tipo": "espada",
-        "Qualidade": "\u00e9pica",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 66,
-        "Nome": "elmo do destruidor de mundos",
-        "Tipo": "elmo",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 67,
-        "Nome": "bast\u00e3o de energia pura",
-        "Tipo": "bast\u00e3o",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 68,
-        "Nome": "lan\u00e7a da tempestade",
-        "Tipo": "lan\u00e7a",
-        "Qualidade": "raro",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 69,
-        "Nome": "armadura da luz eterna",
-        "Tipo": "armadura",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 70,
-        "Nome": "espada do ca\u00e7ador de dem\u00f4nios",
-        "Tipo": "espada",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 71,
-        "Nome": "machado da f\u00faria",
-        "Tipo": "machado",
-        "Qualidade": "\u00e9pica",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 72,
-        "Nome": "adaga do traidor",
-        "Tipo": "adaga",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 73,
-        "Nome": "escudo da luz sagrada",
-        "Tipo": "escudo",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 74,
-        "Nome": "elmo do imperador",
-        "Tipo": "elmo",
-        "Qualidade": "raro",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 75,
-        "Nome": "espada do guerreiro da tempestade",
-        "Tipo": "espada",
-        "Qualidade": "\u00e9pica",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 76,
-        "Nome": "b\u00e1culo da sombra eterna",
-        "Tipo": "b\u00e1culo",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 77,
-        "Nome": "lan\u00e7a do jaguar",
-        "Tipo": "lan\u00e7a",
-        "Qualidade": "raro",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 78,
-        "Nome": "adaga de sombra",
-        "Tipo": "adaga",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 79,
-        "Nome": "espada da alma perdida",
-        "Tipo": "espada",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 80,
-        "Nome": "machado do ciclone",
-        "Tipo": "machado",
-        "Qualidade": "\u00e9pica",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 81,
-        "Nome": "escudo do tit\u00e3 primordial",
-        "Tipo": "escudo",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 82,
-        "Nome": "cajado do mago branco",
-        "Tipo": "cajado",
-        "Qualidade": "raro",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 83,
-        "Nome": "elmo do ca\u00e7ador de drag\u00f5es",
-        "Tipo": "elmo",
-        "Qualidade": "\u00e9pica",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 84,
-        "Nome": "adaga de cristal",
-        "Tipo": "adaga",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 85,
-        "Nome": "lanterna do abismo",
-        "Tipo": "lanterna",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 86,
-        "Nome": "espada do rei",
-        "Tipo": "espada",
-        "Qualidade": "raro",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 87,
-        "Nome": "bast\u00e3o da floresta",
-        "Tipo": "bast\u00e3o",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 88,
-        "Nome": "armadura de a\u00e7o negro",
-        "Tipo": "armadura",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 89,
-        "Nome": "cajado do tempo",
-        "Tipo": "cajado",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 90,
-        "Nome": "escudo do rei drag\u00e3o",
-        "Tipo": "escudo",
-        "Qualidade": "\u00e9pica",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 91,
-        "Nome": "lan\u00e7a de luz radiante",
-        "Tipo": "lan\u00e7a",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 92,
-        "Nome": "espada do rei le\u00e3o",
-        "Tipo": "espada",
-        "Qualidade": "raro",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 93,
-        "Nome": "adaga da sombra silenciosa",
-        "Tipo": "adaga",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 94,
-        "Nome": "elmo de ferro negro",
-        "Tipo": "elmo",
-        "Qualidade": "comum",
-        "Quantidade": "4"
-    },
-    {
-        "Id": 95,
-        "Nome": "bast\u00e3o do esp\u00edrito ancestral",
-        "Tipo": "bast\u00e3o",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 96,
-        "Nome": "escudo da for\u00e7a eterna",
-        "Tipo": "escudo",
-        "Qualidade": "raro",
-        "Quantidade": "2"
-    },
-    {
-        "Id": 97,
-        "Nome": "machado do tit\u00e3",
-        "Tipo": "machado",
-        "Qualidade": "\u00e9pica",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 98,
-        "Nome": "espada da f\u00faria indom\u00e1vel",
-        "Tipo": "espada",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
-    },
-    {
-        "Id": 99,
-        "Nome": "adaga do ca\u00e7ador",
-        "Tipo": "adaga",
-        "Qualidade": "raro",
-        "Quantidade": "3"
-    },
-    {
-        "Id": 100,
-        "Nome": "lan\u00e7a do oceano profundo",
-        "Tipo": "lan\u00e7a",
-        "Qualidade": "lend\u00e1ria",
-        "Quantidade": "1"
     }
 ]
