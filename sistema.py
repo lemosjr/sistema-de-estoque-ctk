@@ -99,6 +99,7 @@ class ItemManager:
         self.entry_item.grid(row=1, column=1, padx=10, pady=5)
 
         label_type = ctk.CTkLabel(frame_data_items, text="Alcóolico:")
+        label_type = ctk.CTkLabel(frame_data_items, text="Alcoólico:")
         label_type.grid(row=2, column=0, padx=10, pady=5, sticky='w')
         self.entry_type = ctk.CTkEntry(frame_data_items, width=220)
         self.entry_type.grid(row=2, column=1, padx=10, pady=5)
@@ -146,15 +147,18 @@ class ItemManager:
         botao_search.pack(side='left')
 
         self.tree = ttk.Treeview(frame_registered_items, columns=('Id', 'Nome', 'Alcóolico', 'Marca', 'Quantidade'), show="headings")
+        self.tree = ttk.Treeview(frame_registered_items, columns=('Id', 'Nome', 'Alcoólico', 'Marca', 'Quantidade'), show="headings")
         self.tree.heading('Id', text='Id')
         self.tree.heading('Nome', text='Nome')
         self.tree.heading('Alcóolico', text='Alcóolico')
+        self.tree.heading('Alcoólico', text='Alcoólico')
         self.tree.heading('Marca', text='Marca')
         self.tree.heading('Quantidade', text='Quantidade')
 
         self.tree.column('Id', width=125, anchor='center')
         self.tree.column('Nome', width=125)
         self.tree.column('Alcóolico', width=125)
+        self.tree.column('Alcoólico', width=125)
         self.tree.column('Marca', width=125)
         self.tree.column('Quantidade', width=125)
 
@@ -195,6 +199,7 @@ class ItemManager:
                 for i in range(len(self.itens)):
                     if self.itens[i]['Id'] == self.selected_item_id_to_edit:
                         self.itens[i].update({'Nome': name, 'Alcóolico': item_type, 'Marca': quality, 'Quantidade': amount})
+                        self.itens[i].update({'Nome': name, 'Alcoólico': item_type, 'Marca': quality, 'Quantidade': amount})
                         break
                 
                 # Atualiza a linha correspondente na Treeview.
@@ -208,6 +213,7 @@ class ItemManager:
                 self.item_id += 1
                 novo_item = {
                     "Id": self.item_id, "Nome": name, "Alcóolico": item_type,
+                    "Id": self.item_id, "Nome": name, "Alcoólico": item_type,
                     "Marca": quality, "Quantidade": amount
                 }
                 self.itens.append(novo_item)
