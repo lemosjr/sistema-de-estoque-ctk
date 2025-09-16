@@ -2,7 +2,6 @@ from login import *
 from sistema import abrir_cadastro
 
 #inicia o código
-#aaaaaaaaaaaaa
 def main():
     abrir_login(on_success=abrir_cadastro)
 
