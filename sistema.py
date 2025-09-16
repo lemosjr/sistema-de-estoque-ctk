@@ -103,7 +103,7 @@ class ItemManager:
         self.entry_type = ctk.CTkEntry(frame_data_items, width=220)
         self.entry_type.grid(row=2, column=1, padx=10, pady=5)
 
-        label_quality = ctk.CTkLabel(frame_data_items, text="Qualidade do item:")
+        label_quality = ctk.CTkLabel(frame_data_items, text="Marca do item:")
         label_quality.grid(row=3, column=0, padx=10, pady=5, sticky='w')
         self.entry_quality = ctk.CTkEntry(frame_data_items, width=220)
         self.entry_quality.grid(row=3, column=1, padx=10, pady=5)
@@ -145,17 +145,17 @@ class ItemManager:
         botao_search = ctk.CTkButton(frame_search, text="Pesquisar", command=self.search_item)
         botao_search.pack(side='left')
 
-        self.tree = ttk.Treeview(frame_registered_items, columns=('Id', 'Nome', 'Tipo', 'Qualidade', 'Quantidade'), show="headings")
+        self.tree = ttk.Treeview(frame_registered_items, columns=('Id', 'Nome', 'Tipo', 'Marca', 'Quantidade'), show="headings")
         self.tree.heading('Id', text='Id')
         self.tree.heading('Nome', text='Nome')
         self.tree.heading('Tipo', text='Tipo')
-        self.tree.heading('Qualidade', text='Qualidade')
+        self.tree.heading('Marca', text='Marca')
         self.tree.heading('Quantidade', text='Quantidade')
 
         self.tree.column('Id', width=125, anchor='center')
         self.tree.column('Nome', width=125)
         self.tree.column('Tipo', width=125)
-        self.tree.column('Qualidade', width=125)
+        self.tree.column('Marca', width=125)
         self.tree.column('Quantidade', width=125)
 
         self.tree.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
@@ -194,7 +194,7 @@ class ItemManager:
             if self.selected_item_id_to_edit is not None:
                 for i in range(len(self.itens)):
                     if self.itens[i]['Id'] == self.selected_item_id_to_edit:
-                        self.itens[i].update({'Nome': name, 'Tipo': item_type, 'Qualidade': quality, 'Quantidade': amount})
+                        self.itens[i].update({'Nome': name, 'Tipo': item_type, 'Marca': quality, 'Quantidade': amount})
                         break
                 
                 # Atualiza a linha correspondente na Treeview.
@@ -208,7 +208,7 @@ class ItemManager:
                 self.item_id += 1
                 novo_item = {
                     "Id": self.item_id, "Nome": name, "Tipo": item_type,
-                    "Qualidade": quality, "Quantidade": amount
+                    "Marca": quality, "Quantidade": amount
                 }
                 self.itens.append(novo_item)
                 self.tree.insert('', 'end', values=tuple(novo_item.values()))
