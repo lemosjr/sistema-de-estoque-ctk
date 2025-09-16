@@ -2,6 +2,7 @@ import customtkinter as ctk
 from tkinter import messagebox
 import json
 import os
+from PIL import Image
 
 def open_arquivo():
     if os.path.exists("usuarios.json"):
@@ -28,14 +29,14 @@ def abrir_login(on_success):
     def bnt_cadastro():
         root.destroy()  
         abrir_cadastro()  
-
+        
     ctk.set_appearance_mode("dark")
     ctk.set_default_color_theme("blue")
 
     root = ctk.CTk()
     root.title("Tela de Login")
     root.geometry("450x350")
-    root.configure(bg_color="#ff0000")
+    root.configure(bg_color="#ff0000") 
 
     
     label_usuario = ctk.CTkLabel(root, text="Usuário:")
@@ -135,3 +136,5 @@ def abrir_cadastro():
     frame_principal.grid_columnconfigure(1, weight=1)
 
     root.mainloop() 
+
+
