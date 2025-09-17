@@ -180,15 +180,29 @@ class TelaPrincipal(ctk.CTk):
         """Limpa e preenche a tabela com os dados do gerenciador de itens."""
         for item in self.tree.get_children():
             self.tree.delete(item)
-        for item in self.gerenciador_itens.itens:
+        for item in self.gerenciador_itens.listar_itens():
             self.tree.insert('', 'end', values=tuple(item.values()))
 
     def _create_widgets(self):
         canvas = tk.Canvas(self, width=1280, height=720, highlightthickness=0)
         canvas.place(x=0, y=0, relwidth=1, relheight=1)
         
-
-
+        def draw_gradient(canvas, color1, color2):
+            width = self.winfo_width()
+            height = self.winfo_height()
+            (r1,g1,b1) = self.winfo_rgb(color1)
+            (r2,g2,b2) = self.winfo_rgb(color2)
+            r_ratio = float(r2-r1) / height
+            g_ratio = float(g2-g1) / height
+            b_ratio = float(b2-b1) / height
+            for i in range(height):
+                nr = int(r1 + (r_ratio * i))
+                ng = int(g1 + (g_ratio * i))
+                nb = int(b1 + (b_ratio * i))
+                color = f"#{nr:04x}{ng:04x}{nb:04x}"
+                canvas.create_line(0, i, width, i, fill=color, tags=("gradient,"))
+        
+        self.after(100, lambda: draw_gradient(canvas, "#3c0a0a", "#1a0000"))
 
         self._style_treeview()
         self._create_input_frame()
@@ -208,10 +222,25 @@ class TelaPrincipal(ctk.CTk):
         frame_data_items = ctk.CTkFrame(self, corner_radius=10)
         frame_data_items.grid(row=0, column=0, padx=20, pady=20, sticky="ns")
         
+        # Nome do Item
         ctk.CTkLabel(frame_data_items, text="Nome do item:").grid(row=1, column=0, padx=10, pady=5, sticky='w')
         self.entry_item = ctk.CTkEntry(frame_data_items, width=220)
         self.entry_item.grid(row=1, column=1, padx=10, pady=5)
-        # TODO: Adicionar os outros campos de entrada (tipo, marca, quantidade) aqui.
+        
+        # Tipo (Alcoólico)
+        ctk.CTkLabel(frame_data_items, text="Alcoólico (sim/nao):").grid(row=2, column=0, padx=10, pady=5, sticky='w')
+        self.entry_tipo = ctk.CTkEntry(frame_data_items, width=220)
+        self.entry_tipo.grid(row=2, column=1, padx=10, pady=5)
+
+        # Marca
+        ctk.CTkLabel(frame_data_items, text="Marca:").grid(row=3, column=0, padx=10, pady=5, sticky='w')
+        self.entry_marca = ctk.CTkEntry(frame_data_items, width=220)
+        self.entry_marca.grid(row=3, column=1, padx=10, pady=5)
+        
+        # Quantidade
+        ctk.CTkLabel(frame_data_items, text="Quantidade:").grid(row=4, column=0, padx=10, pady=5, sticky='w')
+        self.entry_quantidade = ctk.CTkEntry(frame_data_items, width=220)
+        self.entry_quantidade.grid(row=4, column=1, padx=10, pady=5)
 
         frame_button = ctk.CTkFrame(frame_data_items, fg_color="transparent")
         frame_button.grid(row=5, column=0, columnspan=2, padx=10, pady=20, sticky="ew")
@@ -230,26 +259,50 @@ class TelaPrincipal(ctk.CTk):
         
         self.tree = ttk.Treeview(frame_registered_items, columns=('Id', 'Nome', 'Alcoólico', 'Marca', 'Quantidade'), show="headings")
         self.tree.heading('Id', text='Id'); self.tree.heading('Nome', text='Nome'); self.tree.heading('Alcoólico', text='Alcoólico'); self.tree.heading('Marca', text='Marca'); self.tree.heading('Quantidade', text='Quantidade')
+        
+        # Configuração das larguras das colunas
+        self.tree.column("Id", width=50, anchor="center")
+        self.tree.column("Nome", width=200)
+        self.tree.column("Alcoólico", width=100, anchor="center")
+        self.tree.column("Marca", width=150)
+        self.tree.column("Quantidade", width=100, anchor="center")
+        
         self.tree.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
         
+        scrollbar = ttk.Scrollbar(frame_registered_items, orient="vertical", command=self.tree.yview)
+        scrollbar.grid(row=1, column=1, sticky='ns')
+        self.tree.configure(yscrollcommand=scrollbar.set)
+
         ctk.CTkButton(frame_registered_items, text="Editar Selecionado", command=self.edit_item).grid(row=2, column=0, padx=10, pady=10, sticky='w')
         ctk.CTkButton(frame_registered_items, text="Remover Selecionado", command=self.remove_selected_item, fg_color="#D35B58").grid(row=2, column=0, padx=10, pady=10, sticky='e')
 
     def register_item(self):
         """Cadastra um novo item ou atualiza um item existente."""
-        # TODO: Obter os dados dos outros campos de entrada.
-        name = self.entry_item.get(); item_type = "Exemplo"; quality = "Exemplo"; amount = "0" # self.entry_type.get()...
-
-        if not all([name, item_type, quality, amount]):
+        nome = self.entry_item.get()
+        tipo = self.entry_tipo.get().lower()
+        marca = self.entry_marca.get()
+        quantidade = self.entry_quantidade.get()
+        
+        if not all([nome, tipo, marca, quantidade]):
             messagebox.showerror("Erro", "Todos os campos devem ser preenchidos.")
             return
 
+        if tipo not in ["sim", "nao"]:
+            messagebox.showerror("Erro", "O campo 'Alcoólico' deve ser 'sim' ou 'nao'.")
+            return
+
+        try:
+            quantidade = int(quantidade)
+        except ValueError:
+            messagebox.showerror("Erro", "Quantidade deve ser um número inteiro.")
+            return
+
         if self.selected_item_id_to_edit is not None:
-            self.gerenciador_itens.atualizar_item(self.selected_item_id_to_edit, name, item_type, quality, amount)
+            self.gerenciador_itens.atualizar_item(self.selected_item_id_to_edit, nome, tipo, marca, quantidade)
             self.selected_item_id_to_edit = None
             messagebox.showinfo("Sucesso", "Item atualizado com sucesso!")
         else:
-            self.gerenciador_itens.adicionar_item(name, item_type, quality, amount)
+            self.gerenciador_itens.adicionar_item(nome, tipo, marca, quantidade)
             messagebox.showinfo("Sucesso", "Item cadastrado com sucesso!")
         
         self.popular_tabela()
@@ -279,16 +332,14 @@ class TelaPrincipal(ctk.CTk):
         
         self.clear_fields()
         self.entry_item.insert(0, item_data[1])
-        # TODO: Adicionar os outros campos para preenchimento na edição.
-        # self.entry_type.insert(0, item_data[2])
-        # self.entry_quality.insert(0, item_data[3])
-        # self.entry_amount.insert(0, item_data[4])
+        self.entry_tipo.insert(0, item_data[2])
+        self.entry_marca.insert(0, item_data[3])
+        self.entry_quantidade.insert(0, item_data[4])
         
     def clear_fields(self):
         """Limpa todos os campos de entrada de dados."""
         self.entry_item.delete(0, ctk.END)
-        # TODO: Adicionar a limpeza dos outros campos de entrada.
-        # self.entry_type.delete(0, ctk.END)
-        # self.entry_quality.delete(0, ctk.END)
-        # self.entry_amount.delete(0, ctk.END)
+        self.entry_tipo.delete(0, ctk.END)
+        self.entry_marca.delete(0, ctk.END)
+        self.entry_quantidade.delete(0, ctk.END)
         self.selected_item_id_to_edit = None

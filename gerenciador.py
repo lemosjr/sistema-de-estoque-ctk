@@ -34,19 +34,13 @@ class GerenciadorUsuarios:
         self._salvar_dados()
         return True
 
-
 class GerenciadorItens:
-    """Gerencia as operações de CRUD (Criar, Ler, Atualizar, Deletar) para itens."""
+    """Gerencia o cadastro, a atualização, a remoção e a busca de itens em um arquivo JSON."""
 
     def __init__(self, filepath="itens.json"):
         self.filepath = filepath
         self.itens = self._carregar_dados()
-        
-        # Define o próximo ID com base no maior ID existente para evitar duplicatas.
-        if self.itens:
-            self.item_id = max(item['Id'] for item in self.itens)
-        else:
-            self.item_id = 0
+        self.item_id = self._obter_proximo_id()
 
     def _carregar_dados(self):
         """Carrega a lista de itens do arquivo JSON. Retorna uma lista vazia se não existir."""
@@ -60,27 +54,55 @@ class GerenciadorItens:
         with open(self.filepath, "w", encoding="utf-8") as file:
             json.dump(self.itens, file, indent=4)
 
+    def _obter_proximo_id(self):
+        """Retorna o próximo ID disponível para um novo item."""
+        if not self.itens:
+            return 1
+        return max(item['Id'] for item in self.itens) + 1
+
+    def listar_itens(self):
+        """Retorna a lista completa de itens."""
+        return self.itens
+
     def adicionar_item(self, nome, tipo, marca, quantidade):
         """Cria um novo item com um ID único e o adiciona à lista."""
-        self.item_id += 1
         novo_item = {
-            "Id": self.item_id, "Nome": nome, "Alcoólico": tipo,
-            "Marca": marca, "Quantidade": quantidade
+            "Id": self.item_id, 
+            "Nome": nome, 
+            "Alcoólico": tipo,
+            "Marca": marca, 
+            "Quantidade": quantidade
         }
         self.itens.append(novo_item)
         self._salvar_dados()
+        self.item_id += 1
         return novo_item
 
     def atualizar_item(self, item_id, nome, tipo, marca, quantidade):
         """Atualiza os dados de um item existente com base em seu ID."""
         for item in self.itens:
             if item['Id'] == item_id:
-                item.update({"Nome": nome, "Alcoólico": tipo, "Marca": marca, "Quantidade": quantidade})
+                item.update({
+                    "Nome": nome, 
+                    "Alcoólico": tipo, 
+                    "Marca": marca, 
+                    "Quantidade": quantidade
+                })
                 self._salvar_dados()
                 return True
         return False
-
+        
     def remover_item(self, item_id):
         """Remove um item da lista com base em seu ID."""
         self.itens = [item for item in self.itens if item['Id'] != item_id]
         self._salvar_dados()
+        
+    def buscar_item(self, termo):
+        """Busca itens que correspondem a um termo de busca no nome, marca ou tipo."""
+        termo = termo.lower()
+        return [
+            item for item in self.itens 
+            if termo in item['Nome'].lower() or 
+               termo in item['Marca'].lower() or
+               termo in item['Alcoólico'].lower()
+        ]
