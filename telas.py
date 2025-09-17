@@ -1,13 +1,9 @@
-# arquivo: telas.py
-
 import customtkinter as ctk
 from tkinter import ttk, messagebox
-# Nota: o 'tk' do 'import tkinter as tk' só é necessário na TelaPrincipal, 
-# mas podemos deixar aqui para simplificar.
-import tkinter as tk 
+import tkinter as tk
 
-# --- TELA DE LOGIN (Sem alterações, já estava correta) ---
 class TelaLogin(ctk.CTk):
+    """Tela para login do usuário."""
     def __init__(self, app):
         super().__init__()
         self.app = app
@@ -31,6 +27,7 @@ class TelaLogin(ctk.CTk):
         ctk.CTkButton(self, text="Cadastro", width=10, command=self._abrir_cadastro, fg_color="#007acc").place(x=380, y=300)
 
     def _executar_login(self):
+        """Valida as credenciais e decide se abre a tela principal."""
         usuario = self.entry_usuario.get()
         senha = self.entry_senha.get()
         if self.app.gerenciador_usuarios.validar_credenciais(usuario, senha):
@@ -40,11 +37,13 @@ class TelaLogin(ctk.CTk):
             messagebox.showerror("Erro", "Usuário ou senha incorretos.")
 
     def _abrir_cadastro(self):
+        """Fecha a tela de login e abre a de cadastro."""
         self.destroy()
         self.app.mostrar_tela_cadastro_usuario()
 
-# --- TELA DE CADASTRO DE USUÁRIO (CORRIGIDA) ---
+
 class TelaCadastroUsuario(ctk.CTk):
+    """Tela para cadastro de novos usuários."""
     def __init__(self, app):
         super().__init__()
         self.app = app
@@ -53,44 +52,35 @@ class TelaCadastroUsuario(ctk.CTk):
         self._criar_widgets()
 
     def _criar_widgets(self):
-        # 1. Removido: ctk.CTk() e root.mainloop()
-        # 2. Todos os widgets agora são adicionados a 'self' em vez de 'root'
-        
         frame_principal = ctk.CTkFrame(self)
         frame_principal.pack(padx=30, pady=30, fill="both", expand=True)
 
-        # Nome Completo
         ctk.CTkLabel(frame_principal, text="Nome Completo:", font=("Arial", 12)).grid(row=0, column=0, pady=10, sticky="w")
         self.entry_nome = ctk.CTkEntry(frame_principal, placeholder_text="Digite seu nome completo", font=("Arial", 12))
         self.entry_nome.grid(row=0, column=1, pady=10, padx=10, sticky="ew")
 
-        # Email
         ctk.CTkLabel(frame_principal, text="Email:", font=("Arial", 12)).grid(row=1, column=0, pady=10, sticky="w")
         self.entry_email = ctk.CTkEntry(frame_principal, placeholder_text="Digite seu email", font=("Arial", 12))
         self.entry_email.grid(row=1, column=1, pady=10, padx=10, sticky="ew")
 
-        # Usuário
         ctk.CTkLabel(frame_principal, text="Usuário:", font=("Arial", 12)).grid(row=2, column=0, pady=10, sticky="w")
         self.entry_usuario = ctk.CTkEntry(frame_principal, placeholder_text="Digite seu nome de usuário", font=("Arial", 12))
         self.entry_usuario.grid(row=2, column=1, pady=10, padx=10, sticky="ew")
 
-        # Senha
         ctk.CTkLabel(frame_principal, text="Senha:", font=("Arial", 12)).grid(row=3, column=0, pady=10, sticky="w")
         self.entry_senha = ctk.CTkEntry(frame_principal, placeholder_text="Digite sua senha", show="*", font=("Arial", 12))
         self.entry_senha.grid(row=3, column=1, pady=10, padx=10, sticky="ew")
 
-        # Botões
         frame_botoes = ctk.CTkFrame(frame_principal, fg_color="transparent")
         frame_botoes.grid(row=4, column=0, columnspan=2, pady=20)
         
-        # O command dos botões deve chamar os métodos da classe (com 'self.')
         ctk.CTkButton(frame_botoes, text="Cadastrar", font=("Arial", 12), command=self._executar_cadastro, width=20).grid(row=0, column=0, padx=20)
         ctk.CTkButton(frame_botoes, text="Cancelar", font=("Arial", 12), fg_color="#a83232", command=self._voltar_login, hover_color="#F24B88", width=20).grid(row=0, column=1, padx=20)
 
         frame_principal.grid_columnconfigure(1, weight=1)
- 
+
     def _executar_cadastro(self):
-        # Campos 'nome' e 'email' não estavam sendo usados, mas mantive a captura
+        """Coleta os dados dos campos e tenta registrar um novo usuário."""
         nome = self.entry_nome.get()
         email = self.entry_email.get()
         usuario = self.entry_usuario.get()
@@ -107,11 +97,13 @@ class TelaCadastroUsuario(ctk.CTk):
             messagebox.showerror("Erro", "Usuário já cadastrado!")
 
     def _voltar_login(self):
+        """Fecha a tela de cadastro e volta para a de login."""
         self.destroy()
         self.app.mostrar_tela_login()
 
-# --- TELA PRINCIPAL (ITEM MANAGER - CORRIGIDA E ADAPTADA) ---
+
 class TelaPrincipal(ctk.CTk):
+    """Tela principal para gerenciamento de itens (adicionar, editar, remover)."""
     def __init__(self, app):
         super().__init__()
         self.app = app
@@ -124,22 +116,17 @@ class TelaPrincipal(ctk.CTk):
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
         
-        # A criação dos widgets agora ocorre na própria janela 'self'
         self._create_widgets()
-        # A população da tabela usa os dados do gerenciador
         self.popular_tabela()
 
     def popular_tabela(self):
+        """Limpa e preenche a tabela com os dados do gerenciador de itens."""
         for item in self.tree.get_children():
             self.tree.delete(item)
         for item in self.gerenciador_itens.itens:
             self.tree.insert('', 'end', values=tuple(item.values()))
 
     def _create_widgets(self):
-        # Aqui, substituímos todas as referências a 'self.root' por apenas 'self'
-        # porque a classe TelaPrincipal É a janela root.
-        
-        # Gradiente (sem alterações, mas agora aplicado a 'self')
         canvas = tk.Canvas(self, width=1280, height=720, highlightthickness=0)
         canvas.place(x=0, y=0, relwidth=1, relheight=1)
         
@@ -158,7 +145,7 @@ class TelaPrincipal(ctk.CTk):
                 color = f"#{nr:04x}{ng:04x}{nb:04x}"
                 canvas.create_line(0, i, width, i, fill=color, tags=("gradient,"))
         
-        # A função de gradiente pode ser chamada após um pequeno delay para garantir que a janela tenha dimensões
+        # Atraso para garantir que a janela tenha dimensões antes de desenhar o gradiente.
         self.after(100, lambda: draw_gradient(canvas, "#3c0a0a", "#1a0000"))
 
         self._style_treeview()
@@ -166,6 +153,7 @@ class TelaPrincipal(ctk.CTk):
         self._create_list_frame()
 
     def _style_treeview(self):
+        """Configura o estilo visual da tabela (Treeview)."""
         style = ttk.Style()
         style.theme_use("default")
         style.configure("Treeview", background="#242424", foreground="#ffffff", fieldbackground="#242424", borderwidth=0)
@@ -174,14 +162,14 @@ class TelaPrincipal(ctk.CTk):
         style.map("Treeview.Heading", background=[('active', '#3484F0')])
 
     def _create_input_frame(self):
+        """Cria o frame da esquerda com os campos de entrada de dados."""
         frame_data_items = ctk.CTkFrame(self, corner_radius=10)
         frame_data_items.grid(row=0, column=0, padx=20, pady=20, sticky="ns")
         
-        # ... (resto do seu código para criar os inputs, sem alterações, apenas usando 'self') ...
         ctk.CTkLabel(frame_data_items, text="Nome do item:").grid(row=1, column=0, padx=10, pady=5, sticky='w')
         self.entry_item = ctk.CTkEntry(frame_data_items, width=220)
         self.entry_item.grid(row=1, column=1, padx=10, pady=5)
-        # etc... para todos os outros widgets
+        # TODO: Adicionar os outros campos de entrada (tipo, marca, quantidade) aqui.
 
         frame_button = ctk.CTkFrame(frame_data_items, fg_color="transparent")
         frame_button.grid(row=5, column=0, columnspan=2, padx=10, pady=20, sticky="ew")
@@ -192,12 +180,12 @@ class TelaPrincipal(ctk.CTk):
         ctk.CTkButton(frame_button, text="Sair", command=self.destroy, fg_color="#271F1F").grid(row=0, column=2, padx=5, pady=5, sticky="e")
     
     def _create_list_frame(self):
+        """Cria o frame da direita com a tabela de itens registrados."""
         frame_registered_items = ctk.CTkFrame(self, corner_radius=10)
         frame_registered_items.grid(row=0, column=1, padx=(0, 20), pady=20, sticky="nsew")
         frame_registered_items.grid_columnconfigure(0, weight=1)
         frame_registered_items.grid_rowconfigure(1, weight=1)
         
-        # ... (código da Treeview e outros widgets, usando 'self') ...
         self.tree = ttk.Treeview(frame_registered_items, columns=('Id', 'Nome', 'Alcoólico', 'Marca', 'Quantidade'), show="headings")
         self.tree.heading('Id', text='Id'); self.tree.heading('Nome', text='Nome'); self.tree.heading('Alcoólico', text='Alcoólico'); self.tree.heading('Marca', text='Marca'); self.tree.heading('Quantidade', text='Quantidade')
         self.tree.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
@@ -205,9 +193,10 @@ class TelaPrincipal(ctk.CTk):
         ctk.CTkButton(frame_registered_items, text="Editar Selecionado", command=self.edit_item).grid(row=2, column=0, padx=10, pady=10, sticky='w')
         ctk.CTkButton(frame_registered_items, text="Remover Selecionado", command=self.remove_selected_item, fg_color="#D35B58").grid(row=2, column=0, padx=10, pady=10, sticky='e')
 
-    # --- MÉTODOS DE LÓGICA (ADAPTADOS PARA O GERENCIADOR) ---
     def register_item(self):
-        name = self.entry_item.get(); item_type = self.entry_type.get(); quality = self.entry_quality.get(); amount = self.entry_amount.get()
+        """Cadastra um novo item ou atualiza um item existente."""
+        # TODO: Obter os dados dos outros campos de entrada.
+        name = self.entry_item.get(); item_type = "Exemplo"; quality = "Exemplo"; amount = "0" # self.entry_type.get()...
 
         if not all([name, item_type, quality, amount]):
             messagebox.showerror("Erro", "Todos os campos devem ser preenchidos.")
@@ -225,6 +214,7 @@ class TelaPrincipal(ctk.CTk):
         self.clear_fields()
 
     def remove_selected_item(self):
+        """Remove o item atualmente selecionado na tabela."""
         selected_item = self.tree.selection()
         if not selected_item:
             messagebox.showinfo("Aviso", "Nenhum item selecionado.")
@@ -236,6 +226,7 @@ class TelaPrincipal(ctk.CTk):
         messagebox.showinfo("Sucesso", "Item removido com sucesso!")
 
     def edit_item(self):
+        """Preenche os campos de entrada com os dados do item selecionado."""
         selected_item = self.tree.selection()
         if not selected_item:
             messagebox.showinfo("Aviso", "Nenhum item selecionado para editar.")
@@ -246,13 +237,16 @@ class TelaPrincipal(ctk.CTk):
         
         self.clear_fields()
         self.entry_item.insert(0, item_data[1])
-        # self.entry_type.insert(0, item_data[2]) # Adicione os outros entries aqui
+        # TODO: Adicionar os outros campos para preenchimento na edição.
+        # self.entry_type.insert(0, item_data[2])
         # self.entry_quality.insert(0, item_data[3])
         # self.entry_amount.insert(0, item_data[4])
         
     def clear_fields(self):
+        """Limpa todos os campos de entrada de dados."""
         self.entry_item.delete(0, ctk.END)
-        # self.entry_type.delete(0, ctk.END) # Adicione os outros entries aqui
+        # TODO: Adicionar a limpeza dos outros campos de entrada.
+        # self.entry_type.delete(0, ctk.END)
         # self.entry_quality.delete(0, ctk.END)
         # self.entry_amount.delete(0, ctk.END)
         self.selected_item_id_to_edit = None
