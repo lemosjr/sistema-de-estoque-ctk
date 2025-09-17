@@ -1,6 +1,11 @@
 import customtkinter as ctk
 from tkinter import ttk, messagebox
 import tkinter as tk
+import os
+
+FONT_PATH = "fonts/Quicksand-Light.ttf"
+if os.path.exists(FONT_PATH):
+    quicksand_font = tk.Font.Font(file=FONT_PATH, name="Quicksand")
 
 class TelaLogin(ctk.CTk):
     """Tela para login do usuário."""
@@ -9,22 +14,49 @@ class TelaLogin(ctk.CTk):
         self.app = app
         self.title("Tela de Login")
         self.geometry("450x350")
-        self._criar_widgets()
+
+        self.create_canvas()      
+        self._criar_widgets()     
+
+    def create_canvas(self):
+        """Cria o canvas e desenha um gradiente vertical."""
+        canvas = tk.Canvas(self, width=450, height=350, highlightthickness=0)
+        canvas.place(x=0, y=0, relwidth=1, relheight=1)
+
+        def draw_gradient():
+            width = self.winfo_width()
+            height = self.winfo_height()
+            (r1, g1, b1) = self.winfo_rgb("#3c0a0a")  # Cor inicial
+            (r2, g2, b2) = self.winfo_rgb("#1a0000")  # Cor final
+            r_ratio = float(r2 - r1) / height
+            g_ratio = float(g2 - g1) / height
+            b_ratio = float(b2 - b1) / height
+
+            for i in range(height):
+                nr = int(r1 + (r_ratio * i))
+                ng = int(g1 + (g_ratio * i))
+                nb = int(b1 + (b_ratio * i))
+                color = f"#{nr:04x}{ng:04x}{nb:04x}"
+                canvas.create_line(0, i, width, i, fill=color)
+
+        self.after(100, draw_gradient)  # Garante que a janela foi renderizada
 
     def _criar_widgets(self):
-        ctk.CTkLabel(self, text="Usuário:").pack(pady=(20, 5))
-        self.entry_usuario = ctk.CTkEntry(self, placeholder_text="Digite seu usuário:")
+        """Cria os widgets de entrada de usuário e botões."""
+        ctk.CTkLabel(self, text="Usuário:", font=("Quicksand", 14)).pack(pady=(20, 5))
+        self.entry_usuario = ctk.CTkEntry(self, placeholder_text="Digite seu usuário:", font=("Quicksand", 14))
         self.entry_usuario.pack(pady=5)
 
-        ctk.CTkLabel(self, text="Senha:").pack(pady=(20, 5))
-        self.entry_senha = ctk.CTkEntry(self, placeholder_text="Senha:", show="*")
+        ctk.CTkLabel(self, text="Senha:", font=("Quicksand", 14)).pack(pady=(20, 5))
+        self.entry_senha = ctk.CTkEntry(self, placeholder_text="Senha:", show="*", font=("Quicksand", 14))
         self.entry_senha.pack(pady=5)
         
-        frame_botoes = ctk.CTkFrame(self, fg_color="transparent")
+        frame_botoes = ctk.CTkFrame(self, fg_color="transparent", font=("Quicksand", 14))
         frame_botoes.pack(pady=20)
-        ctk.CTkButton(frame_botoes, text="Entrar", command=self._executar_login, fg_color="#ff7b00").grid(row=0, column=0, padx=10)
-        ctk.CTkButton(frame_botoes, text="Cancelar", command=self.destroy, fg_color="#a83232").grid(row=0, column=1, padx=10)
-        ctk.CTkButton(self, text="Cadastro", width=10, command=self._abrir_cadastro, fg_color="#007acc").place(x=380, y=300)
+
+        ctk.CTkButton(frame_botoes, text="Entrar", command=self._executar_login, fg_color="#ff7b00", font=("Quicksand", 14)).grid(row=0, column=0, padx=10)
+        ctk.CTkButton(frame_botoes, text="Cancelar", command=self.destroy, fg_color="#a83232", font=("Quicksand", 14)).grid(row=0, column=1, padx=10)
+        ctk.CTkButton(self, text="Cadastro", width=10, command=self._abrir_cadastro, fg_color="#007acc", font=("Quicksand", 14)).place(x=380, y=300)
 
     def _executar_login(self):
         """Valida as credenciais e decide se abre a tela principal."""
@@ -49,7 +81,32 @@ class TelaCadastroUsuario(ctk.CTk):
         self.app = app
         self.title("Tela de Cadastro")
         self.geometry("550x600")
+
+        self.create_canvas()
         self._criar_widgets()
+
+    def create_canvas(self):
+        """Cria o canvas e desenha um gradiente vertical."""
+        canvas = tk.Canvas(self, width=450, height=350, highlightthickness=0)
+        canvas.place(x=0, y=0, relwidth=1, relheight=1)
+
+        def draw_gradient():
+            width = self.winfo_width()
+            height = self.winfo_height()
+            (r1, g1, b1) = self.winfo_rgb("#3c0a0a")  # Cor inicial
+            (r2, g2, b2) = self.winfo_rgb("#1a0000")  # Cor final
+            r_ratio = float(r2 - r1) / height
+            g_ratio = float(g2 - g1) / height
+            b_ratio = float(b2 - b1) / height
+
+            for i in range(height):
+                nr = int(r1 + (r_ratio * i))
+                ng = int(g1 + (g_ratio * i))
+                nb = int(b1 + (b_ratio * i))
+                color = f"#{nr:04x}{ng:04x}{nb:04x}"
+                canvas.create_line(0, i, width, i, fill=color)
+
+        self.after(100, draw_gradient)  # Garante que a janela foi renderizada
 
     def _criar_widgets(self):
         frame_principal = ctk.CTkFrame(self)
@@ -130,23 +187,8 @@ class TelaPrincipal(ctk.CTk):
         canvas = tk.Canvas(self, width=1280, height=720, highlightthickness=0)
         canvas.place(x=0, y=0, relwidth=1, relheight=1)
         
-        def draw_gradient(canvas, color1, color2):
-            width = self.winfo_width()
-            height = self.winfo_height()
-            (r1,g1,b1) = self.winfo_rgb(color1)
-            (r2,g2,b2) = self.winfo_rgb(color2)
-            r_ratio = float(r2-r1) / height
-            g_ratio = float(g2-g1) / height
-            b_ratio = float(b2-b1) / height
-            for i in range(height):
-                nr = int(r1 + (r_ratio * i))
-                ng = int(g1 + (g_ratio * i))
-                nb = int(b1 + (b_ratio * i))
-                color = f"#{nr:04x}{ng:04x}{nb:04x}"
-                canvas.create_line(0, i, width, i, fill=color, tags=("gradient,"))
-        
-        # Atraso para garantir que a janela tenha dimensões antes de desenhar o gradiente.
-        self.after(100, lambda: draw_gradient(canvas, "#3c0a0a", "#1a0000"))
+
+
 
         self._style_treeview()
         self._create_input_frame()
