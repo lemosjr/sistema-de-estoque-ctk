@@ -146,7 +146,6 @@ class TelaPrincipal(ctk.CTk):
                 canvas.create_line(0, i, width, i, fill=color, tags=("gradient,"))
         
         self.after(100, lambda: draw_gradient(canvas, "#3c0a0a", "#1a0000"))
-
         self._style_treeview()
         self._create_input_frame()
         self._create_list_frame()
