@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox
 import tkinter as tk
 import os
 import pyglet
+from tkinter import PhotoImage
 
 # Carrega a fonte personalizada para ser usada na aplicação.
 FONT_PATH = "fonts/Quicksand-Light.ttf"
@@ -10,6 +11,48 @@ if os.path.exists(FONT_PATH):
     pyglet.font.add_file(FONT_PATH)
 QUICKSAND_FONT_NAME = "Quicksand"
 
+# --- Gradiente da tela ---
+class GradientFrame(ctk.CTkFrame):
+    """Um Frame que desenha um fundo com gradiente de forma eficiente."""
+    def __init__(self, parent, color1, color2, **kwargs):
+        super().__init__(parent, **kwargs)
+        self.color1 = color1
+        self.color2 = color2
+        self._canvas = tk.Canvas(self, highlightthickness=0)
+        self._canvas.place(x=0, y=0, relwidth=1, relheight=1)
+
+        # O bind faz o gradiente ser redesenhado se a janela mudar de tamanho
+        self.bind("<Configure>", self._draw_gradient)
+
+    def _draw_gradient(self, event=None):
+        """Desenha o gradiente como uma imagem de fundo."""
+        self._canvas.delete("gradient")
+        width = self.winfo_width()
+        height = self.winfo_height()
+
+        if width <= 1 or height <= 1:
+            return
+
+        # Cria a imagem de 1px de largura
+        self._gradient_image = PhotoImage(width=1, height=height)
+
+        (r1, g1, b1) = self.winfo_rgb(self.color1)
+        (r2, g2, b2) = self.winfo_rgb(self.color2)
+        r_ratio = (r2 - r1) / height
+        g_ratio = (g2 - g1) / height
+        b_ratio = (b2 - b1) / height
+
+        for i in range(height):
+            nr = int(r1 + (r_ratio * i))
+            ng = int(g1 + (g_ratio * i))
+            nb = int(b1 + (b_ratio * i))
+            color = f"#{nr:04x}{ng:04x}{nb:04x}"
+            self._gradient_image.put(color, (0, i))
+        
+        # Amplia a imagem para a largura total da janela
+        self._bg_image = self._gradient_image.zoom(width)
+        
+        self._canvas.create_image(0, 0, anchor="nw", image=self._bg_image, tags="gradient")
 # --- Tela de Login ---
 class TelaLogin(ctk.CTk):
     """Define a interface gráfica e as funcionalidades da tela de login."""
@@ -17,31 +60,10 @@ class TelaLogin(ctk.CTk):
         super().__init__()
         self.app = app
         self.title("Tela de Login")
-        self.geometry("450x350")
-        self.create_canvas()
+        self.geometry("450x350")       
+        grad_frame = GradientFrame(self, color1="#3c0a0a", color2="#1a0000", fg_color="transparent")
+        grad_frame.place(relwidth=1, relheight=1)
         self._criar_widgets()
-
-    def create_canvas(self):
-        """Cria um canvas com fundo em gradiente para a janela."""
-        canvas = tk.Canvas(self, width=450, height=350, highlightthickness=0)
-        canvas.place(x=0, y=0, relwidth=1, relheight=1)
-
-        def draw_gradient():
-            width = self.winfo_width()
-            height = self.winfo_height()
-            (r1, g1, b1) = self.winfo_rgb("#3c0a0a")
-            (r2, g2, b2) = self.winfo_rgb("#1a0000")
-            r_ratio = float(r2 - r1) / height
-            g_ratio = float(g2 - g1) / height
-            b_ratio = float(b2 - b1) / height
-
-            for i in range(height):
-                nr = int(r1 + (r_ratio * i))
-                ng = int(g1 + (g_ratio * i))
-                nb = int(b1 + (b_ratio * i))
-                color = f"#{nr:04x}{ng:04x}{nb:04x}"
-                canvas.create_line(0, i, width, i, fill=color)
-        self.after(100, draw_gradient)
 
     def _criar_widgets(self):
         """Cria e posiciona os widgets na tela de login."""
@@ -82,31 +104,10 @@ class TelaCadastroUsuario(ctk.CTk):
         super().__init__()
         self.app = app
         self.title("Tela de Cadastro")
-        self.geometry("550x600")
-        self.create_canvas()
+        self.geometry("550x600")      
+        grad_frame = GradientFrame(self, color1="#3c0a0a", color2="#1a0000", fg_color="transparent")
+        grad_frame.place(relwidth=1, relheight=1)
         self._criar_widgets()
-
-    def create_canvas(self):
-        """Cria um canvas com fundo em gradiente para a janela."""
-        canvas = tk.Canvas(self, width=550, height=600, highlightthickness=0)
-        canvas.place(x=0, y=0, relwidth=1, relheight=1)
-
-        def draw_gradient():
-            width = self.winfo_width()
-            height = self.winfo_height()
-            (r1, g1, b1) = self.winfo_rgb("#3c0a0a")
-            (r2, g2, b2) = self.winfo_rgb("#1a0000")
-            r_ratio = float(r2 - r1) / height
-            g_ratio = float(g2 - g1) / height
-            b_ratio = float(b2 - b1) / height
-
-            for i in range(height):
-                nr = int(r1 + (r_ratio * i))
-                ng = int(g1 + (g_ratio * i))
-                nb = int(b1 + (b_ratio * i))
-                color = f"#{nr:04x}{ng:04x}{nb:04x}"
-                canvas.create_line(0, i, width, i, fill=color)
-        self.after(100, draw_gradient)
 
     def _criar_widgets(self):
         """Cria e posiciona os widgets na tela de cadastro."""
@@ -172,38 +173,50 @@ class TelaPrincipal(ctk.CTk):
         self.geometry("1280x720")
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
+
+        grad_frame = GradientFrame(self, color1="#3c0a0a", color2="#1a0000", fg_color="transparent")
+        grad_frame.place(relwidth=1, relheight=1)
         
         self._create_widgets()
         self.popular_tabela()
 
-    def popular_tabela(self):
+    def popular_tabela(self, itens=None):
         """Preenche a tabela com os dados de itens existentes."""
+        # Limpa a visualização atual da tabela
         for item in self.tree.get_children():
             self.tree.delete(item)
-        for item in self.gerenciador_itens.listar_itens():
+        
+        # Se nenhuma lista de itens for fornecida, busca a lista completa
+        lista_para_exibir = itens if itens is not None else self.gerenciador_itens.listar_itens()
+        
+        for item in lista_para_exibir:
             self.tree.insert('', 'end', values=tuple(item.values()))
 
+    def _executar_pesquisa(self):
+        """Filtra os itens da tabela com base no termo de pesquisa."""
+        termo_pesquisa = self.entry_pesquisa.get().lower()
+        if not termo_pesquisa:
+            self.popular_tabela()
+            return
+        
+        # Filtra os itens
+        itens_completos = self.gerenciador_itens.listar_itens()
+        resultado = []
+        for item in itens_completos:
+            # Converte todos os valores do item para string e minúsculas para a busca
+            valores_item = [str(v).lower() for v in item.values()]
+            if any(termo_pesquisa in valor for valor in valores_item):
+                resultado.append(item)
+        
+        self.popular_tabela(resultado)
+
+    def _limpar_pesquisa(self):
+        """Limpa o campo de pesquisa e recarrega todos os itens."""
+        self.entry_pesquisa.delete(0, tk.END)
+        self.popular_tabela()
+
     def _create_widgets(self):
-        """Cria todos os widgets da tela principal."""
-        canvas = tk.Canvas(self, width=1280, height=720, highlightthickness=0)
-        canvas.place(x=0, y=0, relwidth=1, relheight=1)
-        
-        def draw_gradient(canvas, color1, color2):
-            width = self.winfo_width()
-            height = self.winfo_height()
-            (r1,g1,b1) = self.winfo_rgb(color1)
-            (r2,g2,b2) = self.winfo_rgb(color2)
-            r_ratio = float(r2-r1) / height
-            g_ratio = float(g2-g1) / height
-            b_ratio = float(b2-b1) / height
-            for i in range(height):
-                nr = int(r1 + (r_ratio * i))
-                ng = int(g1 + (g_ratio * i))
-                nb = int(b1 + (b_ratio * i))
-                color = f"#{nr:04x}{ng:04x}{nb:04x}"
-                canvas.create_line(0, i, width, i, fill=color, tags=("gradient,"))
-        
-        self.after(100, lambda: draw_gradient(canvas, "#3c0a0a", "#1a0000"))
+        """Cria todos os widgets da tela principal."""       
         self._style_treeview()
         self._create_input_frame()
         self._create_list_frame()
@@ -243,7 +256,7 @@ class TelaPrincipal(ctk.CTk):
         frame_button.grid_columnconfigure((0, 1, 2), weight=1)
 
         ctk.CTkButton(frame_button, text="Cadastrar/Atualizar", command=self.register_item, fg_color="#ff7b00", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=0, padx=5, pady=5, sticky="ew")
-        ctk.CTkButton(frame_button, text="Limpar", command=self.clear_fields, fg_color="#D35B58", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=1, padx=5, pady=5, sticky="ew")
+        ctk.CTkButton(frame_button, text="Limpar Campos", command=self.clear_fields, fg_color="#D35B58", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=1, padx=5, pady=5, sticky="ew")
         ctk.CTkButton(frame_button, text="Sair", command=self.destroy, fg_color="#271F1F", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=2, padx=5, pady=5, sticky="e")
     
     def _create_list_frame(self):
@@ -251,16 +264,23 @@ class TelaPrincipal(ctk.CTk):
         frame_registered_items = ctk.CTkFrame(self, corner_radius=10, fg_color="transparent")
         frame_registered_items.grid(row=0, column=1, padx=(0, 20), pady=20, sticky="nsew")
         frame_registered_items.grid_columnconfigure(0, weight=1)
-        frame_registered_items.grid_rowconfigure(1, weight=1)
+        frame_registered_items.grid_rowconfigure(2, weight=1) # Mudar para linha 2 para dar espaço à pesquisa
         
+        # --- Frame para a barra de pesquisa ---
+        frame_pesquisa = ctk.CTkFrame(frame_registered_items, fg_color="transparent")
+        frame_pesquisa.grid(row=0, column=0, columnspan=2, padx=10, pady=5, sticky="ew")
+        frame_pesquisa.grid_columnconfigure(0, weight=1)
+
+        self.entry_pesquisa = ctk.CTkEntry(frame_pesquisa, placeholder_text="Pesquisar por nome, marca, etc...")
+        self.entry_pesquisa.grid(row=0, column=0, padx=(0,5), pady=5, sticky="ew")
+        
+        # Adiciona o comando para executar a pesquisa
+        ctk.CTkButton(frame_pesquisa, text="Pesquisar", width=100, command=self._executar_pesquisa, font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=1, padx=5, pady=5)
+        # Novo botão para limpar a pesquisa
+        ctk.CTkButton(frame_pesquisa, text="Limpar", width=100, command=self._limpar_pesquisa, font=(QUICKSAND_FONT_NAME, 14), fg_color="#565b5e").grid(row=0, column=2, padx=(0,5), pady=5)
+
         self.tree = ttk.Treeview(frame_registered_items, columns=('Id', 'Nome', 'Alcoólico', 'Marca', 'Quantidade'), show="headings")
         self.tree.heading('Id', text='Id'); self.tree.heading('Nome', text='Nome'); self.tree.heading('Alcoólico', text='Alcoólico'); self.tree.heading('Marca', text='Marca'); self.tree.heading('Quantidade', text='Quantidade')
-
-        self.entry_pesquisa=ctk.CTkEntry(frame_registered_items,placeholder_text="pesquisar...")
-        self.entry_pesquisa.grid(row=0,column=0,padx=5,pady=5,sticky="w")
-
-        ctk.CTkButton(frame_registered_items,text="Pesquisar", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0,column=0,padx=5,pady=5,sticky="e")
-        
         
         self.tree.column("Id", width=50, anchor="center")
         self.tree.column("Nome", width=200)
@@ -268,14 +288,14 @@ class TelaPrincipal(ctk.CTk):
         self.tree.column("Marca", width=150)
         self.tree.column("Quantidade", width=100, anchor="center")
         
-        self.tree.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
+        self.tree.grid(row=2, column=0, padx=10, pady=10, sticky='nsew') # Mudar para linha 2
         
         scrollbar = ttk.Scrollbar(frame_registered_items, orient="vertical", command=self.tree.yview)
-        scrollbar.grid(row=1, column=1, sticky='ns')
+        scrollbar.grid(row=2, column=1, sticky='ns') # Mudar para linha 2
         self.tree.configure(yscrollcommand=scrollbar.set)
 
-        ctk.CTkButton(frame_registered_items, text="Editar Selecionado", command=self.edit_item, font=(QUICKSAND_FONT_NAME, 14)).grid(row=2, column=0, padx=10, pady=10, sticky='w')
-        ctk.CTkButton(frame_registered_items, text="Remover Selecionado", command=self.remove_selected_item, fg_color="#D35B58", font=(QUICKSAND_FONT_NAME, 14)).grid(row=2, column=0, padx=10, pady=10, sticky='e')
+        ctk.CTkButton(frame_registered_items, text="Editar Selecionado", command=self.edit_item, font=(QUICKSAND_FONT_NAME, 14)).grid(row=3, column=0, padx=10, pady=10, sticky='w') # Mudar para linha 3
+        ctk.CTkButton(frame_registered_items, text="Remover Selecionado", command=self.remove_selected_item, fg_color="#D35B58", font=(QUICKSAND_FONT_NAME, 14)).grid(row=3, column=0, padx=10, pady=10, sticky='e') # Mudar para linha 3
 
     def register_item(self):
         """Salva um novo item ou atualiza um item existente."""
