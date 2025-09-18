@@ -255,6 +255,12 @@ class TelaPrincipal(ctk.CTk):
         
         self.tree = ttk.Treeview(frame_registered_items, columns=('Id', 'Nome', 'Alcoólico', 'Marca', 'Quantidade'), show="headings")
         self.tree.heading('Id', text='Id'); self.tree.heading('Nome', text='Nome'); self.tree.heading('Alcoólico', text='Alcoólico'); self.tree.heading('Marca', text='Marca'); self.tree.heading('Quantidade', text='Quantidade')
+
+        self.entry_pesquisa=ctk.CTkEntry(frame_registered_items,placeholder_text="pesquisar...")
+        self.entry_pesquisa.grid(row=0,column=0,padx=5,pady=5,sticky="w")
+
+        ctk.CTkButton(frame_registered_items,text="Pesquisar", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0,column=0,padx=5,pady=5,sticky="e")
+        
         
         self.tree.column("Id", width=50, anchor="center")
         self.tree.column("Nome", width=200)
