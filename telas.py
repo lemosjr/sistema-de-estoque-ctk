@@ -50,7 +50,7 @@ class GradientFrame(ctk.CTkFrame):
             self._gradient_image.put(color, (0, i))
         
         # Amplia a imagem para a largura total da janela
-        self._bg_image = self._gradient_image.zoom(width)
+        self._bg_image = self._gradient_image.zoom(width, 1)
         
         self._canvas.create_image(0, 0, anchor="nw", image=self._bg_image, tags="gradient")
 # --- Tela de Login ---
@@ -168,15 +168,12 @@ class TelaPrincipal(ctk.CTk):
         self.app = app
         self.gerenciador_itens = app.gerenciador_itens
         self.selected_item_id_to_edit = None
-        
         self.title("Cadastro de Itens")
         self.geometry("1280x720")
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
-
         grad_frame = GradientFrame(self, color1="#3c0a0a", color2="#1a0000", fg_color="transparent")
         grad_frame.place(relwidth=1, relheight=1)
-        
         self._create_widgets()
         self.popular_tabela()
 
@@ -216,7 +213,7 @@ class TelaPrincipal(ctk.CTk):
         self.popular_tabela()
 
     def _create_widgets(self):
-        """Cria todos os widgets da tela principal."""       
+        """Cria todos os widgets da tela principal."""      
         self._style_treeview()
         self._create_input_frame()
         self._create_list_frame()
