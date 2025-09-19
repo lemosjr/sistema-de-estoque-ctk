@@ -78,9 +78,16 @@ class TelaLogin(ctk.CTk):
         frame_botoes = ctk.CTkFrame(self, fg_color="transparent")
         frame_botoes.pack(pady=20)
 
-        ctk.CTkButton(frame_botoes, text="Entrar", command=self._executar_login, fg_color="#ff7b00", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=0, padx=10)
-        ctk.CTkButton(frame_botoes, text="Cancelar", command=self.destroy, fg_color="#a83232", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=1, padx=10)
-        ctk.CTkButton(self, text="Cadastro", width=10, command=self._abrir_cadastro, fg_color="#007acc", font=(QUICKSAND_FONT_NAME, 14)).place(x=380, y=300)
+        btn_entrar = ctk.CTkButton(self, text="Entrar", fg_color="#ff7b00", text_color="white", command=self._executar_login, corner_radius=10, width=200)
+        btn_entrar.place(relx=0.5, y=300, anchor="center")
+
+        link_recuperar = ctk.CTkLabel(self, text="Recuperar senha", text_color="#c2a999", cursor="hand2")
+        link_recuperar.place(relx=0.4, y=350, anchor="center")
+        #link_recuperar.bind("<Button-1>", lambda e: recuperar_senha())
+
+        link_cadastrar = ctk.CTkLabel(self, text="Cadastrar", text_color="#c2a999", cursor="hand2")
+        link_cadastrar.place(relx=0.6, y=350, anchor="center")
+        link_cadastrar.bind("<Button-1>", lambda e: TelaCadastroUsuario())
 
     def _executar_login(self):
         """Valida as credenciais do usuário para permitir o acesso."""
