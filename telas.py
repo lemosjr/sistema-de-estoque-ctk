@@ -64,30 +64,47 @@ class TelaLogin(ctk.CTk):
         grad_frame = GradientFrame(self, color1="#3c0a0a", color2="#1a0000", fg_color="transparent")
         grad_frame.place(relwidth=1, relheight=1)
         self._criar_widgets()
+        self.centralizar_janela()
+
+    def centralizar_janela(self):
+        self.update_idletasks()
+        largura = self.winfo_width()
+        altura = self.winfo_height()
+        x = (self.winfo_screenwidth() // 2) - (largura // 2)
+        y = (self.winfo_screenheight() // 2) - (altura // 2)
+        self.geometry(f"{largura}x{altura}+{x}+{y}")
 
     def _criar_widgets(self):
         """Cria e posiciona os widgets na tela de login."""
-        ctk.CTkLabel(self, text="Usuário:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(20, 5))
-        self.entry_usuario = ctk.CTkEntry(self, placeholder_text="Digite seu usuário:", font=(QUICKSAND_FONT_NAME, 14))
-        self.entry_usuario.pack(pady=5)
 
-        ctk.CTkLabel(self, text="Senha:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(20, 5))
-        self.entry_senha = ctk.CTkEntry(self, placeholder_text="Senha:", show="*", font=(QUICKSAND_FONT_NAME, 14))
-        self.entry_senha.pack(pady=5)
+        frame_central = ctk.CTkFrame(self, fg_color="transparent")
+        frame_central.pack(expand=True, fill="both", padx=20, pady=20)
+
+        # Campo Usuário
+        ctk.CTkLabel(frame_central, text="Usuário:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(10, 5))
+        self.entry_usuario = ctk.CTkEntry(frame_central, placeholder_text="Digite seu usuário:", font=(QUICKSAND_FONT_NAME, 14))
+        self.entry_usuario.pack(pady=5, padx=30, fill="x")
+
+        # Campo Senha
+        ctk.CTkLabel(frame_central, text="Senha:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(10, 5))
+        self.entry_senha = ctk.CTkEntry(frame_central, placeholder_text="Senha:", show="*", font=(QUICKSAND_FONT_NAME, 14))
+        self.entry_senha.pack(pady=5, padx=30, fill="x")
         
-        frame_botoes = ctk.CTkFrame(self, fg_color="transparent")
-        frame_botoes.pack(pady=20)
+        # Botão Entrar
+        btn_entrar = ctk.CTkButton(frame_central, text="Entrar", fg_color="#ff7b00", text_color="white", command=self._executar_login, corner_radius=10, width=200)
+        btn_entrar.pack(pady=20)
 
-        btn_entrar = ctk.CTkButton(self, text="Entrar", fg_color="#ff7b00", text_color="white", command=self._executar_login, corner_radius=10, width=200)
-        btn_entrar.place(relx=0.5, y=300, anchor="center")
+        # Frame de links (centralizado)
+        frame_links = ctk.CTkFrame(frame_central, fg_color="transparent")
+        frame_links.pack(pady=10)
 
-        link_recuperar = ctk.CTkLabel(self, text="Recuperar senha", text_color="#c2a999", cursor="hand2")
-        link_recuperar.place(relx=0.4, y=350, anchor="center")
-        #link_recuperar.bind("<Button-1>", lambda e: recuperar_senha())
+        link_recuperar = ctk.CTkLabel(frame_links, text="Recuperar senha", text_color="#c2a999", cursor="hand2")
+        link_recuperar.pack(side="left", padx=10)
+        # link_recuperar.bind("<Button-1>", lambda e: recuperar_senha())
 
-        link_cadastrar = ctk.CTkLabel(self, text="Cadastrar", text_color="#c2a999", cursor="hand2")
-        link_cadastrar.place(relx=0.6, y=350, anchor="center")
-        link_cadastrar.bind("<Button-1>", lambda e: TelaCadastroUsuario())
+        link_cadastrar = ctk.CTkLabel(frame_links, text="Cadastrar", text_color="#c2a999", cursor="hand2")
+        link_cadastrar.pack(side="left", padx=10)
+        link_cadastrar.bind("<Button-1>", lambda e: self._abrir_cadastro())
 
     def _executar_login(self):
         """Valida as credenciais do usuário para permitir o acesso."""
