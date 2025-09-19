@@ -14,8 +14,13 @@ class GerenciadorUsuarios:
             with open(self.filepath, "w", encoding="utf-8") as file:
                 json.dump({}, file)
             return {}
-        with open(self.filepath, "r", encoding="utf-8") as file:
-            return json.load(file)
+        try:
+            with open(self.filepath, "r", encoding="utf-8") as file:
+                return json.load(file)
+        except (json.JSONDecodeError, FileNotFoundError):
+             # Se o arquivo estiver vazio ou corrompido, retorna um dicionário vazio.
+            return {}
+
 
     def _salvar_dados(self):
         """Salva o dicionário de usuários atual no arquivo JSON."""
@@ -46,8 +51,12 @@ class GerenciadorItens:
         """Carrega a lista de itens do arquivo JSON. Retorna uma lista vazia se não existir."""
         if not os.path.exists(self.filepath):
             return []
-        with open(self.filepath, "r", encoding="utf-8") as file:
-            return json.load(file)
+        try:
+            with open(self.filepath, "r", encoding="utf-8") as file:
+                return json.load(file)
+        except (json.JSONDecodeError, FileNotFoundError):
+            # Se o arquivo estiver vazio ou corrompido, retorna uma lista vazia.
+            return []
 
     def _salvar_dados(self):
         """Salva a lista de itens atual no arquivo JSON."""
@@ -74,8 +83,8 @@ class GerenciadorItens:
             "Quantidade": quantidade
         }
         self.itens.append(novo_item)
-        self._salvar_dados()
         self.item_id += 1
+        self._salvar_dados()
         return novo_item
 
     def atualizar_item(self, item_id, nome, tipo, marca, quantidade):
