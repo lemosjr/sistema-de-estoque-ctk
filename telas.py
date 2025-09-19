@@ -86,15 +86,18 @@ class TelaLogin(ctk.CTk):
         """Cria e posiciona os widgets na tela de login."""
         frame_central = ctk.CTkFrame(self, fg_color="transparent")
         frame_central.pack(expand=True, fill="both", padx=20, pady=20)
-
+        
+        # Campo Usuário
         ctk.CTkLabel(frame_central, text="Usuário:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(10, 5))
-        self.entry_usuario = ctk.CTkEntry(frame_central, placeholder_text="Digite seu usuário", font=(QUICKSAND_FONT_NAME, 14))
+        self.entry_usuario = ctk.CTkEntry(frame_central, placeholder_text="Digite seu usuário:", font=(QUICKSAND_FONT_NAME, 14))
         self.entry_usuario.pack(pady=5, padx=30, fill="x")
 
+        # Campo Senha
         ctk.CTkLabel(frame_central, text="Senha:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(10, 5))
-        self.entry_senha = ctk.CTkEntry(frame_central, placeholder_text="Senha", show="*", font=(QUICKSAND_FONT_NAME, 14))
+        self.entry_senha = ctk.CTkEntry(frame_central, placeholder_text="Senha:", show="*", font=(QUICKSAND_FONT_NAME, 14))
         self.entry_senha.pack(pady=5, padx=30, fill="x")
         
+        # Botão Entrar
         btn_entrar = ctk.CTkButton(frame_central, text="Entrar", fg_color="#ff7b00", text_color="white", command=self._executar_login, corner_radius=10, width=200)
         btn_entrar.pack(pady=20)
 
@@ -108,6 +111,7 @@ class TelaLogin(ctk.CTk):
         link_cadastrar = ctk.CTkLabel(frame_links, text="Cadastrar", text_color="#c2a999", cursor="hand2")
         link_cadastrar.pack(side="left", padx=10)
         link_cadastrar.bind("<Button-1>", lambda e: self._abrir_cadastro())
+
 
     def _executar_login(self):
         """Valida as credenciais do usuário para permitir o acesso."""
