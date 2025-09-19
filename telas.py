@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox, PhotoImage
 import tkinter as tk
 import os
 import pyglet
+from PIL import Image
 
 # Carrega a fonte personalizada para ser usada na aplicação.
 FONT_PATH = "fonts/Quicksand-Light.ttf"
@@ -80,6 +81,13 @@ class TelaLogin(ctk.CTk):
         """Cria e posiciona os widgets na tela de login."""
         frame_central = ctk.CTkFrame(self, fg_color="transparent")
         frame_central.pack(expand=True, fill="both", padx=20, pady=20)
+
+        imagem_path = "Logo_projeto_bebidas_png.png"  
+        if os.path.exists(imagem_path):
+            self.logo_image = ctk.CTkImage(light_image=Image.open(imagem_path), size=(100, 100))
+            ctk.CTkLabel(frame_central, image=self.logo_image, text="").pack(pady=(10, 20))
+        else:
+            ctk.CTkLabel(frame_central, text="Imagem não encontrada", text_color="white").pack(pady=(10, 20))
         
         # Campo Usuário
         ctk.CTkLabel(frame_central, text="Usuário:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(10, 5))
