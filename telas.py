@@ -3,8 +3,6 @@ from tkinter import ttk, messagebox, PhotoImage
 import tkinter as tk
 import os
 import pyglet
-from tkinter import PhotoImage
-from PIL import Image
 
 # Carrega a fonte personalizada para ser usada na aplicação.
 FONT_PATH = "fonts/Quicksand-Light.ttf"
@@ -12,8 +10,7 @@ if os.path.exists(FONT_PATH):
     pyglet.font.add_file(FONT_PATH)
 QUICKSAND_FONT_NAME = "Quicksand"
 
-
-# --- Gradiente da tela ---
+# --- Componente de Fundo com Gradiente ---
 class GradientFrame(ctk.CTkFrame):
     """Um Frame que desenha um fundo com gradiente de forma eficiente."""
     def __init__(self, parent, color1, color2, **kwargs):
@@ -22,9 +19,6 @@ class GradientFrame(ctk.CTkFrame):
         self.color2 = color2
         self._canvas = tk.Canvas(self, highlightthickness=0)
         self._canvas.place(x=0, y=0, relwidth=1, relheight=1)
-        
-
-        # O bind faz o gradiente ser redesenhado se a janela mudar de tamanho
         self.bind("<Configure>", self._draw_gradient)
 
     def _draw_gradient(self, event=None):
@@ -101,12 +95,12 @@ class TelaLogin(ctk.CTk):
         btn_entrar = ctk.CTkButton(frame_central, text="Entrar", fg_color="#ff7b00", text_color="white", command=self._executar_login, corner_radius=10, width=200)
         btn_entrar.pack(pady=20)
 
-        # Frame de links
         frame_links = ctk.CTkFrame(frame_central, fg_color="transparent")
         frame_links.pack(pady=10)
 
         link_recuperar = ctk.CTkLabel(frame_links, text="Recuperar senha", text_color="#c2a999", cursor="hand2")
         link_recuperar.pack(side="left", padx=10)
+        # link_recuperar.bind("<Button-1>", lambda e: self.app.mostrar_tela_recuperar_senha())
 
         link_cadastrar = ctk.CTkLabel(frame_links, text="Cadastrar", text_color="#c2a999", cursor="hand2")
         link_cadastrar.pack(side="left", padx=10)
