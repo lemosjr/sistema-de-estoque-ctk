@@ -69,7 +69,7 @@ class TelaLogin(ctk.CTk):
 
     def centralizar_janela(self):
         """Centraliza a janela na tela do usuário."""
-        self.update_idletasks()
+        self.update()  # <-- Correção: Usando update() para forçar o desenho da janela
         largura = self.winfo_width()
         altura = self.winfo_height()
         x = (self.winfo_screenwidth() // 2) - (largura // 2)
@@ -136,7 +136,7 @@ class TelaCadastroUsuario(ctk.CTk):
 
     def centralizar_janela(self):
         """Centraliza a janela na tela do usuário."""
-        self.update_idletasks()
+        self.update()  # <-- Correção: Usando update() para forçar o desenho da janela
         largura = self.winfo_width()
         altura = self.winfo_height()
         x = (self.winfo_screenwidth() // 2) - (largura // 2)
@@ -219,7 +219,7 @@ class TelaPrincipal(ctk.CTk):
     
     def centralizar_janela(self):
         """Centraliza a janela na tela do usuário."""
-        self.update_idletasks()
+        self.update()  # <-- Correção: Usando update() para forçar o desenho da janela
         largura = self.winfo_width()
         altura = self.winfo_height()
         x = (self.winfo_screenwidth() // 2) - (largura // 2)
