@@ -4,12 +4,14 @@ import tkinter as tk
 import os
 import pyglet
 from tkinter import PhotoImage
+from PIL import Image
 
 # Carrega a fonte personalizada para ser usada na aplicação.
 FONT_PATH = "fonts/Quicksand-Light.ttf"
 if os.path.exists(FONT_PATH):
     pyglet.font.add_file(FONT_PATH)
 QUICKSAND_FONT_NAME = "Quicksand"
+
 
 # --- Gradiente da tela ---
 class GradientFrame(ctk.CTkFrame):
@@ -20,6 +22,7 @@ class GradientFrame(ctk.CTkFrame):
         self.color2 = color2
         self._canvas = tk.Canvas(self, highlightthickness=0)
         self._canvas.place(x=0, y=0, relwidth=1, relheight=1)
+        
 
         # O bind faz o gradiente ser redesenhado se a janela mudar de tamanho
         self.bind("<Configure>", self._draw_gradient)
@@ -76,9 +79,15 @@ class TelaLogin(ctk.CTk):
 
     def _criar_widgets(self):
         """Cria e posiciona os widgets na tela de login."""
-
         frame_central = ctk.CTkFrame(self, fg_color="transparent")
         frame_central.pack(expand=True, fill="both", padx=20, pady=20)
+
+        imagem_path = "Logo_projeto_bebidas_png.png"
+        if os.path.exists(imagem_path):
+            self.logo_image = ctk.CTkImage(light_image=Image.open(imagem_path), size=(100, 100))
+            ctk.CTkLabel(frame_central, image=self.logo_image, text="").pack(pady=(10, 10))
+        else:
+            ctk.CTkLabel(frame_central, text="Imagem não encontrada", text_color="white").pack(pady=(10, 20))
 
         # Campo Usuário
         ctk.CTkLabel(frame_central, text="Usuário:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(10, 5))
@@ -94,13 +103,12 @@ class TelaLogin(ctk.CTk):
         btn_entrar = ctk.CTkButton(frame_central, text="Entrar", fg_color="#ff7b00", text_color="white", command=self._executar_login, corner_radius=10, width=200)
         btn_entrar.pack(pady=20)
 
-        # Frame de links (centralizado)
+        # Frame de links
         frame_links = ctk.CTkFrame(frame_central, fg_color="transparent")
         frame_links.pack(pady=10)
 
         link_recuperar = ctk.CTkLabel(frame_links, text="Recuperar senha", text_color="#c2a999", cursor="hand2")
         link_recuperar.pack(side="left", padx=10)
-        # link_recuperar.bind("<Button-1>", lambda e: recuperar_senha())
 
         link_cadastrar = ctk.CTkLabel(frame_links, text="Cadastrar", text_color="#c2a999", cursor="hand2")
         link_cadastrar.pack(side="left", padx=10)
