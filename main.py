@@ -1,5 +1,3 @@
-# arquivo: main.py
-
 import customtkinter as ctk
 from gerenciador import GerenciadorUsuarios, GerenciadorItens
 from telas import TelaLogin, TelaCadastroUsuario, TelaPrincipal
@@ -11,7 +9,7 @@ class App:
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
         
-        # Inicializa os gerenciadores de dados UMA VEZ
+        # Inicializa os gerenciadores de dados uma única vez
         self.gerenciador_usuarios = GerenciadorUsuarios()
         self.gerenciador_itens = GerenciadorItens()
 
@@ -20,15 +18,17 @@ class App:
         self.mostrar_tela_login()
 
     def mostrar_tela_login(self):
+        """Cria e exibe a tela de login."""
         tela_login = TelaLogin(self)
         tela_login.mainloop()
 
     def mostrar_tela_cadastro_usuario(self):
+        """Cria e exibe a tela de cadastro de usuário."""
         tela_cadastro = TelaCadastroUsuario(self)
         tela_cadastro.mainloop()
 
     def mostrar_tela_principal(self):
-        """Ação a ser executada após o login bem-sucedido."""
+        """Cria e exibe a tela principal após o login bem-sucedido."""
         tela_principal = TelaPrincipal(self)
         tela_principal.mainloop()
 

@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, PhotoImage
 import tkinter as tk
 import os
 import pyglet
@@ -28,7 +28,7 @@ class GradientFrame(ctk.CTkFrame):
         self.bind("<Configure>", self._draw_gradient)
 
     def _draw_gradient(self, event=None):
-        """Desenha o gradiente como uma imagem de fundo."""
+        """Desenha o gradiente como uma imagem de fundo, otimizado para performance."""
         self._canvas.delete("gradient")
         width = self.winfo_width()
         height = self.winfo_height()
@@ -36,7 +36,7 @@ class GradientFrame(ctk.CTkFrame):
         if width <= 1 or height <= 1:
             return
 
-        # Cria a imagem de 1px de largura
+        # Cria uma imagem vertical de 1px de largura que será esticada
         self._gradient_image = PhotoImage(width=1, height=height)
 
         (r1, g1, b1) = self.winfo_rgb(self.color1)
@@ -52,10 +52,11 @@ class GradientFrame(ctk.CTkFrame):
             color = f"#{nr:04x}{ng:04x}{nb:04x}"
             self._gradient_image.put(color, (0, i))
         
-        # Amplia a imagem para a largura total da janela
+        # Amplia a imagem para a largura total do widget
         self._bg_image = self._gradient_image.zoom(width, 1)
         
         self._canvas.create_image(0, 0, anchor="nw", image=self._bg_image, tags="gradient")
+
 # --- Tela de Login ---
 class TelaLogin(ctk.CTk):
     """Define a interface gráfica e as funcionalidades da tela de login."""
@@ -63,14 +64,18 @@ class TelaLogin(ctk.CTk):
         super().__init__()
         self.app = app
         self.title("Tela de Login")
-        self.geometry("450x350")       
+        self.geometry("450x350")
+        self.resizable(False, False)
+
         grad_frame = GradientFrame(self, color1="#3c0a0a", color2="#1a0000", fg_color="transparent")
         grad_frame.place(relwidth=1, relheight=1)
+        
         self._criar_widgets()
         self.centralizar_janela()
 
     def centralizar_janela(self):
-        self.update_idletasks()
+        """Centraliza a janela na tela do usuário."""
+        self.update()  # <-- Correção: Usando update() para forçar o desenho da janela
         largura = self.winfo_width()
         altura = self.winfo_height()
         x = (self.winfo_screenwidth() // 2) - (largura // 2)
@@ -82,24 +87,14 @@ class TelaLogin(ctk.CTk):
         frame_central = ctk.CTkFrame(self, fg_color="transparent")
         frame_central.pack(expand=True, fill="both", padx=20, pady=20)
 
-        imagem_path = "Logo_projeto_bebidas_png.png"
-        if os.path.exists(imagem_path):
-            self.logo_image = ctk.CTkImage(light_image=Image.open(imagem_path), size=(100, 100))
-            ctk.CTkLabel(frame_central, image=self.logo_image, text="").pack(pady=(10, 10))
-        else:
-            ctk.CTkLabel(frame_central, text="Imagem não encontrada", text_color="white").pack(pady=(10, 20))
-
-        # Campo Usuário
         ctk.CTkLabel(frame_central, text="Usuário:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(10, 5))
-        self.entry_usuario = ctk.CTkEntry(frame_central, placeholder_text="Digite seu usuário:", font=(QUICKSAND_FONT_NAME, 14))
+        self.entry_usuario = ctk.CTkEntry(frame_central, placeholder_text="Digite seu usuário", font=(QUICKSAND_FONT_NAME, 14))
         self.entry_usuario.pack(pady=5, padx=30, fill="x")
 
-        # Campo Senha
         ctk.CTkLabel(frame_central, text="Senha:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(10, 5))
-        self.entry_senha = ctk.CTkEntry(frame_central, placeholder_text="Senha:", show="*", font=(QUICKSAND_FONT_NAME, 14))
+        self.entry_senha = ctk.CTkEntry(frame_central, placeholder_text="Senha", show="*", font=(QUICKSAND_FONT_NAME, 14))
         self.entry_senha.pack(pady=5, padx=30, fill="x")
         
-        # Botão Entrar
         btn_entrar = ctk.CTkButton(frame_central, text="Entrar", fg_color="#ff7b00", text_color="white", command=self._executar_login, corner_radius=10, width=200)
         btn_entrar.pack(pady=20)
 
@@ -122,9 +117,9 @@ class TelaLogin(ctk.CTk):
             self.destroy()
             self.app.mostrar_tela_principal()
         else:
-            messagebox.showerror("Erro", "Usuário ou senha incorretos.")
+            messagebox.showerror("Erro de Login", "Usuário ou senha incorretos.")
 
-    def _abrir_cadastro(self):
+    def _abrir_cadastro(self, event=None):
         """Abre a tela de cadastro de usuário."""
         self.destroy()
         self.app.mostrar_tela_cadastro_usuario()
@@ -136,10 +131,24 @@ class TelaCadastroUsuario(ctk.CTk):
         super().__init__()
         self.app = app
         self.title("Tela de Cadastro")
-        self.geometry("550x600")      
+        self.geometry("550x450")
+        self.resizable(False, False)
+
         grad_frame = GradientFrame(self, color1="#3c0a0a", color2="#1a0000", fg_color="transparent")
         grad_frame.place(relwidth=1, relheight=1)
+
         self._criar_widgets()
+        self.centralizar_janela()
+
+    def centralizar_janela(self):
+        """Centraliza a janela na tela do usuário."""
+        self.update()  # <-- Correção: Usando update() para forçar o desenho da janela
+        largura = self.winfo_width()
+        altura = self.winfo_height()
+        x = (self.winfo_screenwidth() // 2) - (largura // 2)
+        y = (self.winfo_screenheight() // 2) - (altura // 2)
+        self.geometry(f"{largura}x{altura}+{x}+{y}")
+
 
     def _criar_widgets(self):
         """Cria e posiciona os widgets na tela de cadastro."""
@@ -155,18 +164,18 @@ class TelaCadastroUsuario(ctk.CTk):
         self.entry_email.grid(row=1, column=1, pady=10, padx=10, sticky="ew")
 
         ctk.CTkLabel(frame_principal, text="Usuário:", font=(QUICKSAND_FONT_NAME, 14)).grid(row=2, column=0, pady=10, sticky="w")
-        self.entry_usuario = ctk.CTkEntry(frame_principal, placeholder_text="Digite seu nome de usuário", font=(QUICKSAND_FONT_NAME, 14))
+        self.entry_usuario = ctk.CTkEntry(frame_principal, placeholder_text="Crie um nome de usuário", font=(QUICKSAND_FONT_NAME, 14))
         self.entry_usuario.grid(row=2, column=1, pady=10, padx=10, sticky="ew")
 
         ctk.CTkLabel(frame_principal, text="Senha:", font=(QUICKSAND_FONT_NAME, 14)).grid(row=3, column=0, pady=10, sticky="w")
-        self.entry_senha = ctk.CTkEntry(frame_principal, placeholder_text="Digite sua senha", show="*", font=(QUICKSAND_FONT_NAME, 14))
+        self.entry_senha = ctk.CTkEntry(frame_principal, placeholder_text="Crie uma senha", show="*", font=(QUICKSAND_FONT_NAME, 14))
         self.entry_senha.grid(row=3, column=1, pady=10, padx=10, sticky="ew")
 
         frame_botoes = ctk.CTkFrame(frame_principal, fg_color="transparent")
         frame_botoes.grid(row=4, column=0, columnspan=2, pady=20)
         
-        ctk.CTkButton(frame_botoes, text="Cadastrar", font=(QUICKSAND_FONT_NAME, 14), command=self._executar_cadastro, width=20).grid(row=0, column=0, padx=20)
-        ctk.CTkButton(frame_botoes, text="Cancelar", font=(QUICKSAND_FONT_NAME, 14), fg_color="#a83232", command=self._voltar_login, hover_color="#F24B88", width=20).grid(row=0, column=1, padx=20)
+        ctk.CTkButton(frame_botoes, text="Cadastrar", font=(QUICKSAND_FONT_NAME, 14), command=self._executar_cadastro).grid(row=0, column=0, padx=20)
+        ctk.CTkButton(frame_botoes, text="Voltar", font=(QUICKSAND_FONT_NAME, 14), fg_color="#a83232", command=self._voltar_login, hover_color="#F24B88").grid(row=0, column=1, padx=20)
 
         frame_principal.grid_columnconfigure(1, weight=1)
 
@@ -178,14 +187,14 @@ class TelaCadastroUsuario(ctk.CTk):
         senha = self.entry_senha.get()
         
         if not all([nome, email, usuario, senha]):
-            messagebox.showerror("Erro", "Todos os campos são obrigatórios!")
+            messagebox.showerror("Erro de Cadastro", "Todos os campos são obrigatórios!")
             return
         
         if self.app.gerenciador_usuarios.adicionar_usuario(usuario, senha):
-            messagebox.showinfo("Sucesso", f"Cadastro de {nome} realizado com sucesso!")
+            messagebox.showinfo("Sucesso", f"Usuário '{usuario}' cadastrado com sucesso!")
             self._voltar_login()
         else:
-            messagebox.showerror("Erro", "Usuário já cadastrado!")
+            messagebox.showerror("Erro de Cadastro", "Este nome de usuário já está em uso!")
 
     def _voltar_login(self):
         """Retorna para a tela de login."""
@@ -200,22 +209,35 @@ class TelaPrincipal(ctk.CTk):
         self.app = app
         self.gerenciador_itens = app.gerenciador_itens
         self.selected_item_id_to_edit = None
-        self.title("Cadastro de Itens")
+        
+        self.title("Gerenciador de Itens")
         self.geometry("1280x720")
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_rowconfigure(0, weight=1)
+        
         grad_frame = GradientFrame(self, color1="#3c0a0a", color2="#1a0000", fg_color="transparent")
         grad_frame.place(relwidth=1, relheight=1)
+
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+        
         self._create_widgets()
         self.popular_tabela()
+        self.centralizar_janela()
+    
+    def centralizar_janela(self):
+        """Centraliza a janela na tela do usuário."""
+        self.update()  # <-- Correção: Usando update() para forçar o desenho da janela
+        largura = self.winfo_width()
+        altura = self.winfo_height()
+        x = (self.winfo_screenwidth() // 2) - (largura // 2)
+        y = (self.winfo_screenheight() // 2) - (altura // 2)
+        self.geometry(f"{largura}x{altura}+{x}+{y}")
+
 
     def popular_tabela(self, itens=None):
         """Preenche a tabela com os dados de itens existentes."""
-        # Limpa a visualização atual da tabela
         for item in self.tree.get_children():
             self.tree.delete(item)
         
-        # Se nenhuma lista de itens for fornecida, busca a lista completa
         lista_para_exibir = itens if itens is not None else self.gerenciador_itens.listar_itens()
         
         for item in lista_para_exibir:
@@ -223,20 +245,12 @@ class TelaPrincipal(ctk.CTk):
 
     def _executar_pesquisa(self):
         """Filtra os itens da tabela com base no termo de pesquisa."""
-        termo_pesquisa = self.entry_pesquisa.get().lower()
+        termo_pesquisa = self.entry_pesquisa.get()
         if not termo_pesquisa:
             self.popular_tabela()
             return
         
-        # Filtra os itens
-        itens_completos = self.gerenciador_itens.listar_itens()
-        resultado = []
-        for item in itens_completos:
-            # Converte todos os valores do item para string e minúsculas para a busca
-            valores_item = [str(v).lower() for v in item.values()]
-            if any(termo_pesquisa in valor for valor in valores_item):
-                resultado.append(item)
-        
+        resultado = self.gerenciador_itens.buscar_item(termo_pesquisa)
         self.popular_tabela(resultado)
 
     def _limpar_pesquisa(self):
@@ -245,7 +259,7 @@ class TelaPrincipal(ctk.CTk):
         self.popular_tabela()
 
     def _create_widgets(self):
-        """Cria todos os widgets da tela principal."""      
+        """Cria todos os widgets da tela principal."""
         self._style_treeview()
         self._create_input_frame()
         self._create_list_frame()
@@ -254,7 +268,7 @@ class TelaPrincipal(ctk.CTk):
         """Aplica um estilo visual à tabela de itens."""
         style = ttk.Style()
         style.theme_use("default")
-        style.configure("Treeview", background="#242424", foreground="#ffffff", fieldbackground="#242424", borderwidth=0, font=(QUICKSAND_FONT_NAME, 11))
+        style.configure("Treeview", background="#242424", foreground="#ffffff", fieldbackground="#242424", borderwidth=0, font=(QUICKSAND_FONT_NAME, 11), rowheight=25)
         style.map('Treeview', background=[('selected', "#1f6aa5")])
         style.configure("Treeview.Heading", background="#565b5e", foreground="#ffffff", font=(QUICKSAND_FONT_NAME, 12, 'bold'), relief="flat")
         style.map("Treeview.Heading", background=[('active', '#3484F0')])
@@ -282,74 +296,67 @@ class TelaPrincipal(ctk.CTk):
 
         frame_button = ctk.CTkFrame(frame_data_items, fg_color="transparent")
         frame_button.grid(row=5, column=0, columnspan=2, padx=10, pady=20, sticky="ew")
-        frame_button.grid_columnconfigure((0, 1, 2), weight=1)
+        frame_button.grid_columnconfigure((0, 1), weight=1)
 
-        ctk.CTkButton(frame_button, text="Cadastrar/Atualizar", command=self.register_item, fg_color="#ff7b00", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=0, padx=5, pady=5, sticky="ew")
-        ctk.CTkButton(frame_button, text="Limpar Campos", command=self.clear_fields, fg_color="#D35B58", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=1, padx=5, pady=5, sticky="ew")
-        ctk.CTkButton(frame_button, text="Sair", command=self.destroy, fg_color="#271F1F", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=2, padx=5, pady=5, sticky="e")
+        ctk.CTkButton(frame_button, text="Salvar Item", command=self.register_item, fg_color="#ff7b00", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=0, padx=5, pady=5, sticky="ew")
+        ctk.CTkButton(frame_button, text="Limpar", command=self.clear_fields, fg_color="#D35B58", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=1, padx=5, pady=5, sticky="ew")
+        
+        ctk.CTkButton(frame_data_items, text="Sair", command=self.destroy, fg_color="#271F1F", font=(QUICKSAND_FONT_NAME, 14)).grid(row=6, column=0, columnspan=2, padx=10, pady=(20, 0), sticky="ew")
     
     def _create_list_frame(self):
         """Cria o painel que exibe a lista de itens cadastrados."""
         frame_registered_items = ctk.CTkFrame(self, corner_radius=10, fg_color="transparent")
         frame_registered_items.grid(row=0, column=1, padx=(0, 20), pady=20, sticky="nsew")
         frame_registered_items.grid_columnconfigure(0, weight=1)
-        frame_registered_items.grid_rowconfigure(2, weight=1) # Mudar para linha 2 para dar espaço à pesquisa
+        frame_registered_items.grid_rowconfigure(1, weight=1)
         
-        # --- Frame para a barra de pesquisa ---
         frame_pesquisa = ctk.CTkFrame(frame_registered_items, fg_color="transparent")
         frame_pesquisa.grid(row=0, column=0, columnspan=2, padx=10, pady=5, sticky="ew")
         frame_pesquisa.grid_columnconfigure(0, weight=1)
 
-        self.entry_pesquisa = ctk.CTkEntry(frame_pesquisa, placeholder_text="Pesquisar por nome, marca, etc...")
+        self.entry_pesquisa = ctk.CTkEntry(frame_pesquisa, placeholder_text="Pesquisar por nome, marca, etc...", font=(QUICKSAND_FONT_NAME, 12))
         self.entry_pesquisa.grid(row=0, column=0, padx=(0,5), pady=5, sticky="ew")
         
-        # Adiciona o comando para executar a pesquisa
         ctk.CTkButton(frame_pesquisa, text="Pesquisar", width=100, command=self._executar_pesquisa, font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=1, padx=5, pady=5)
-        # Novo botão para limpar a pesquisa
         ctk.CTkButton(frame_pesquisa, text="Limpar", width=100, command=self._limpar_pesquisa, font=(QUICKSAND_FONT_NAME, 14), fg_color="#565b5e").grid(row=0, column=2, padx=(0,5), pady=5)
 
         self.tree = ttk.Treeview(frame_registered_items, columns=('Id', 'Nome', 'Alcoólico', 'Marca', 'Quantidade'), show="headings")
         self.tree.heading('Id', text='Id'); self.tree.heading('Nome', text='Nome'); self.tree.heading('Alcoólico', text='Alcoólico'); self.tree.heading('Marca', text='Marca'); self.tree.heading('Quantidade', text='Quantidade')
         
-        self.tree.column("Id", width=50, anchor="center")
-        self.tree.column("Nome", width=200)
-        self.tree.column("Alcoólico", width=100, anchor="center")
-        self.tree.column("Marca", width=150)
-        self.tree.column("Quantidade", width=100, anchor="center")
+        self.tree.column("Id", width=50, anchor="center"); self.tree.column("Nome", width=200); self.tree.column("Alcoólico", width=100, anchor="center"); self.tree.column("Marca", width=150); self.tree.column("Quantidade", width=100, anchor="center")
         
-        self.tree.grid(row=2, column=0, padx=10, pady=10, sticky='nsew') # Mudar para linha 2
+        self.tree.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
         
         scrollbar = ttk.Scrollbar(frame_registered_items, orient="vertical", command=self.tree.yview)
-        scrollbar.grid(row=2, column=1, sticky='ns') # Mudar para linha 2
+        scrollbar.grid(row=1, column=1, sticky='ns')
         self.tree.configure(yscrollcommand=scrollbar.set)
 
-        ctk.CTkButton(frame_registered_items, text="Editar Selecionado", command=self.edit_item, font=(QUICKSAND_FONT_NAME, 14)).grid(row=3, column=0, padx=10, pady=10, sticky='w') # Mudar para linha 3
-        ctk.CTkButton(frame_registered_items, text="Remover Selecionado", command=self.remove_selected_item, fg_color="#D35B58", font=(QUICKSAND_FONT_NAME, 14)).grid(row=3, column=0, padx=10, pady=10, sticky='e') # Mudar para linha 3
+        frame_botoes_lista = ctk.CTkFrame(frame_registered_items, fg_color="transparent")
+        frame_botoes_lista.grid(row=2, column=0, columnspan=2, sticky="ew", padx=10, pady=(0, 10))
+
+        ctk.CTkButton(frame_botoes_lista, text="Editar Selecionado", command=self.edit_item, font=(QUICKSAND_FONT_NAME, 14)).pack(side="left")
+        ctk.CTkButton(frame_botoes_lista, text="Remover Selecionado", command=self.remove_selected_item, fg_color="#D35B58", font=(QUICKSAND_FONT_NAME, 14)).pack(side="right")
 
     def register_item(self):
         """Salva um novo item ou atualiza um item existente."""
-        nome = self.entry_item.get()
-        tipo = self.entry_tipo.get().lower()
-        marca = self.entry_marca.get()
-        quantidade = self.entry_quantidade.get()
+        nome = self.entry_item.get(); tipo = self.entry_tipo.get().lower(); marca = self.entry_marca.get(); quantidade_str = self.entry_quantidade.get()
         
-        if not all([nome, tipo, marca, quantidade]):
-            messagebox.showerror("Erro", "Todos os campos devem ser preenchidos.")
+        if not all([nome, tipo, marca, quantidade_str]):
+            messagebox.showerror("Erro de Cadastro", "Todos os campos devem ser preenchidos.")
             return
 
         if tipo not in ["sim", "nao"]:
-            messagebox.showerror("Erro", "O campo 'Alcoólico' deve ser 'sim' ou 'nao'.")
+            messagebox.showerror("Erro de Validação", "O campo 'Alcoólico' deve ser preenchido com 'sim' ou 'nao'.")
             return
 
         try:
-            quantidade = int(quantidade)
+            quantidade = int(quantidade_str)
         except ValueError:
-            messagebox.showerror("Erro", "Quantidade deve ser um número inteiro.")
+            messagebox.showerror("Erro de Validação", "O campo 'Quantidade' deve ser um número inteiro.")
             return
 
         if self.selected_item_id_to_edit is not None:
             self.gerenciador_itens.atualizar_item(self.selected_item_id_to_edit, nome, tipo, marca, quantidade)
-            self.selected_item_id_to_edit = None
             messagebox.showinfo("Sucesso", "Item atualizado com sucesso!")
         else:
             self.gerenciador_itens.adicionar_item(nome, tipo, marca, quantidade)
@@ -362,34 +369,30 @@ class TelaPrincipal(ctk.CTk):
         """Remove o item selecionado na tabela."""
         selected_item = self.tree.selection()
         if not selected_item:
-            messagebox.showinfo("Aviso", "Nenhum item selecionado.")
+            messagebox.showwarning("Aviso", "Nenhum item foi selecionado para remoção.")
             return
         
-        item_id_to_remove = int(self.tree.item(selected_item, 'values')[0])
-        self.gerenciador_itens.remover_item(item_id_to_remove)
-        self.popular_tabela()
-        messagebox.showinfo("Sucesso", "Item removido com sucesso!")
+        if messagebox.askyesno("Confirmar Remoção", "Você tem certeza que deseja remover o item selecionado?"):
+            item_id_to_remove = int(self.tree.item(selected_item, 'values')[0])
+            self.gerenciador_itens.remover_item(item_id_to_remove)
+            self.popular_tabela()
+            messagebox.showinfo("Sucesso", "Item removido com sucesso!")
 
     def edit_item(self):
         """Carrega os dados de um item selecionado para edição."""
         selected_item = self.tree.selection()
         if not selected_item:
-            messagebox.showinfo("Aviso", "Nenhum item selecionado para editar.")
+            messagebox.showwarning("Aviso", "Nenhum item foi selecionado para edição.")
             return
 
         item_data = self.tree.item(selected_item, 'values')
         self.selected_item_id_to_edit = int(item_data[0])
         
-        self.clear_fields()
-        self.entry_item.insert(0, item_data[1])
-        self.entry_tipo.insert(0, item_data[2])
-        self.entry_marca.insert(0, item_data[3])
-        self.entry_quantidade.insert(0, item_data[4])
+        self.clear_fields(clear_id=False)
+        self.entry_item.insert(0, item_data[1]); self.entry_tipo.insert(0, item_data[2]); self.entry_marca.insert(0, item_data[3]); self.entry_quantidade.insert(0, item_data[4])
         
-    def clear_fields(self):
+    def clear_fields(self, clear_id=True):
         """Limpa os campos de entrada do formulário."""
-        self.entry_item.delete(0, tk.END)
-        self.entry_tipo.delete(0, tk.END)
-        self.entry_marca.delete(0, tk.END)
-        self.entry_quantidade.delete(0, tk.END)
-        self.selected_item_id_to_edit = None
+        self.entry_item.delete(0, tk.END); self.entry_tipo.delete(0, tk.END); self.entry_marca.delete(0, tk.END); self.entry_quantidade.delete(0, tk.END)
+        if clear_id:
+            self.selected_item_id_to_edit = None
