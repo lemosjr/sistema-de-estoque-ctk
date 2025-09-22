@@ -52,8 +52,9 @@ class TelaLogin(ctk.CTk):
         self.geometry("380x480")
         self.resizable(False, False)
 
-        grad_frame = GradientFrame(self, color1=(60, 10, 10), color2=(26, 0, 0), fg_color="transparent")
-        grad_frame.place(relwidth=1, relheight=1)
+        # Armazene o grad_frame como atributo da instância
+        self.grad_frame = GradientFrame(self, color1=(60, 10, 10), color2=(26, 0, 0), fg_color="transparent")
+        self.grad_frame.place(relwidth=1, relheight=1)
         
         self._criar_widgets()
         self.centralizar_janela()
@@ -69,7 +70,9 @@ class TelaLogin(ctk.CTk):
 
     def _criar_widgets(self):
         """Cria e posiciona os widgets na tela de login."""
-        frame_central = ctk.CTkFrame(self, fg_color="transparent")
+
+        # Colocando os widgets dentro do grad_frame
+        frame_central = ctk.CTkFrame(self.grad_frame, fg_color="transparent")
         frame_central.pack(expand=True, fill="both", padx=20, pady=20)
 
         imagem_path = "Logo_projeto_bebidas_png.png"  
@@ -102,7 +105,6 @@ class TelaLogin(ctk.CTk):
         link_cadastrar = ctk.CTkLabel(frame_links, text="Cadastrar", text_color="#c2a999", cursor="hand2")
         link_cadastrar.pack(side="left", padx=10)
         link_cadastrar.bind("<Button-1>", lambda e: self._abrir_cadastro())
-
 
     def _executar_login(self):
         """Valida as credenciais do usuário para permitir o acesso."""
