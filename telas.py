@@ -329,7 +329,7 @@ class TelaPrincipal(ctk.CTk):
         
         self.tree.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
         
-        scrollbar = ttk.Scrollbar(frame_registered_items, orient="vertical", command=self.tree.yview)
+        scrollbar = ctk.CTkScrollbar(frame_registered_items, orientation="vertical", command=self.tree.yview)
         scrollbar.grid(row=1, column=1, sticky='ns')
         self.tree.configure(yscrollcommand=scrollbar.set)
 
