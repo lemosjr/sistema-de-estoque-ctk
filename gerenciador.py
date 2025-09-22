@@ -73,21 +73,22 @@ class GerenciadorItens:
         """Retorna a lista completa de itens."""
         return self.itens
 
-    def adicionar_item(self, nome, tipo, marca, quantidade):
+    def adicionar_item(self, nome, tipo, marca, quantidade, valor):
         """Cria um novo item com um ID único e o adiciona à lista."""
         novo_item = {
             "Id": self.item_id, 
             "Nome": nome, 
             "Alcoólico": tipo,
             "Marca": marca, 
-            "Quantidade": quantidade
+            "Quantidade": quantidade,
+            "Valor": valor
         }
         self.itens.append(novo_item)
         self.item_id += 1
         self._salvar_dados()
         return novo_item
 
-    def atualizar_item(self, item_id, nome, tipo, marca, quantidade):
+    def atualizar_item(self, item_id, nome, tipo, marca, quantidade, valor):
         """Atualiza os dados de um item existente com base em seu ID."""
         for item in self.itens:
             if item['Id'] == item_id:
@@ -95,7 +96,8 @@ class GerenciadorItens:
                     "Nome": nome, 
                     "Alcoólico": tipo, 
                     "Marca": marca, 
-                    "Quantidade": quantidade
+                    "Quantidade": quantidade,
+                    "Valor": valor
                 })
                 self._salvar_dados()
                 return True
