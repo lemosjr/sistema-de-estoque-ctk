@@ -300,6 +300,10 @@ class TelaPrincipal(ctk.CTk):
         self.entry_quantidade = ctk.CTkEntry(frame_data_items, width=220, font=(QUICKSAND_FONT_NAME, 14))
         self.entry_quantidade.grid(row=4, column=1, padx=10, pady=5)
 
+        ctk.CTkLabel(frame_data_items, text="Preço:", font=(QUICKSAND_FONT_NAME, 14)).grid(row=5, column=0, padx=10, pady=5, sticky='w')
+        self.entry_quantidade = ctk.CTkEntry(frame_data_items, width=220, font=(QUICKSAND_FONT_NAME, 14))
+        self.entry_quantidade.grid(row=5, column=1, padx=10, pady=5)
+        
         frame_button = ctk.CTkFrame(frame_data_items, fg_color="transparent")
         frame_button.grid(row=5, column=0, columnspan=2, padx=10, pady=20, sticky="ew")
         frame_button.grid_columnconfigure((0, 1), weight=1)
@@ -326,10 +330,10 @@ class TelaPrincipal(ctk.CTk):
         ctk.CTkButton(frame_pesquisa, text="Pesquisar", width=100, command=self._executar_pesquisa, font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=1, padx=5, pady=5)
         ctk.CTkButton(frame_pesquisa, text="Limpar", width=100, command=self._limpar_pesquisa, font=(QUICKSAND_FONT_NAME, 14), fg_color="#565b5e").grid(row=0, column=2, padx=(0,5), pady=5)
 
-        self.tree = ttk.Treeview(frame_registered_items, columns=('Id', 'Nome', 'Alcoólico', 'Marca', 'Quantidade'), show="headings")
-        self.tree.heading('Id', text='Id'); self.tree.heading('Nome', text='Nome'); self.tree.heading('Alcoólico', text='Alcoólico'); self.tree.heading('Marca', text='Marca'); self.tree.heading('Quantidade', text='Quantidade')
+        self.tree = ttk.Treeview(frame_registered_items, columns=('Id', 'Nome', 'Alcoólico', 'Marca', 'Quantidade', 'Preço'), show="headings")
+        self.tree.heading('Id', text='Id'); self.tree.heading('Nome', text='Nome'); self.tree.heading('Alcoólico', text='Alcoólico'); self.tree.heading('Marca', text='Marca'); self.tree.heading('Quantidade', text='Quantidade'); self.tree.heading('Preço', text='preço')
         
-        self.tree.column("Id", width=50, anchor="center"); self.tree.column("Nome", width=200); self.tree.column("Alcoólico", width=100, anchor="center"); self.tree.column("Marca", width=150); self.tree.column("Quantidade", width=100, anchor="center")
+        self.tree.column("Id", width=50, anchor="center"); self.tree.column("Nome", width=200); self.tree.column("Alcoólico", width=100, anchor="center"); self.tree.column("Marca", width=150); self.tree.column("Quantidade", width=100, anchor="center");self.tree.column("Preço", width=100, anchor="center")
         
         self.tree.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
         
