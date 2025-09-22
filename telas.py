@@ -59,7 +59,7 @@ class TelaLogin(ctk.CTk):
         super().__init__()
         self.app = app
         self.title("Tela de Login")
-        self.geometry("450x350")
+        self.geometry("380x480")
         self.resizable(False, False)
 
         grad_frame = GradientFrame(self, color1="#3c0a0a", color2="#1a0000", fg_color="transparent")
