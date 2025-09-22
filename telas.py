@@ -305,13 +305,13 @@ class TelaPrincipal(ctk.CTk):
         self.entry_quantidade.grid(row=5, column=1, padx=10, pady=5)
         
         frame_button = ctk.CTkFrame(frame_data_items, fg_color="transparent")
-        frame_button.grid(row=5, column=0, columnspan=2, padx=10, pady=20, sticky="ew")
+        frame_button.grid(row=7, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
         frame_button.grid_columnconfigure((0, 1), weight=1)
 
         ctk.CTkButton(frame_button, text="Salvar Item", command=self.register_item, fg_color="#ff7b00", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=0, padx=5, pady=5, sticky="ew")
         ctk.CTkButton(frame_button, text="Limpar", command=self.clear_fields, fg_color="#D35B58", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=1, padx=5, pady=5, sticky="ew")
         
-        ctk.CTkButton(frame_data_items, text="Sair", command=self.destroy, fg_color="#271F1F", font=(QUICKSAND_FONT_NAME, 14)).grid(row=6, column=0, columnspan=2, padx=10, pady=(20, 0), sticky="ew")
+        ctk.CTkButton(frame_data_items, text="Sair", command=self.destroy, fg_color="#271F1F", font=(QUICKSAND_FONT_NAME, 14)).grid(row=8, column=0, columnspan=2, padx=10, pady=(20, 0), sticky="ew")
     
     def _create_list_frame(self):
         """Cria o painel que exibe a lista de itens cadastrados."""
