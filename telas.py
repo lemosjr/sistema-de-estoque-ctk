@@ -3,54 +3,68 @@ from tkinter import ttk, messagebox, PhotoImage
 import tkinter as tk
 import os
 import pyglet
-from PIL import Image
+from PIL import Image, ImageDraw
 
 # Carrega a fonte personalizada para ser usada na aplicação.
 FONT_PATH = "fonts/Quicksand-Light.ttf"
 if os.path.exists(FONT_PATH):
     pyglet.font.add_file(FONT_PATH)
 QUICKSAND_FONT_NAME = "Quicksand"
+class BaseTela(ctk.CTk):
+    """Classe base para todas as telas, configurando o tema e a fonte padrão."""
+    def __init__(self, app, title, geometry):
+        super().__init__()
+        self.app = app
+        self.title(title)
+        self.geometry(geometry)
+        self.resizable(False, False)
+        # Adiciona o fundo gradiente como padrão para todas as telas
+        grad_frame = GradientFrame(self, color1=(60, 10, 10), color2=(26, 0, 0), fg_color="transparent")
+        grad_frame.place(relwidth=1, relheight=1)
+    
+    def centralizar_janela(self):
+        self.update_idletasks()
+        largura = self.winfo_width()
+        altura = self.winfo_height()
+        x = (self.winfo_screenwidth() // 2) - (largura // 2)
+        y = (self.winfo_screenheight() // 2) - (altura // 2)
+        self.geometry(f"{largura}x{altura}+{x}+{y}")
 
 class GradientFrame(ctk.CTkFrame):
-    """Um Frame que desenha um fundo com gradiente de forma eficiente."""
     def __init__(self, parent, color1, color2, **kwargs):
         super().__init__(parent, **kwargs)
         self.color1 = color1
         self.color2 = color2
-        self._canvas = tk.Canvas(self, highlightthickness=0)
-        self._canvas.place(x=0, y=0, relwidth=1, relheight=1)
+        self.gradient_label = ctk.CTkLabel(self, text="")
+        self.gradient_label.place(relwidth=1, relheight=1)
         self.bind("<Configure>", self._draw_gradient)
-
-    def _rgb_to_hex(self, rgb):
-        """Converte uma tupla RGB para uma string de cor hexadecimal."""
-        return f'#{int(rgb[0]):02x}{int(rgb[1]):02x}{int(rgb[2]):02x}'
+        self._gradient_image = None
 
     def _draw_gradient(self, event=None):
-        """Desenha o gradiente como retângulos no canvas."""
-        self._canvas.delete("all")
         width = self.winfo_width()
         height = self.winfo_height()
 
         if width <= 1 or height <= 1:
             return
 
+        # Cria uma nova imagem gradiente
+        image = Image.new("RGB", (width, height))
+        draw = ImageDraw.Draw(image)
+
         for y in range(height):
-            # Interpola a cor entre color1 e color2
+            # Interpola a cor
             r = int(self.color1[0] + (self.color2[0] - self.color1[0]) * y / height)
             g = int(self.color1[1] + (self.color2[1] - self.color1[1]) * y / height)
             b = int(self.color1[2] + (self.color2[2] - self.color1[2]) * y / height)
-            color_hex = self._rgb_to_hex((r, g, b))
-            self._canvas.create_rectangle(0, y, width, y + 1, fill=color_hex, outline="", tags="gradient")
-
+            draw.line([(0, y), (width, y)], fill=(r, g, b))
+        
+        self._gradient_image = ctk.CTkImage(light_image=image, size=(width, height))
+        self.gradient_label.configure(image=self._gradient_image)
 # --- Tela de Login ---
-class TelaLogin(ctk.CTk):
+class TelaLogin(BaseTela):
     """Define a interface gráfica e as funcionalidades da tela de login."""
     def __init__(self, app):
-        super().__init__()
-        self.app = app
-        self.title("Tela de Login")
-        self.geometry("380x480")
-        self.resizable(False, False)
+        super().__init__(app, "Tela de Login", "380x480")
 
         # Armazene o grad_frame como atributo da instância
         self.grad_frame = GradientFrame(self, color1=(60, 10, 10), color2=(26, 0, 0), fg_color="transparent")
@@ -58,15 +72,6 @@ class TelaLogin(ctk.CTk):
         
         self._criar_widgets()
         self.centralizar_janela()
-
-    def centralizar_janela(self):
-        """Centraliza a janela na tela do usuário."""
-        self.update()
-        largura = self.winfo_width()
-        altura = self.winfo_height()
-        x = (self.winfo_screenwidth() // 2) - (largura // 2)
-        y = (self.winfo_screenheight() // 2) - (altura // 2)
-        self.geometry(f"{largura}x{altura}+{x}+{y}")
 
     def _criar_widgets(self):
         """Cria e posiciona os widgets na tela de login."""
@@ -122,30 +127,16 @@ class TelaLogin(ctk.CTk):
         self.app.mostrar_tela_cadastro_usuario()
 
 # --- Tela de Cadastro de Usuário ---
-class TelaCadastroUsuario(ctk.CTk):
+class TelaCadastroUsuario(BaseTela):
     """Define a interface gráfica e as funcionalidades da tela de cadastro."""
     def __init__(self, app):
-        super().__init__()
-        self.app = app
-        self.title("Tela de Cadastro")
-        self.geometry("550x450")
-        self.resizable(False, False)
+        super().__init__(app, "Tela de Cadastro", "550x450")
 
         grad_frame = GradientFrame(self, color1=(60, 10, 10), color2=(26, 0, 0), fg_color="transparent")
         grad_frame.place(relwidth=1, relheight=1)
 
         self._criar_widgets()
         self.centralizar_janela()
-
-    def centralizar_janela(self):
-        """Centraliza a janela na tela do usuário."""
-        self.update()
-        largura = self.winfo_width()
-        altura = self.winfo_height()
-        x = (self.winfo_screenwidth() // 2) - (largura // 2)
-        y = (self.winfo_screenheight() // 2) - (altura // 2)
-        self.geometry(f"{largura}x{altura}+{x}+{y}")
-
 
     def _criar_widgets(self):
         """Cria e posiciona os widgets na tela de cadastro."""
@@ -199,16 +190,12 @@ class TelaCadastroUsuario(ctk.CTk):
         self.app.mostrar_tela_login()
 
 # --- Tela Principal de Gerenciamento ---
-class TelaPrincipal(ctk.CTk):
+class TelaPrincipal(BaseTela):
     """Define a interface principal para gerenciamento de itens."""
     def __init__(self, app):
-        super().__init__()
-        self.app = app
+        super().__init__(app, "Tela Principal", "1280x720")
         self.gerenciador_itens = app.gerenciador_itens
         self.selected_item_id_to_edit = None
-        
-        self.title("Gerenciador de Itens")
-        self.geometry("1280x720")
         
         grad_frame = GradientFrame(self, color1=(60, 10, 10), color2=(26, 0, 0), fg_color="transparent")
         grad_frame.place(relwidth=1, relheight=1)
