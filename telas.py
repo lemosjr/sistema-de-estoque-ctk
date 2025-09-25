@@ -117,7 +117,7 @@ class TelaLogin(BaseTela):
         senha = self.entry_senha.get()
         if self.app.gerenciador_usuarios.validar_credenciais(usuario, senha):
             self.destroy()
-            self.app.mostrar_tela_principal()
+            self.app.mostrar_tela_servico()
         else:
             messagebox.showerror("Erro de Login", "Usuário ou senha incorretos.")
 
@@ -125,6 +125,58 @@ class TelaLogin(BaseTela):
         """Abre a tela de cadastro de usuário."""
         self.destroy()
         self.app.mostrar_tela_cadastro_usuario()
+
+# Tela de Serviços        
+class TelaServicos(BaseTela):
+    """Define a interface gráfica e as funcionalidades da tela de Serviços."""
+    def __init__(self, app):
+        super().__init__(app, "Tela de Serviços", "380x480")
+
+        # Armazene o grad_frame como atributo da instância
+        self.grad_frame = GradientFrame(self, color1=(60, 10, 10), color2=(26, 0, 0), fg_color="transparent")
+        self.grad_frame.place(relwidth=1, relheight=1)
+        
+        self._criar_widgets()
+        self.centralizar_janela()
+
+    def _criar_widgets(self):
+        """Cria e posiciona os widgets na tela de serviços."""
+
+        # Colocando os widgets dentro do grad_frame
+        frame_central = ctk.CTkFrame(self.grad_frame, fg_color="transparent")
+        frame_central.pack(expand=True, fill="both", padx=20, pady=20)
+
+        ctk.CTkLabel(frame_central, text="Bem-vindo", font=(QUICKSAND_FONT_NAME, 16)).pack(pady=(10, 5))
+
+        imagem_path = "Logo_projeto_bebidas_png.png"  
+        if os.path.exists(imagem_path):
+            self.logo_image = ctk.CTkImage(light_image=Image.open(imagem_path), size=(100, 100))
+            ctk.CTkLabel(frame_central, image=self.logo_image, text="").pack(pady=(10, 20))
+        else:
+            ctk.CTkLabel(frame_central, text="Imagem não encontrada", text_color="white").pack(pady=(10, 20))
+        
+        
+        # Botão Gerenciamento
+        btn_gerenciamento = ctk.CTkButton(frame_central, text="Gerenciamento",width=200, fg_color="#1f6aa5", text_color="white", command=self.tela_principal)
+        btn_gerenciamento.pack(pady=10)
+        
+        btn_editar_perfil = ctk.CTkButton(frame_central, text="Editar Perfil",width=200, fg_color="#1f6aa5", text_color="white")
+        btn_editar_perfil.pack(pady=10)
+        
+        btn_favorita_bebida = ctk.CTkButton(frame_central, text="Favorita Bebida",width=200, fg_color="#1f6aa5", text_color="white")
+        btn_favorita_bebida.pack(pady=10)
+        
+        btn_sair = ctk.CTkButton(frame_central, text="Sair", width=200, command=self._voltar_login, fg_color="#a83232")
+        btn_sair.pack(pady=20)
+    
+    def tela_principal(self):
+        self.destroy()
+        self.app.mostrar_tela_principal()
+        
+    def _voltar_login(self):
+        """Retorna para a tela de login."""
+        self.destroy()
+        self.app.mostrar_tela_login()
 
 # --- Tela de Cadastro de Usuário ---
 class TelaCadastroUsuario(BaseTela):

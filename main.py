@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from gerenciador import GerenciadorUsuarios, GerenciadorItens
-from telas import TelaLogin, TelaCadastroUsuario, TelaPrincipal
+from telas import TelaLogin, TelaCadastroUsuario, TelaPrincipal, TelaServicos
 
 class App:
     """Classe principal que gerencia o fluxo da aplicação."""
@@ -21,6 +21,12 @@ class App:
         """Cria e exibe a tela de login."""
         tela_login = TelaLogin(self)
         tela_login.mainloop()
+
+    def mostrar_tela_servico(self):
+        """Cria e exibe a tela de serviços"""
+        tela_serviço = TelaServicos(self)
+        tela_serviço.mainloop()
+
 
     def mostrar_tela_cadastro_usuario(self):
         """Cria e exibe a tela de cadastro de usuário."""
