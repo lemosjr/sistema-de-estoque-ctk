@@ -398,13 +398,5 @@
         "Marca": "Catena Zapata",
         "Quantidade": "3",
         "Valor": 95.0
-    },
-    {
-        "Id": 51,
-        "Nome": "Whisky de Malte \u00danico",
-        "Alco\u00f3lico": "sim",
-        "Marca": "Macallan",
-        "Quantidade": 1,
-        "Valor": 450.0
     }
 ]

@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox, PhotoImage
 import tkinter as tk
 import os
 import pyglet
+import re
 from PIL import Image, ImageDraw
 
 # Carrega a fonte personalizada para ser usada na aplicação.
@@ -218,6 +219,7 @@ class TelaCadastroUsuario(BaseTela):
         ctk.CTkButton(frame_botoes, text="Voltar", font=(QUICKSAND_FONT_NAME, 14), fg_color="#a83232", command=self._voltar_login, hover_color="#F24B88").grid(row=0, column=1, padx=20)
 
         frame_principal.grid_columnconfigure(1, weight=1)
+        
 
     def _executar_cadastro(self):
         """Registra um novo usuário com os dados informados."""
@@ -226,6 +228,12 @@ class TelaCadastroUsuario(BaseTela):
         usuario = self.entry_usuario.get()
         senha = self.entry_senha.get()
         
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            messagebox.showerror("Erro de Cadastro", "Por favor, insira um formato de e-mail válido.")
+            return
+        if len(senha) < 6:
+            messagebox.showerror("Erro de Cadastro", "A senha deve ter pelo menos 6 caracteres.")
+            return
         if not all([nome, email, usuario, senha]):
             messagebox.showerror("Erro de Cadastro", "Todos os campos são obrigatórios!")
             return
@@ -314,6 +322,7 @@ class TelaPrincipal(BaseTela):
         frame_data_items = ctk.CTkFrame(self, corner_radius=10, fg_color="transparent")
         frame_data_items.grid(row=0, column=0, padx=20, pady=20, sticky="ns")
         
+        # --- Campos de entrada (tudo certo aqui) ---
         ctk.CTkLabel(frame_data_items, text="Nome do item:", font=(QUICKSAND_FONT_NAME, 14)).grid(row=1, column=0, padx=10, pady=5, sticky='w')
         self.entry_item = ctk.CTkEntry(frame_data_items, width=220, font=(QUICKSAND_FONT_NAME, 14))
         self.entry_item.grid(row=1, column=1, padx=10, pady=5)
@@ -330,18 +339,21 @@ class TelaPrincipal(BaseTela):
         self.entry_quantidade = ctk.CTkEntry(frame_data_items, width=220, font=(QUICKSAND_FONT_NAME, 14))
         self.entry_quantidade.grid(row=4, column=1, padx=10, pady=5)
 
-        # Campo de entrada para o Valor, com um nome de variável único
         ctk.CTkLabel(frame_data_items, text="Valor:", font=(QUICKSAND_FONT_NAME, 14)).grid(row=5, column=0, padx=10, pady=5, sticky='w')
         self.entry_valor = ctk.CTkEntry(frame_data_items, width=220, font=(QUICKSAND_FONT_NAME, 14))
         self.entry_valor.grid(row=5, column=1, padx=10, pady=5)
         
+        # --- Bloco de Botões (versão corrigida, sem duplicação) ---
         frame_button = ctk.CTkFrame(frame_data_items, fg_color="transparent")
         frame_button.grid(row=7, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
         frame_button.grid_columnconfigure((0, 1), weight=1)
 
-        ctk.CTkButton(frame_button, text="Salvar Item", command=self.register_item, fg_color="#ff7b00", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=0, padx=5, pady=5, sticky="ew")
+        self.btn_salvar = ctk.CTkButton(frame_button, text="Salvar Item", command=self.register_item, fg_color="#ff7b00", font=(QUICKSAND_FONT_NAME, 14))
+        self.btn_salvar.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
+        
         ctk.CTkButton(frame_button, text="Limpar", command=self.clear_fields, fg_color="#D35B58", font=(QUICKSAND_FONT_NAME, 14)).grid(row=0, column=1, padx=5, pady=5, sticky="ew")
         
+        # --- Botão Sair (tudo certo aqui) ---
         ctk.CTkButton(frame_data_items, text="Sair", command=self.destroy, fg_color="#271F1F", font=(QUICKSAND_FONT_NAME, 14)).grid(row=8, column=0, columnspan=2, padx=10, pady=(20, 0), sticky="ew")
     
     def _create_list_frame(self):
@@ -415,16 +427,22 @@ class TelaPrincipal(BaseTela):
 
     def remove_selected_item(self):
         """Remove o item selecionado na tabela."""
-        selected_item = self.tree.selection()
+        selected_item = self.tree.selection() # 1. Mova esta linha para o início
+        
+        # 2. Verifique se algo foi selecionado ANTES de prosseguir
         if not selected_item:
             messagebox.showwarning("Aviso", "Nenhum item foi selecionado para remoção.")
             return
-        
+
+        # 3. Agora o resto do código pode rodar com segurança
         if messagebox.askyesno("Confirmar Remoção", "Você tem certeza que deseja remover o item selecionado?"):
             item_id_to_remove = int(self.tree.item(selected_item, 'values')[0])
-            self.gerenciador_itens.remover_item(item_id_to_remove)
-            self.popular_tabela()
-            messagebox.showinfo("Sucesso", "Item removido com sucesso!")
+            
+            if self.gerenciador_itens.remover_item(item_id_to_remove):
+                self.popular_tabela()
+                messagebox.showinfo("Sucesso", "Item removido com sucesso!")
+            else:
+                messagebox.showerror("Erro", "Não foi possível encontrar o item para remover.")
 
     def edit_item(self):
         """Carrega os dados de um item selecionado para edição."""
@@ -442,6 +460,7 @@ class TelaPrincipal(BaseTela):
         self.entry_marca.insert(0, item_data[3])
         self.entry_quantidade.insert(0, item_data[4])
         self.entry_valor.insert(0, item_data[5])
+        self.btn_salvar.configure(text="Atualizar Item")
         
     def clear_fields(self, clear_id=True):
         """Limpa os campos de entrada do formulário."""
@@ -452,3 +471,5 @@ class TelaPrincipal(BaseTela):
         self.entry_valor.delete(0, tk.END)
         if clear_id:
             self.selected_item_id_to_edit = None
+            # Volta o texto do botão para o padrão
+            self.btn_salvar.configure(text="Salvar Item")

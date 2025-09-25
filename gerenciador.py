@@ -1,5 +1,6 @@
 import json
 import os
+import bcrypt
 
 class GerenciadorUsuarios:
     """Gerencia o cadastro e a validação de usuários em um arquivo JSON."""
@@ -16,26 +17,46 @@ class GerenciadorUsuarios:
             return {}
         try:
             with open(self.filepath, "r", encoding="utf-8") as file:
-                return json.load(file)
+                dados_carregados = json.load(file)
+                # Convertemos as senhas de string de volta para bytes
+                return {
+                    usuario: senha_hash.encode('utf-8')
+                    for usuario, senha_hash in dados_carregados.items()
+                }
         except (json.JSONDecodeError, FileNotFoundError):
-             # Se o arquivo estiver vazio ou corrompido, retorna um dicionário vazio.
             return {}
 
 
     def _salvar_dados(self):
         """Salva o dicionário de usuários atual no arquivo JSON."""
         with open(self.filepath, "w", encoding="utf-8") as file:
-            json.dump(self.usuarios, file, ensure_ascii=False, indent=4)
+            # O dicionário agora conterá hashes, que são bytes.
+            # Precisamos de uma forma de salvá-los em JSON.
+            # Vamos converter os bytes para strings antes de salvar.
+            usuarios_para_salvar = {
+                usuario: senha_hash.decode('utf-8') 
+                for usuario, senha_hash in self.usuarios.items()
+            }
+            json.dump(usuarios_para_salvar, file, ensure_ascii=False, indent=4)
 
     def validar_credenciais(self, usuario, senha):
-        """Verifica se um par de usuário e senha corresponde a um registro existente."""
-        return self.usuarios.get(usuario) == senha
+        """Verifica se a senha fornecida corresponde ao hash armazenado."""
+        senha_hash = self.usuarios.get(usuario)
+        if senha_hash:
+            # Compara a senha digitada (em bytes) com o hash do arquivo
+            return bcrypt.checkpw(senha.encode('utf-8'), senha_hash)
+        return False
 
     def adicionar_usuario(self, usuario, senha):
-        """Adiciona um novo usuário. Retorna False se o usuário já existir."""
+        """Adiciona um novo usuário com a senha hasheada."""
         if usuario in self.usuarios:
             return False
-        self.usuarios[usuario] = senha
+        
+        # Gera o hash da senha
+        senha_bytes = senha.encode('utf-8')
+        senha_hash = bcrypt.hashpw(senha_bytes, bcrypt.gensalt())
+        
+        self.usuarios[usuario] = senha_hash
         self._salvar_dados()
         return True
 
@@ -104,9 +125,15 @@ class GerenciadorItens:
         return False
         
     def remover_item(self, item_id):
-        """Remove um item da lista com base em seu ID."""
+        """Remove um item da lista com base em seu ID e retorna True se bem-sucedido."""
+        tamanho_inicial = len(self.itens)
         self.itens = [item for item in self.itens if item['Id'] != item_id]
-        self._salvar_dados()
+        
+        # Se o tamanho da lista diminuiu, a remoção foi bem-sucedida
+        if len(self.itens) < tamanho_inicial:
+            self._salvar_dados()
+            return True
+        return False
         
     def buscar_item(self, termo):
         """Busca itens que correspondem a um termo de busca no nome, marca ou tipo."""
