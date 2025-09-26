@@ -1,4 +1,7 @@
+# main.py
 import customtkinter as ctk
+# Importe a função de conexão
+from db_connection import get_db_connection 
 from gerenciador import GerenciadorUsuarios, GerenciadorItens
 from telas import TelaLogin, TelaCadastroUsuario, TelaPrincipal, TelaServicos
 
@@ -9,9 +12,17 @@ class App:
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
         
-        # Inicializa os gerenciadores de dados uma única vez
-        self.gerenciador_usuarios = GerenciadorUsuarios()
-        self.gerenciador_itens = GerenciadorItens()
+        # --- MUDANÇA PRINCIPAL AQUI ---
+        # 1. Crie a conexão com o banco de dados
+        db_conn = get_db_connection()
+        if not db_conn:
+            print("Não foi possível iniciar a aplicação. Verifique a conexão com o banco de dados.")
+            # Opcional: mostrar uma janela de erro e fechar o app
+            return
+
+        # 2. Passe a conexão para os gerenciadores
+        self.gerenciador_usuarios = GerenciadorUsuarios(db_conn)
+        self.gerenciador_itens = GerenciadorItens(db_conn)
 
     def run(self):
         """Inicia a aplicação exibindo a tela de login."""
@@ -26,7 +37,6 @@ class App:
         """Cria e exibe a tela de serviços"""
         tela_serviço = TelaServicos(self)
         tela_serviço.mainloop()
-
 
     def mostrar_tela_cadastro_usuario(self):
         """Cria e exibe a tela de cadastro de usuário."""

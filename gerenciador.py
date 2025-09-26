@@ -1,146 +1,141 @@
-import json
-import os
+# gerenciador.py
 import bcrypt
+from psycopg2.extras import DictCursor # Importante para os resultados virem como dicionários
 
 class GerenciadorUsuarios:
-    """Gerencia o cadastro e a validação de usuários em um arquivo JSON."""
+    """Gerencia o cadastro e a validação de usuários usando um banco de dados PostgreSQL."""
 
-    def __init__(self, filepath="usuarios.json"):
-        self.filepath = filepath
-        self.usuarios = self._carregar_dados()
-
-    def _carregar_dados(self):
-        """Carrega os usuários do arquivo JSON. Se o arquivo não existir, cria um vazio."""
-        if not os.path.exists(self.filepath):
-            with open(self.filepath, "w", encoding="utf-8") as file:
-                json.dump({}, file)
-            return {}
-        try:
-            with open(self.filepath, "r", encoding="utf-8") as file:
-                dados_carregados = json.load(file)
-                # Convertemos as senhas de string de volta para bytes
-                return {
-                    usuario: senha_hash.encode('utf-8')
-                    for usuario, senha_hash in dados_carregados.items()
-                }
-        except (json.JSONDecodeError, FileNotFoundError):
-            return {}
-
-
-    def _salvar_dados(self):
-        """Salva o dicionário de usuários atual no arquivo JSON."""
-        with open(self.filepath, "w", encoding="utf-8") as file:
-            # O dicionário agora conterá hashes, que são bytes.
-            # Precisamos de uma forma de salvá-los em JSON.
-            # Vamos converter os bytes para strings antes de salvar.
-            usuarios_para_salvar = {
-                usuario: senha_hash.decode('utf-8') 
-                for usuario, senha_hash in self.usuarios.items()
-            }
-            json.dump(usuarios_para_salvar, file, ensure_ascii=False, indent=4)
+    def __init__(self, db_conn):
+        """
+        Inicializa o gerenciador com uma conexão de banco de dados.
+        :param db_conn: Objeto de conexão do psycopg2.
+        """
+        self.db_conn = db_conn
 
     def validar_credenciais(self, usuario, senha):
-        """Verifica se a senha fornecida corresponde ao hash armazenado."""
-        senha_hash = self.usuarios.get(usuario)
-        if senha_hash:
-            # Compara a senha digitada (em bytes) com o hash do arquivo
-            return bcrypt.checkpw(senha.encode('utf-8'), senha_hash)
+        """Verifica se a senha fornecida corresponde ao hash armazenado no banco de dados."""
+        with self.db_conn.cursor() as cur:
+            cur.execute("SELECT senha_hash FROM usuarios WHERE usuario = %s", (usuario,))
+            resultado = cur.fetchone()
+            
+            if resultado:
+                senha_hash_db = resultado[0].encode('utf-8')
+                senha_digitada_bytes = senha.encode('utf-8')
+                return bcrypt.checkpw(senha_digitada_bytes, senha_hash_db)
         return False
 
     def adicionar_usuario(self, usuario, senha):
-        """Adiciona um novo usuário com a senha hasheada."""
-        if usuario in self.usuarios:
-            return False
-        
-        # Gera o hash da senha
-        senha_bytes = senha.encode('utf-8')
-        senha_hash = bcrypt.hashpw(senha_bytes, bcrypt.gensalt())
-        
-        self.usuarios[usuario] = senha_hash
-        self._salvar_dados()
-        return True
+        """Adiciona um novo usuário com a senha hasheada no banco de dados."""
+        # Verifica se o usuário já existe
+        with self.db_conn.cursor() as cur:
+            cur.execute("SELECT id FROM usuarios WHERE usuario = %s", (usuario,))
+            if cur.fetchone():
+                return False  # Usuário já existe
+
+            # Gera o hash da senha
+            senha_bytes = senha.encode('utf-8')
+            senha_hash = bcrypt.hashpw(senha_bytes, bcrypt.gensalt()).decode('utf-8')
+            
+            # Insere o novo usuário
+            cur.execute(
+                "INSERT INTO usuarios (usuario, senha_hash) VALUES (%s, %s)",
+                (usuario, senha_hash)
+            )
+            self.db_conn.commit() # Efetiva a transação
+            return True
+
 
 class GerenciadorItens:
-    """Gerencia o cadastro, a atualização, a remoção e a busca de itens em um arquivo JSON."""
+    """Gerencia o cadastro, a atualização, a remoção e a busca de itens no PostgreSQL."""
 
-    def __init__(self, filepath="itens.json"):
-        self.filepath = filepath
-        self.itens = self._carregar_dados()
-        self.item_id = self._obter_proximo_id()
+    def __init__(self, db_conn):
+        """
+        Inicializa o gerenciador com uma conexão de banco de dados.
+        :param db_conn: Objeto de conexão do psycopg2.
+        """
+        self.db_conn = db_conn
 
-    def _carregar_dados(self):
-        """Carrega a lista de itens do arquivo JSON. Retorna uma lista vazia se não existir."""
-        if not os.path.exists(self.filepath):
-            return []
-        try:
-            with open(self.filepath, "r", encoding="utf-8") as file:
-                return json.load(file)
-        except (json.JSONDecodeError, FileNotFoundError):
-            # Se o arquivo estiver vazio ou corrompido, retorna uma lista vazia.
-            return []
+    def _formatar_item(self, item_row):
+        """Converte uma linha do banco (com booleano) para o formato de dicionário esperado (com 'sim'/'nao')."""
+        if not item_row:
+            return None
+        
+        item_dict = dict(item_row) # Converte DictRow para um dict padrão
+        item_dict['Alcoólico'] = 'sim' if item_dict.pop('alcoolico') else 'nao'
 
-    def _salvar_dados(self):
-        """Salva a lista de itens atual no arquivo JSON."""
-        with open(self.filepath, "w", encoding="utf-8") as file:
-            json.dump(self.itens, file, indent=4)
-
-    def _obter_proximo_id(self):
-        """Retorna o próximo ID disponível para um novo item."""
-        if not self.itens:
-            return 1
-        return max(item['Id'] for item in self.itens) + 1
+        # Garante a ordem das chaves para consistência com a TreeView
+        return {
+            'Id': item_dict['id'],
+            'Nome': item_dict['nome'],
+            'Alcoólico': item_dict['Alcoólico'],
+            'Marca': item_dict['marca'],
+            'Quantidade': item_dict['quantidade'],
+            'Valor': float(item_dict['valor']) # Converte Decimal para float
+        }
 
     def listar_itens(self):
-        """Retorna a lista completa de itens."""
-        return self.itens
+        """Retorna a lista completa de itens do banco de dados."""
+        with self.db_conn.cursor(cursor_factory=DictCursor) as cur:
+            cur.execute("SELECT id, nome, alcoolico, marca, quantidade, valor FROM itens ORDER BY id")
+            itens = cur.fetchall()
+            # Converte 'alcoolico' (True/False) para 'Alcoólico' ('sim'/'nao')
+            return [self._formatar_item(item) for item in itens]
 
     def adicionar_item(self, nome, tipo, marca, quantidade, valor):
-        """Cria um novo item com um ID único e o adiciona à lista."""
-        novo_item = {
-            "Id": self.item_id, 
-            "Nome": nome, 
-            "Alcoólico": tipo,
-            "Marca": marca, 
-            "Quantidade": quantidade,
-            "Valor": valor
-        }
-        self.itens.append(novo_item)
-        self.item_id += 1
-        self._salvar_dados()
-        return novo_item
+        """Cria um novo item e o insere no banco de dados."""
+        alcoolico = True if tipo.lower() == 'sim' else False
+        with self.db_conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO itens (nome, alcoolico, marca, quantidade, valor)
+                VALUES (%s, %s, %s, %s, %s)
+                RETURNING id;
+                """,
+                (nome, alcoolico, marca, quantidade, valor)
+            )
+            novo_id = cur.fetchone()[0]
+            self.db_conn.commit()
+            
+            # Para manter a consistência, retornamos o item recém-criado
+            return {
+                "Id": novo_id, "Nome": nome, "Alcoólico": tipo, "Marca": marca, 
+                "Quantidade": quantidade, "Valor": valor
+            }
 
     def atualizar_item(self, item_id, nome, tipo, marca, quantidade, valor):
         """Atualiza os dados de um item existente com base em seu ID."""
-        for item in self.itens:
-            if item['Id'] == item_id:
-                item.update({
-                    "Nome": nome, 
-                    "Alcoólico": tipo, 
-                    "Marca": marca, 
-                    "Quantidade": quantidade,
-                    "Valor": valor
-                })
-                self._salvar_dados()
-                return True
-        return False
-        
+        alcoolico = True if tipo.lower() == 'sim' else False
+        with self.db_conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE itens
+                SET nome = %s, alcoolico = %s, marca = %s, quantidade = %s, valor = %s
+                WHERE id = %s
+                """,
+                (nome, alcoolico, marca, quantidade, valor, item_id)
+            )
+            self.db_conn.commit()
+            return cur.rowcount > 0 # Retorna True se alguma linha foi afetada
+
     def remover_item(self, item_id):
-        """Remove um item da lista com base em seu ID e retorna True se bem-sucedido."""
-        tamanho_inicial = len(self.itens)
-        self.itens = [item for item in self.itens if item['Id'] != item_id]
-        
-        # Se o tamanho da lista diminuiu, a remoção foi bem-sucedida
-        if len(self.itens) < tamanho_inicial:
-            self._salvar_dados()
-            return True
-        return False
-        
+        """Remove um item do banco de dados com base em seu ID."""
+        with self.db_conn.cursor() as cur:
+            cur.execute("DELETE FROM itens WHERE id = %s", (item_id,))
+            self.db_conn.commit()
+            return cur.rowcount > 0 # Retorna True se alguma linha foi afetada
+
     def buscar_item(self, termo):
-        """Busca itens que correspondem a um termo de busca no nome, marca ou tipo."""
-        termo = termo.lower()
-        return [
-            item for item in self.itens 
-            if termo in item['Nome'].lower() or 
-               termo in item['Marca'].lower() or
-               termo in item['Alcoólico'].lower()
-        ]
+        """Busca itens que correspondem a um termo de busca no nome ou marca."""
+        termo_like = f"%{termo.lower()}%"
+        with self.db_conn.cursor(cursor_factory=DictCursor) as cur:
+            # ILIKE faz a busca ignorando maiúsculas e minúsculas
+            cur.execute(
+                """
+                SELECT id, nome, alcoolico, marca, quantidade, valor FROM itens
+                WHERE lower(nome) LIKE %s OR lower(marca) LIKE %s
+                ORDER BY id
+                """,
+                (termo_like, termo_like)
+            )
+            itens = cur.fetchall()
+            return [self._formatar_item(item) for item in itens]
