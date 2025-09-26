@@ -2,3 +2,4 @@ customtkinter
 Pillow
 pyglet
 bcrypt
+psycopg2-binary
