@@ -11,7 +11,7 @@ def get_db_connection():
         conn = psycopg2.connect(
             dbname="postgres",  # <-- Mude para o nome do seu banco
             user="postgres",                # <-- Mude para o seu usuário
-            password="senac",      # <-- Mude para a sua senha
+            password="postgres",      # <-- Mude para a sua senha
             host="localhost",
             port="5433"
         )

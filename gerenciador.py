@@ -24,26 +24,40 @@ class GerenciadorUsuarios:
                 return bcrypt.checkpw(senha_digitada_bytes, senha_hash_db)
         return False
 
-    def adicionar_usuario(self, usuario, senha):
+    def adicionar_usuario(self, usuario, senha, nome, email):
         """Adiciona um novo usuário com a senha hasheada no banco de dados."""
-        # Verifica se o usuário já existe
         with self.db_conn.cursor() as cur:
-            cur.execute("SELECT id FROM usuarios WHERE usuario = %s", (usuario,))
+            cur.execute("SELECT id FROM usuarios WHERE usuario = %s OR email = %s", (usuario, email))
             if cur.fetchone():
-                return False  # Usuário já existe
+                return False  # Usuário ou email já existe
 
-            # Gera o hash da senha
             senha_bytes = senha.encode('utf-8')
             senha_hash = bcrypt.hashpw(senha_bytes, bcrypt.gensalt()).decode('utf-8')
             
-            # Insere o novo usuário
+            # ALTERADO: Inserindo os novos campos
             cur.execute(
-                "INSERT INTO usuarios (usuario, senha_hash) VALUES (%s, %s)",
-                (usuario, senha_hash)
+                "INSERT INTO usuarios (usuario, senha_hash, nome, email) VALUES (%s, %s, %s, %s)",
+                (usuario, senha_hash, nome, email)
+            )
+            self.db_conn.commit()
+            return True
+    
+    def editar_usuario(self, usuario, nova_senha):
+        """Atualiza a senha de um usuário existente."""
+        with self.db_conn.cursor() as cur:
+            # Gera o hash da nova senha
+            nova_senha_bytes = nova_senha.encode('utf-8')
+            nova_senha_hash = bcrypt.hashpw(nova_senha_bytes, bcrypt.gensalt()).decode('utf-8')
+            
+            # Atualiza a senha do usuário
+            cur.execute(
+                "UPDATE usuarios SET senha_hash = %s WHERE usuario = %s",
+                (nova_senha_hash, usuario)
             )
             self.db_conn.commit() # Efetiva a transação
-            return True
-
+            return cur.rowcount > 0 # Retorna True se alguma linha foi afetada
+        
+    
 
 class GerenciadorItens:
     """Gerencia o cadastro, a atualização, a remoção e a busca de itens no PostgreSQL."""
@@ -139,3 +153,28 @@ class GerenciadorItens:
             )
             itens = cur.fetchall()
             return [self._formatar_item(item) for item in itens]
+        
+    def favoritar_bebida(self, usuario, bebida):
+        """Salva a bebida favorita do usuário no banco de dados."""
+        with self.db_conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO bebidas_favoritas (usuario, bebida)
+                VALUES (%s, %s)
+                ON CONFLICT (usuario) DO UPDATE SET bebida = EXCLUDED.bebida
+                """,
+                (usuario, bebida)
+            )
+            self.db_conn.commit()
+            return True
+    
+    def obter_bebida_favorita(self, usuario):
+        """Obtém a bebida favorita do usuário do banco de dados."""
+        with self.db_conn.cursor() as cur:
+            cur.execute(
+                "SELECT bebida FROM bebidas_favoritas WHERE usuario = %s",
+                (usuario,)
+            )
+            resultado = cur.fetchone()
+            return resultado[0] if resultado else None
+        
