@@ -22,6 +22,16 @@ class BaseTela(ctk.CTk):
         self.resizable(False, False)
         self.grad_frame = GradientFrame(self, color1=(60, 10, 10), color2=(26, 0, 0), fg_color="transparent")
         self.grad_frame.place(relwidth=1, relheight=1)
+        self.container = ctk.CTkFrame(
+            self,
+            fg_color="transparent"  # deixa só o conteúdo
+        )
+
+        try:
+            self.iconbitmap("Logo_projeto_bebidas_ico.ico")
+        except Exception as e:
+            print("Erro ao definir ícone:", e)
+
     
     def centralizar_janela(self):
         self.update_idletasks()
@@ -69,34 +79,41 @@ class TelaLogin(BaseTela):
         self.centralizar_janela()
 
     def _criar_widgets(self):
-        frame_central = ctk.CTkFrame(self.grad_frame, fg_color="transparent")
-        frame_central.pack(expand=True, fill="both", padx=20, pady=20)
+    # Usando grad_frame diretamente no lugar do frame_card
+        container = self.grad_frame  
 
+        # Logo
         imagem_path = "Logo_projeto_bebidas_png.png" 
         if os.path.exists(imagem_path):
-            self.logo_image = ctk.CTkImage(light_image=Image.open(imagem_path), size=(100, 100))
-            ctk.CTkLabel(frame_central, image=self.logo_image, text="").pack(pady=(10, 20))
+            self.logo_image = ctk.CTkImage(light_image=Image.open(imagem_path), size=(80, 80))
+            ctk.CTkLabel(container, image=self.logo_image, text="", fg_color="transparent").pack(pady=(20, 10))
         else:
-            ctk.CTkLabel(frame_central, text="Imagem não encontrada", text_color="white").pack(pady=(10, 20))
-        
-        ctk.CTkLabel(frame_central, text="Usuário:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(10, 5))
-        self.entry_usuario = ctk.CTkEntry(frame_central, placeholder_text="Digite seu usuário:", font=(QUICKSAND_FONT_NAME, 14))
-        self.entry_usuario.pack(pady=5, padx=30, fill="x")
+            ctk.CTkLabel(container, text="🍺", font=(QUICKSAND_FONT_NAME, 40)).pack(pady=(20, 10))
 
-        ctk.CTkLabel(frame_central, text="Senha:", font=(QUICKSAND_FONT_NAME, 14)).pack(pady=(10, 5))
-        self.entry_senha = ctk.CTkEntry(frame_central, placeholder_text="Senha:", show="*", font=(QUICKSAND_FONT_NAME, 14))
-        self.entry_senha.pack(pady=5, padx=30, fill="x")
-        
-        btn_entrar = ctk.CTkButton(frame_central, text="Entrar", fg_color="#ff7b00", text_color="white", command=self._executar_login, corner_radius=10, width=200)
-        btn_entrar.pack(pady=20)
+        # Título
+        ctk.CTkLabel(container, text="Bem-vindo!", font=(QUICKSAND_FONT_NAME, 20, "bold")).pack(pady=(0, 20))
 
-        frame_links = ctk.CTkFrame(frame_central, fg_color="transparent")
+        # Usuário
+        self.entry_usuario = ctk.CTkEntry(container, placeholder_text="Usuário", font=(QUICKSAND_FONT_NAME, 14), height=40)
+        self.entry_usuario.pack(pady=10, padx=30, fill="x")
+
+        # Senha
+        self.entry_senha = ctk.CTkEntry(container, placeholder_text="Senha", show="*", font=(QUICKSAND_FONT_NAME, 14), height=40)
+        self.entry_senha.pack(pady=10, padx=30, fill="x")
+
+        # Botão Entrar
+        btn_entrar = ctk.CTkButton(container, text="Entrar", fg_color="#FF7B00", hover_color="#FF9B33",
+                                text_color="white", command=self._executar_login, corner_radius=8, height=40)
+        btn_entrar.pack(pady=20, padx=30, fill="x")
+
+        # Links
+        frame_links = ctk.CTkFrame(container, fg_color="transparent")
         frame_links.pack(pady=10)
 
-        link_recuperar = ctk.CTkLabel(frame_links, text="Recuperar senha", text_color="#c2a999", cursor="hand2")
+        link_recuperar = ctk.CTkLabel(frame_links, text="Recuperar senha", text_color="#FF7B00", cursor="hand2")
         link_recuperar.pack(side="left", padx=10)
 
-        link_cadastrar = ctk.CTkLabel(frame_links, text="Cadastrar", text_color="#c2a999", cursor="hand2")
+        link_cadastrar = ctk.CTkLabel(frame_links, text="Cadastrar", text_color="#FF7B00", cursor="hand2")
         link_cadastrar.pack(side="left", padx=10)
         link_cadastrar.bind("<Button-1>", lambda e: self._abrir_cadastro())
 
